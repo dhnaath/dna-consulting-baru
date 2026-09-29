@@ -1,7 +1,5 @@
 
 import {
-  ShariaIndicesView,
-  ShariaDashboardView,
   ShariaAkadView,
   ShariaTerlarangView,
   ShariaAsuransiView,
@@ -1235,7 +1233,7 @@ const expensesRoute = createRoute({
 const syariahIndeksRoute = createRoute({
   getParentRoute: () => rootRoute,
   path: "/syariah/indeks",
-  component: ShariaIndicesView,
+  component: CommodityView,
 });
 
 const syariahAkadRoute = createRoute({
@@ -1259,7 +1257,7 @@ const syariahAsuransiRoute = createRoute({
 const syariahRoute = createRoute({
   getParentRoute: () => rootRoute,
   path: "/syariah",
-  component: ShariaDashboardView,
+  component: CommodityView,
 });
 
 const zakatRoute = createRoute({
@@ -1526,11 +1524,11 @@ function DynamicAppView() {
   const currentAppParam = typeof search?.app === "string" ? search.app : "";
 
   // 1. Sharia routes
-  if (pathname === "/syariah/indeks") return <ShariaIndicesView />;
+  if (pathname === "/syariah/indeks") return <CommodityView />;
   if (pathname === "/syariah/akad") return <ShariaAkadView />;
   if (pathname === "/syariah/terlarang") return <ShariaTerlarangView />;
   if (pathname === "/syariah/asuransi") return <ShariaAsuransiView />;
-  if (pathname === "/syariah" || pathname === "") return <ShariaDashboardView />;
+  if (pathname === "/syariah") return <CommodityView />;
   if (pathname === "/zakat") return <ZakatAppView />;
 
   // 2. Value Treated & Finance

@@ -259,26 +259,6 @@ export function MoneyTrackerSection({
 
       // Sharia Finance Group (Merged into Larangan Muamalah & Akad Syariah)
       {
-        id: "sha-indeks",
-        title: "Indeks Sharia",
-        group: "sharia",
-        icon: LineChart,
-        getItems: () => {
-          const item = commodityItems.find((i) => i.to === "/syariah/indeks");
-          return item ? [{ type: "app", item }] : [];
-        },
-      },
-      {
-        id: "sha-muamalah",
-        title: "Pasar Muamalah",
-        group: "sharia",
-        icon: HeartHandshake,
-        getItems: () => {
-          const item = commodityItems.find((i) => i.to === "/syariah");
-          return item ? [{ type: "app", item }] : [];
-        },
-      },
-      {
         id: "sha-larangan",
         title: "Larangan Muamalah",
         group: "sharia",

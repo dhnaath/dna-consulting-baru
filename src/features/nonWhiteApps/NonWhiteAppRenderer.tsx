@@ -1,11 +1,9 @@
 import React, { useState } from "react";
-import { Link, useNavigate, useRouterState } from "@tanstack/react-router";
+import { Link, useNavigate, useRouterState, Navigate } from "@tanstack/react-router";
 import { AppShell } from "@/app/app-shell";
 import { ShellSections } from "@/app/shell-sections";
 
 // Syariah imports
-import SyariahDashboard from "@/features/syariah/components/SyariahDashboard";
-import LocalShariaIndices from "@/features/syariah/components/LocalShariaIndices";
 import IslamicContracts from "@/features/syariah/components/IslamicContracts";
 import ProhibitedTransactions from "@/features/syariah/components/ProhibitedTransactions";
 import IslamicInsurance from "@/features/syariah/components/IslamicInsurance";
@@ -86,62 +84,11 @@ import { HalamanCatatan } from "@/features/klien/HalamanCatatan";
 
 // 1. Sharia Views
 export function ShariaIndicesView() {
-  const [activeSubTab, setActiveSubTab] = useState<"local" | "comprehensive">("local");
-  return (
-    <AppShell title="Indeks Saham Syariah" subtitle="Daftar indeks saham syariah lokal dan pasar modal syariah">
-      <ShellSections
-        sections={[
-          {
-            id: "local",
-            label: "Indeks Syariah Lokal (IDX / OJK)",
-            active: activeSubTab === "local",
-            onSelect: () => setActiveSubTab("local"),
-          },
-          {
-            id: "comprehensive",
-            label: "Terminal Portofolio & Benchmark",
-            active: activeSubTab === "comprehensive",
-            onSelect: () => setActiveSubTab("comprehensive"),
-          },
-        ]}
-      />
-      <div className="space-y-6">
-        <div className="flex items-center gap-2 border-b border-border pb-3">
-          <button
-            onClick={() => setActiveSubTab("local")}
-            className={`px-4 py-2 rounded-xl text-xs font-semibold transition-colors cursor-pointer ${
-              activeSubTab === "local"
-                ? "bg-primary text-primary-foreground shadow-sm"
-                : "bg-card border border-border text-muted-foreground hover:text-foreground"
-            }`}
-          >
-            Indeks Syariah Lokal (IDX / OJK)
-          </button>
-          <button
-            onClick={() => setActiveSubTab("comprehensive")}
-            className={`px-4 py-2 rounded-xl text-xs font-semibold transition-colors cursor-pointer ${
-              activeSubTab === "comprehensive"
-                ? "bg-primary text-primary-foreground shadow-sm"
-                : "bg-card border border-border text-muted-foreground hover:text-foreground"
-            }`}
-          >
-            Terminal Portofolio & Benchmark (ISSI, JII, JII70, IDXMESBUMN)
-          </button>
-        </div>
-        {activeSubTab === "local" ? <LocalShariaIndices /> : <ShariaIndexApp />}
-      </div>
-    </AppShell>
-  );
+  return <Navigate to="/100-komoditas" replace />;
 }
 
 export function ShariaDashboardView() {
-  return (
-    <AppShell title="Dashboard Pasar Syariah" subtitle="Kutipan harga logam mulia dan indeks pasar muamalah">
-      <div className="w-full">
-        <SyariahDashboard />
-      </div>
-    </AppShell>
-  );
+  return <Navigate to="/100-komoditas" replace />;
 }
 
 export function ShariaAkadView() {

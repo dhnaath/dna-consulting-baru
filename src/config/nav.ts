@@ -401,8 +401,6 @@ export const navKonsultan: NavGroup[] = [
     parentCategory: "Finance",
     items: [
       { to: "/100-komoditas", label: "100 Komoditas", icon: Package },
-      { to: "/syariah", label: "Pasar Muamalah", icon: HeartHandshake },
-      { to: "/syariah/indeks", label: "Indeks Sharia", icon: LineChart },
     ],
   },
   {
@@ -527,13 +525,10 @@ export const navKonsultan: NavGroup[] = [
     ],
   },
   {
-    title: "Syariah & Muamalah",
+    title: "Sharia Principles",
     isStandalone: true,
     parentCategory: "Finance",
     items: [
-      { to: "/syariah/terlarang?app=riba", label: "Riba", icon: AlertOctagon },
-      { to: "/syariah/terlarang?app=gharar", label: "Gharar", icon: ShieldAlert },
-      { to: "/syariah/terlarang?app=maysir", label: "Maysir", icon: Dice5 },
       { to: "/syariah/akad?app=tabarru", label: "Tabarru'", icon: HeartHandshake },
       { to: "/syariah/akad?app=mudharabah", label: "Mudharabah", icon: Scale },
       { to: "/syariah/akad?app=wakalah", label: "Wakalah", icon: Handshake },
@@ -543,9 +538,22 @@ export const navKonsultan: NavGroup[] = [
       { to: "/syariah/akad?app=tamin", label: "Ta'min", icon: Shield },
       { to: "/syariah/akad?app=takaful", label: "Takaful", icon: Users },
       { to: "/syariah/akad?app=tadhamun", label: "Tadhamun", icon: Heart },
+      { to: "/syariah/akad?app=ijarah", label: "Ijarah", icon: Building },
+      { to: "/syariah/akad?app=qardh", label: "Qardh al-Hasan", icon: Coins },
       { to: "/zakat?app=penghasilan", label: "Zakat Penghasilan", icon: Briefcase },
       { to: "/zakat?app=maal", label: "Zakat Maal", icon: Scale },
       { to: "/zakat?app=fitrah", label: "Zakat Fitrah", icon: Users },
+      { to: "/zakat", label: "Zakat & Sedekah Hub", icon: HeartHandshake },
+    ],
+  },
+  {
+    title: "Syariah & Muamalah",
+    isStandalone: true,
+    parentCategory: "Finance",
+    items: [
+      { to: "/syariah/terlarang?app=riba", label: "Riba", icon: AlertOctagon },
+      { to: "/syariah/terlarang?app=gharar", label: "Gharar", icon: ShieldAlert },
+      { to: "/syariah/terlarang?app=maysir", label: "Maysir", icon: Dice5 },
     ],
   },
 
