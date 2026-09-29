@@ -8,7 +8,7 @@ import type { SVGProps } from "react";
 
 // 1. Sidebar Kiri (Window Snap Left with docking arrow indicator)
 export function WindowPositionLeftIcon({
-  size = 25,
+  size = 24,
   className = "",
   ...props
 }: SVGProps<SVGSVGElement> & { size?: number | string }) {
@@ -47,7 +47,7 @@ export function WindowPositionLeftIcon({
 
 // 2. Sidebar Kanan (Window Snap Right with docking arrow indicator)
 export function WindowPositionRightIcon({
-  size = 25,
+  size = 24,
   className = "",
   ...props
 }: SVGProps<SVGSVGElement> & { size?: number | string }) {
@@ -86,7 +86,7 @@ export function WindowPositionRightIcon({
 
 // 3. Panel Atas (Window Snap Top with docking arrow indicator)
 export function WindowPositionTopIcon({
-  size = 25,
+  size = 24,
   className = "",
   ...props
 }: SVGProps<SVGSVGElement> & { size?: number | string }) {

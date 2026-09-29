@@ -202,9 +202,13 @@
         display: none !important;
       }
 
-      /* 6. Khusus saat MINIMIZE (75px): Seluruh kotak body sidebar kiri FULL BIRU menyatu dengan header */
+      /* 6. Khusus saat MINIMIZE (75px): Seluruh kotak body sidebar kiri FULL BIRU menyatu dengan header tanpa garis pemisah */
       div#root > div > aside#sidenavLeft[class*="w-[75px]"],
       div#root > div > aside#sidenavLeft.w-\[75px\],
+      div#root > div > aside#sidenavLeft[class*="w-[75px]"] > div:nth-of-type(1),
+      div#root > div > aside#sidenavLeft.w-\[75px\] > div:nth-of-type(1),
+      div#root > div > aside#sidenavLeft[class*="w-[75px]"] > .sidebar-top-glass,
+      div#root > div > aside#sidenavLeft.w-\[75px\] > .sidebar-top-glass,
       div#root > div > aside#sidenavLeft[class*="w-[75px]"] > .sidebar-menu-body-glass,
       div#root > div > aside#sidenavLeft.w-\[75px\] > .sidebar-menu-body-glass,
       div#root > div > aside#sidenavLeft[class*="w-[75px]"] > div:nth-of-type(2),
@@ -213,8 +217,20 @@
         background: hsl(var(--primary)) !important;
         border: none !important;
         border-top: none !important;
+        border-bottom: none !important;
         outline: none !important;
         box-shadow: none !important;
+      }
+      div#root > div > aside#sidenavLeft[class*="w-[75px]"] > div:nth-of-type(1)::before,
+      div#root > div > aside#sidenavLeft[class*="w-[75px]"] > div:nth-of-type(1)::after,
+      div#root > div > aside#sidenavLeft[class*="w-[75px]"] > div:nth-of-type(2)::before,
+      div#root > div > aside#sidenavLeft[class*="w-[75px]"] > div:nth-of-type(2)::after,
+      div#root > div > aside#sidenavLeft.w-\[75px\] > div:nth-of-type(1)::before,
+      div#root > div > aside#sidenavLeft.w-\[75px\] > div:nth-of-type(1)::after,
+      div#root > div > aside#sidenavLeft.w-\[75px\] > div:nth-of-type(2)::before,
+      div#root > div > aside#sidenavLeft.w-\[75px\] > div:nth-of-type(2)::after {
+        display: none !important;
+        content: none !important;
       }
 
       /* Dukungan Dark Mode tanpa borderline */
@@ -226,8 +242,8 @@
       .dark div#root > div > aside#sidenavRight > div:nth-of-type(2),
       .dark div#root > div > aside#sidenavRight > div:nth-of-type(2) > button.sidebar-tab-inactive-glass,
       .dark div#root > div > aside#sidenavRight > div:nth-of-type(2) > button:not(.sidebar-tab-active-glass) {
-        background-color: hsl(221.2 83.2% 42%) !important;
-        background: hsl(221.2 83.2% 42%) !important;
+        background-color: hsl(var(--primary)) !important;
+        background: hsl(var(--primary)) !important;
         border: none !important;
         box-shadow: none !important;
       }
@@ -235,7 +251,7 @@
       .dark div#root > div > aside#sidenavRight > div:nth-of-type(2) > button.sidebar-tab-active-glass {
         background-color: #ffffff !important;
         background: #ffffff !important;
-        color: hsl(221.2 83.2% 53.3%) !important;
+        color: hsl(var(--primary)) !important;
         border: none !important;
         box-shadow: none !important;
       }
@@ -251,13 +267,19 @@
 
       .dark div#root > div > aside#sidenavLeft[class*="w-[75px]"],
       .dark div#root > div > aside#sidenavLeft.w-\[75px\],
+      .dark div#root > div > aside#sidenavLeft[class*="w-[75px]"] > div:nth-of-type(1),
+      .dark div#root > div > aside#sidenavLeft.w-\[75px\] > div:nth-of-type(1),
+      .dark div#root > div > aside#sidenavLeft[class*="w-[75px]"] > .sidebar-top-glass,
+      .dark div#root > div > aside#sidenavLeft.w-\[75px\] > .sidebar-top-glass,
       .dark div#root > div > aside#sidenavLeft[class*="w-[75px]"] > .sidebar-menu-body-glass,
       .dark div#root > div > aside#sidenavLeft.w-\[75px\] > .sidebar-menu-body-glass,
       .dark div#root > div > aside#sidenavLeft[class*="w-[75px]"] > div:nth-of-type(2),
       .dark div#root > div > aside#sidenavLeft.w-\[75px\] > div:nth-of-type(2) {
-        background-color: hsl(221.2 83.2% 42%) !important;
-        background: hsl(221.2 83.2% 42%) !important;
+        background-color: hsl(var(--primary)) !important;
+        background: hsl(var(--primary)) !important;
         border: none !important;
+        border-top: none !important;
+        border-bottom: none !important;
         box-shadow: none !important;
       }
 

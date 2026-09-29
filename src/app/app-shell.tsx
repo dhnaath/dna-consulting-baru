@@ -62,6 +62,7 @@ import {
   Key,
   Dumbbell,
   Utensils,
+  Coffee,
   Music,
   CloudSun,
   Book,
@@ -98,6 +99,7 @@ import {
   Sofa,
   ScrollText,
   Binary,
+  Palette,
   Info,
   Workflow,
   X,
@@ -194,7 +196,7 @@ function NavGroup({ title, items }: { title: string; items: any[] }) {
   );
 }
 
-export type AppModeId = "personal" | "household" | "relatives" | "employment" | "owner" | "public";
+export type AppModeId = "personal" | "household" | "relatives" | "employment" | "owner" | "public" | "student" | "creator" | "wellbeing" | "leisure";
 
 export interface ModeItem {
   id: AppModeId;
@@ -220,6 +222,66 @@ export const APP_MODES: ModeItem[] = [
       { to: "/journal", label: "Journal Harian", icon: BookOpen },
       { to: "/goals", label: "Target & Resolusi", icon: Target },
       { to: "/health", label: "Kebugaran & Vitalitas", icon: HeartPulse },
+    ],
+  },
+  {
+    id: "student",
+    label: "Student",
+    badge: "Study",
+    desc: "Akademik, Riset & Pembelajaran",
+    icon: GraduationCap,
+    badgeClass: "bg-indigo-500/10 text-indigo-600 dark:text-indigo-400 border-indigo-500/20",
+    links: [
+      { to: "/catatan", label: "Catatan Kuliah & Ringkasan", icon: NotebookText },
+      { to: "/pomodoro", label: "Focus Study Timer", icon: Timer },
+      { to: "/kalender", label: "Jadwal Ujian & Deadline", icon: CalendarDays },
+      { to: "/journal", label: "Learning Log & Riset", icon: BookOpen },
+      { to: "/task-manager", label: "Tugas & Assignment", icon: CheckSquare },
+    ],
+  },
+  {
+    id: "creator",
+    label: "Creator",
+    badge: "Media",
+    desc: "Konten, Desain & Media Kreatif",
+    icon: Palette,
+    badgeClass: "bg-fuchsia-500/10 text-fuchsia-600 dark:text-fuchsia-400 border-fuchsia-500/20",
+    links: [
+      { to: "/proyek-personal", label: "Content Production", icon: FolderKanban },
+      { to: "/catatan", label: "Bank Ide & Skrip", icon: Lightbulb },
+      { to: "/kalender", label: "Editorial Calendar", icon: CalendarDays },
+      { to: "/task-manager", label: "Publishing Workflow", icon: CheckSquare },
+      { to: "/goals", label: "Audience & Growth Target", icon: Target },
+    ],
+  },
+  {
+    id: "wellbeing",
+    label: "Wellbeing",
+    badge: "Health",
+    desc: "Kebugaran Fisik, Mental & Keseimbangan Hidup",
+    icon: HeartPulse,
+    badgeClass: "bg-teal-500/10 text-teal-600 dark:text-teal-400 border-teal-500/20",
+    links: [
+      { to: "/health", label: "Vitalitas & Kesehatan Fisik", icon: HeartPulse },
+      { to: "/habits", label: "Rutinitas Hidup Sehat", icon: Activity },
+      { to: "/journal", label: "Refleksi & Mental Clarity", icon: BookOpen },
+      { to: "/pomodoro", label: "Mindful Break & Istirahat", icon: Timer },
+      { to: "/recipes", label: "Nutrisi & Pola Makan Sehat", icon: Utensils },
+    ],
+  },
+  {
+    id: "leisure",
+    label: "Leisure",
+    badge: "Relax",
+    desc: "Rekreasi, Hiburan, Hobi & Liburan",
+    icon: Coffee,
+    badgeClass: "bg-orange-500/10 text-orange-600 dark:text-orange-400 border-orange-500/20",
+    links: [
+      { to: "/events", label: "Acara, Hiburan & Rekreasi", icon: Ticket },
+      { to: "/catatan", label: "Wishlist Liburan & Hobi", icon: NotebookText },
+      { to: "/recipes", label: "Kuliner & Eksplorasi Rasa", icon: Utensils },
+      { to: "/journal", label: "Travel & Hobby Journal", icon: BookOpen },
+      { to: "/kalender", label: "Rencana Weekend & Cuti", icon: CalendarDays },
     ],
   },
   {
@@ -519,8 +581,8 @@ export function AppShell({
   const [collapsedNavGroups, setCollapsedNavGroups] = useState<Record<string, boolean>>({});
   const [currentMode, setCurrentMode] = useState<AppModeId>(() => {
     try {
-      const saved = localStorage.getItem("client_os_active_mode");
-      if (saved && ["personal", "household", "relatives", "employment", "owner", "public"].includes(saved)) {
+      const saved = localStorage.getItem("client_os_active_mode") || localStorage.getItem("aio_active_mode");
+      if (saved && APP_MODES.some((m) => m.id === saved)) {
         return saved as AppModeId;
       }
     } catch {}
@@ -771,31 +833,33 @@ export function AppShell({
       >
         {/* Spacer atas: Tombol close / toggle kiri yang sejajar dengan header + 3 dots traffic controls & 3 dots action */}
         <div
-          className={`w-full h-[60px] sidebar-top-glass shrink-0 flex items-center px-3 border-b border-white/20 dark:border-white/10 ${
-            isLeftSidebar75 ? "justify-center px-1" : "justify-between"
+          className={`w-full h-[60px] sidebar-top-glass shrink-0 flex items-center px-3 ${
+            isLeftSidebar75
+              ? "justify-center px-1 !border-b-0 !border-none !shadow-none"
+              : "justify-between border-b border-white/20 dark:border-white/10"
           }`}
         >
           {!isLeftSidebar75 ? (
             <>
               <button
                 type="button"
-                className="p-1.5 sm:p-2 rounded-xl text-primary bg-white/20 dark:bg-white/10 border border-white/25 backdrop-blur-md transition-all hover:bg-white/30 cursor-pointer shadow-2xs hover:scale-105 active:scale-95"
+                className="size-9 rounded-full aspect-square text-white/90 hover:text-white hover:bg-white/20 active:scale-95 transition-all cursor-pointer flex items-center justify-center shrink-0"
                 onClick={closeLeftSidebar}
                 title="Sembunyikan Navigasi"
                 aria-label="Tutup sidebar kiri"
               >
-                <WindowPositionLeftIcon size={20} />
+                <WindowPositionLeftIcon size={24} />
               </button>
 
               {/* 3 Dots: Klik langsung minimize / switch ke mode ringkas 75px */}
               <button
                 type="button"
                 onClick={toggleLeftSidebar75}
-                className="p-1.5 sm:p-2 rounded-xl transition-all cursor-pointer shadow-2xs hover:scale-105 active:scale-95 border border-white/25 bg-white/20 hover:bg-white/30 text-white"
+                className="size-9 rounded-full aspect-square text-white/90 hover:text-white hover:bg-white/20 active:scale-95 transition-all cursor-pointer flex items-center justify-center shrink-0"
                 title="Mode Ringkas 75px (Minimize)"
                 aria-label="Mode ringkas 75px"
               >
-                <MoreVertical className="size-4" />
+                <MoreVertical size={20} className="shrink-0" />
               </button>
             </>
           ) : (
@@ -804,11 +868,11 @@ export function AppShell({
               <button
                 type="button"
                 onClick={toggleLeftSidebar75}
-                className="p-1.5 rounded-xl transition-all cursor-pointer shadow-2xs hover:scale-105 active:scale-95 border border-white/25 bg-white/20 hover:bg-white/30 text-white"
+                className="size-9 rounded-full aspect-square text-white/80 hover:text-white hover:bg-white/20 active:scale-95 transition-all cursor-pointer flex items-center justify-center shrink-0"
                 title="Perluas ke Lebar Penuh (350px)"
                 aria-label="Perluas ke 350px"
               >
-                <MoreVertical className="size-4" />
+                <MoreHorizontal size={20} className="shrink-0" />
               </button>
             </div>
           )}
@@ -849,7 +913,11 @@ export function AppShell({
           </div>
         )}
 
-        <div className="flex-1 min-h-0 overflow-y-auto no-scrollbar px-3 pt-5 pb-4 sidebar-menu-body-glass">
+        <div
+          className={`flex-1 min-h-0 overflow-y-auto no-scrollbar px-3 ${
+            isLeftSidebar75 ? "pt-1 pb-4 !border-t-0 !border-none !shadow-none" : "pt-5 pb-4"
+          } sidebar-menu-body-glass`}
+        >
           {/* Slot untuk konten sidebar milik app (target portal ShellSidebar) */}
           <div
             id="shellSidebarSlot"
@@ -996,6 +1064,7 @@ export function AppShell({
                       setCurrentMode(mode.id);
                       try {
                         localStorage.setItem("aio_active_mode", mode.id);
+                        localStorage.setItem("client_os_active_mode", mode.id);
                         window.dispatchEvent(new Event("aio_mode_changed"));
                       } catch {}
                     }}
@@ -1042,16 +1111,15 @@ export function AppShell({
 
       <aside id="sidenavRight" className={`fixed inset-y-0 right-0 z-50 flex w-[350px] max-w-[85vw] flex-col liquid-glass-sidebar-right transition-transform duration-300 ease-in-out ${openDrawer === "right" ? "translate-x-0" : "translate-x-full"}`}>
         {/* Right Sidebar Spacer: Tombol close / toggle kanan yang sejajar dengan header */}
-        <div className="w-full h-[60px] sidebar-top-glass shrink-0 flex items-center justify-between px-3 border-b border-white/20 dark:border-white/10">
-          <span className="text-xs font-semibold text-muted-foreground pl-2 font-mono">Control Center</span>
+        <div className="w-full h-[60px] sidebar-top-glass shrink-0 flex items-center justify-end px-3 border-b border-white/20 dark:border-white/10">
           <button
             type="button"
-            className="p-1.5 sm:p-2 rounded-xl text-primary bg-white/20 dark:bg-white/10 border border-white/25 backdrop-blur-md transition-all hover:bg-white/30 cursor-pointer shadow-2xs hover:scale-105 active:scale-95"
+            className="size-9 rounded-full aspect-square text-white/90 hover:text-white hover:bg-white/20 active:scale-95 transition-all cursor-pointer flex items-center justify-center shrink-0"
             onClick={() => setOpenDrawer(null)}
             title="Sembunyikan Control Center"
             aria-label="Tutup sidebar kanan"
           >
-            <WindowPositionRightIcon size={25} />
+            <WindowPositionRightIcon size={24} />
           </button>
         </div>
 
@@ -1229,6 +1297,7 @@ export function AppShell({
                         onClick={() => {
                           setCurrentMode(m.id);
                           try {
+                            localStorage.setItem("aio_active_mode", m.id);
                             localStorage.setItem("client_os_active_mode", m.id);
                             window.dispatchEvent(new Event("aio_mode_changed"));
                           } catch {}
@@ -1298,7 +1367,7 @@ export function AppShell({
               <div className="pointer-events-auto flex items-center gap-1 p-1 rounded-full liquid-glass-header-pill">
                 <button
                   type="button"
-                  className={`relative z-10 p-2 rounded-full shrink-0 transition-colors flex items-center justify-center cursor-pointer ${
+                  className={`relative z-10 size-9 rounded-full aspect-square shrink-0 transition-colors flex items-center justify-center cursor-pointer ${
                     openDrawer === "left"
                       ? "bg-primary text-primary-foreground font-bold shadow-2xs"
                       : "text-muted-foreground hover:text-foreground hover:bg-accent"
@@ -1307,17 +1376,17 @@ export function AppShell({
                   title={openDrawer === "left" ? "Sembunyikan Navigasi" : "Tampilkan Navigasi"}
                   aria-label="Toggle sidebar kiri"
                 >
-                  <WindowPositionLeftIcon size={19} />
+                  <WindowPositionLeftIcon size={24} />
                 </button>
 
                 {/* Icon Home */}
                 <Link
                   to="/"
-                  className="relative z-10 p-2 rounded-full shrink-0 transition-colors flex items-center justify-center cursor-pointer text-muted-foreground hover:text-foreground hover:bg-accent"
+                  className="relative z-10 size-9 rounded-full aspect-square shrink-0 transition-colors flex items-center justify-center cursor-pointer text-muted-foreground hover:text-foreground hover:bg-accent"
                   title="Beranda (Home)"
                   aria-label="Beranda"
                 >
-                  <Home size={18} className="shrink-0" />
+                  <Home size={20} className="shrink-0" />
                 </Link>
               </div>
 
@@ -1342,7 +1411,7 @@ export function AppShell({
               {/* Toggle Panel Atas (Akun, Tema, Region) */}
               <button
                 type="button"
-                className={`relative z-10 p-2 rounded-full shrink-0 transition-colors flex items-center justify-center cursor-pointer ${
+                className={`relative z-10 size-9 rounded-full aspect-square shrink-0 transition-colors flex items-center justify-center cursor-pointer ${
                   isTopPanelOpen
                     ? "bg-primary text-primary-foreground font-bold shadow-xs"
                     : "text-muted-foreground hover:text-foreground hover:bg-accent"
@@ -1351,13 +1420,13 @@ export function AppShell({
                 title={isTopPanelOpen ? "Tutup Panel Bar Atas" : "Buka Panel Bar Atas (Akun, Tema & Region)"}
                 aria-label="Toggle panel bar atas"
               >
-                <Settings size={19} className={`transition-transform duration-300 ${isTopPanelOpen ? "rotate-90" : ""}`} />
+                <Settings size={20} className={`transition-transform duration-300 ${isTopPanelOpen ? "rotate-90" : ""}`} />
               </button>
 
               {/* Toggle Sidebar Kanan (Control Center) */}
               <button
                 type="button"
-                className={`relative z-10 p-2 rounded-full shrink-0 transition-colors flex items-center justify-center cursor-pointer ${
+                className={`relative z-10 size-9 rounded-full aspect-square shrink-0 transition-colors flex items-center justify-center cursor-pointer ${
                   openDrawer === "right"
                     ? "bg-primary text-primary-foreground font-bold shadow-2xs"
                     : "text-muted-foreground hover:text-foreground hover:bg-accent"
@@ -1366,7 +1435,7 @@ export function AppShell({
                 title={openDrawer === "right" ? "Sembunyikan Control Center" : "Tampilkan Control Center"}
                 aria-label="Toggle sidebar kanan"
               >
-                <WindowPositionRightIcon size={19} />
+                <WindowPositionRightIcon size={24} />
               </button>
             </div>
           </div>

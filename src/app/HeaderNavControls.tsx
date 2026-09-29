@@ -76,23 +76,23 @@ export function HeaderNavControls() {
       <button
         type="button"
         onClick={handleUndo}
-        className="p-1.5 sm:p-2 rounded-full shrink-0 transition-colors text-muted-foreground hover:text-foreground hover:bg-accent cursor-pointer flex items-center justify-center"
+        className="size-9 rounded-full aspect-square shrink-0 transition-colors text-muted-foreground hover:text-foreground hover:bg-accent cursor-pointer flex items-center justify-center"
         title="Undo / Riwayat Sebelumnya (Ctrl+Z)"
         aria-label="Undo"
       >
-        <ArrowLeft size={18} className="shrink-0" />
+        <ArrowLeft size={20} className="shrink-0" />
       </button>
 
       {/* Ikon Refresh: Menggantikan Home di antara panah kiri dan kanan */}
       <button
         type="button"
         onClick={handleRefresh}
-        className="p-1.5 sm:p-2 rounded-full shrink-0 transition-colors text-muted-foreground hover:text-foreground hover:bg-accent flex items-center justify-center cursor-pointer"
+        className="size-9 rounded-full aspect-square shrink-0 transition-colors text-muted-foreground hover:text-foreground hover:bg-accent flex items-center justify-center cursor-pointer"
         title="Muat Ulang / Refresh Halaman"
         aria-label="Refresh"
       >
         <RotateCw
-          size={18}
+          size={20}
           className={`shrink-0 transition-transform duration-500 ${isRefreshing ? "animate-spin text-primary" : ""}`}
         />
       </button>
@@ -101,11 +101,11 @@ export function HeaderNavControls() {
       <button
         type="button"
         onClick={handleRedo}
-        className="p-1.5 sm:p-2 rounded-full shrink-0 transition-colors text-muted-foreground hover:text-foreground hover:bg-accent cursor-pointer flex items-center justify-center"
+        className="size-9 rounded-full aspect-square shrink-0 transition-colors text-muted-foreground hover:text-foreground hover:bg-accent cursor-pointer flex items-center justify-center"
         title="Redo / Riwayat Berikutnya (Ctrl+Y)"
         aria-label="Redo"
       >
-        <ArrowRight size={18} className="shrink-0" />
+        <ArrowRight size={20} className="shrink-0" />
       </button>
     </div>
   );
