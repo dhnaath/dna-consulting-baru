@@ -112,11 +112,11 @@ export const STANDALONE_REORGANIZED_APPS: StandaloneAppDef[] = [
     features: [
       { title: "Workouts", to: "/health?tab=workouts", icon: Dumbbell },
       { title: "Water", to: "/health?tab=water", icon: Droplet },
-      { title: "Riwayat Rekam Medis", to: "/health?tab=medical-records", icon: FileHeart },
-      { title: "Tekanan dan Gula Darah", to: "/health?tab=vitals", icon: Activity },
-      { title: "Pengukuran Tubuh dan Berat", to: "/health?tab=body-metrics", icon: Scale },
-      { title: "Kualitas Tidur dan Istirahat", to: "/health?tab=sleep", icon: Moon },
-      { title: "Skincare dan Grooming", to: "/health?tab=skincare", icon: Sparkles },
+      { title: "Medical Records", to: "/health?tab=medical-records", icon: FileHeart },
+      { title: "Vitals Tracker", to: "/health?tab=vitals", icon: Activity },
+      { title: "Body Metrics", to: "/health?tab=body-metrics", icon: Scale },
+      { title: "Sleep Quality", to: "/health?tab=sleep", icon: Moon },
+      { title: "Skincare Log", to: "/health?tab=skincare", icon: Sparkles },
     ],
   },
   // 5. Vault
@@ -143,11 +143,11 @@ export const STANDALONE_REORGANIZED_APPS: StandaloneAppDef[] = [
     icon: Utensils,
     badge: "Standalone",
     features: [
-      { title: "Inventaris Bahan Dapur", to: "/recipes?tab=pantry", icon: Package },
-      { title: "Jurnal Memasak", to: "/recipes?tab=cook-log", icon: BookOpen },
-      { title: "Peringatan Kadaluarsa", to: "/recipes?tab=expiry", icon: AlertTriangle },
-      { title: "Manajemen Makanan Sisa", to: "/recipes?tab=leftovers", icon: RefreshCw },
-      { title: "Perencana Menu Mingguan", to: "/recipes?tab=meal-planner", icon: CalendarDays },
+      { title: "Pantry Inventory", to: "/recipes?tab=pantry", icon: Package },
+      { title: "Cook Log", to: "/recipes?tab=cook-log", icon: BookOpen },
+      { title: "Expiry Alert", to: "/recipes?tab=expiry", icon: AlertTriangle },
+      { title: "Leftover Manager", to: "/recipes?tab=leftovers", icon: RefreshCw },
+      { title: "Meal Planner", to: "/recipes?tab=meal-planner", icon: CalendarDays },
     ],
   },
   // 7. Shopping

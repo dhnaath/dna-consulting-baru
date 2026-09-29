@@ -86,10 +86,10 @@ export function TopPanelControlHub({
   };
 
   return (
-    <div className="w-full h-full flex flex-col relative z-10 animate-in slide-in-from-top-3 duration-200">
+    <div className="w-full flex flex-col relative z-10 animate-in slide-in-from-top-3 duration-200">
       {/* Grid Konten 4 Kolom: Akun, Tema & Bahasa, Region, Client OS Info */}
-      <div className="flex-1 overflow-y-auto p-4 sm:p-5 scrollbar-thin">
-        <div className="max-w-[1500px] mx-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 h-full items-stretch">
+      <div className="overflow-y-auto p-3.5 sm:p-4 scrollbar-thin">
+        <div className="max-w-[1500px] mx-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3.5 sm:gap-4 items-stretch">
           {/* Kolom 1: Akun & Profil Pengguna (Liquid Glass Card) */}
           <div className="liquid-glass-card">
             <div className="card-content">
@@ -125,11 +125,11 @@ export function TopPanelControlHub({
                 <p className="card-description">
                   Kelola sesi login, hak akses tim, dan sinkronisasi profil workspace.
                 </p>
-                <div className="flex gap-2">
+                <div className="flex items-center gap-2 mt-2">
                   <button
                     type="button"
                     onClick={() => setIsProfileOpen(!isProfileOpen)}
-                    className="glass-button flex-1"
+                    className="glass-button flex-1 whitespace-nowrap text-xs font-semibold py-2 px-3 min-w-0"
                   >
                     <User className="size-4 shrink-0" />
                     <span>Menu Profil</span>
@@ -141,7 +141,7 @@ export function TopPanelControlHub({
                       setIsProfileOpen(false);
                       onOpenSettings("general");
                     }}
-                    className="glass-button w-auto px-3 shrink-0"
+                    className="glass-button size-9 p-0 shrink-0 aspect-square rounded-xl"
                     title="Buka Pengaturan"
                     aria-label="Pengaturan"
                   >
@@ -151,8 +151,6 @@ export function TopPanelControlHub({
               </div>
 
               <div className="relative">
-                <p className="card-tip">Tip: Sesuaikan preferensi profil dan hak akses di Pengaturan!</p>
-
                 {/* Profile Menu Popup */}
                 <ProfileMenu
                   isOpen={isProfileOpen}
@@ -194,8 +192,6 @@ export function TopPanelControlHub({
                   <ThemeLangToggle />
                 </div>
               </div>
-
-              <p className="card-tip">Tip: Preferensi tema dan bahasa disimpan otomatis di browser!</p>
             </div>
           </div>
 
@@ -273,8 +269,6 @@ export function TopPanelControlHub({
                   </div>
                 </div>
               </div>
-
-              <p className="card-tip">Tip: Jam dan jadwal sistem disinkronkan dengan zona waktu ini!</p>
             </div>
           </div>
 
@@ -313,8 +307,6 @@ export function TopPanelControlHub({
                   </div>
                 </div>
               </div>
-
-              <p className="card-tip">Tip: Status sistem dalam kondisi optimal dan responsif!</p>
             </div>
           </div>
         </div>

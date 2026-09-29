@@ -666,13 +666,13 @@ export const STANDALONE_APPS: Record<string, StandaloneAppConfig> = {
   },
   "medical-records": {
     id: "medical-records",
-    title: "Rekam Medis & Riwayat Lab",
+    title: "Medical Records",
     subtitle: "Catatan riwayat diagnosis dokter, alergi obat, hasil pemeriksaan darah, dan riwayat vaksin.",
     section: "personal",
     categoryGroup: "Health and Wellness",
     subCategoryTitle: "Health Records",
     icon: FileHeart,
-    badge: "Rekam Medis",
+    badge: "Medical Records",
     colorScheme: "from-rose-600 to-red-700",
     tabs: [
       { id: "all", label: "Semua Riwayat" },
@@ -1028,7 +1028,7 @@ export const STANDALONE_APPS: Record<string, StandaloneAppConfig> = {
   },
   "keep-in-touch": {
     id: "keep-in-touch",
-    title: "Pengingat Silaturahmi",
+    title: "Catchup Reminder",
     subtitle: "Pengendali ritme komunikasi berkala untuk menjaga koneksi bermakna dengan kerabat dan kolega.",
     section: "people",
     categoryGroup: "People and Relationships",
@@ -1118,7 +1118,7 @@ export const STANDALONE_APPS: Record<string, StandaloneAppConfig> = {
   },
   "family-tree": {
     id: "family-tree",
-    title: "Silsilah & Profil Keluarga",
+    title: "Family Tree",
     subtitle: "Pohon silsilah generasi keluarga besar, biodata lengkap leluhur, makam keluarga, dan tanggal lahir.",
     section: "people",
     categoryGroup: "Family Management",
@@ -1148,7 +1148,7 @@ export const STANDALONE_APPS: Record<string, StandaloneAppConfig> = {
   },
   "family-events": {
     id: "family-events",
-    title: "Perencana Reuni & Arisan",
+    title: "Reunion Planner",
     subtitle: "Pengelola hajatan keluarga besar: arisan trah, haul, halalbihalal, giliran tuan rumah, dan presensi.",
     section: "people",
     categoryGroup: "Family Management",
@@ -1178,7 +1178,7 @@ export const STANDALONE_APPS: Record<string, StandaloneAppConfig> = {
   },
   "neighborhood": {
     id: "neighborhood",
-    title: "Buku Warga & Lingkungan",
+    title: "Neighbor Directory",
     subtitle: "Direktori pengurus RT/RW, nomor pos satpam perumahan, tata tertib warga, dan jadwal ronda.",
     section: "people",
     categoryGroup: "Community and Membership",
@@ -1268,7 +1268,7 @@ export const STANDALONE_APPS: Record<string, StandaloneAppConfig> = {
   },
   "civic-guide": {
     id: "civic-guide",
-    title: "Panduan Layanan Publik",
+    title: "Services Guide",
     subtitle: "Direktori lokasi fasilitas publik terdekat (Puskesmas, Samsat, Kelurahan) dan panduan alur birokrasi.",
     section: "people",
     categoryGroup: "Society and Public",
@@ -1364,7 +1364,7 @@ export const STANDALONE_APPS: Record<string, StandaloneAppConfig> = {
   // -------------------------------------------------------------
   "circle-groups": {
     id: "circle-groups",
-    title: "Lingkaran Relasi (Circles)",
+    title: "Relation Circles",
     subtitle: "Pengelompokan relasi berdasar kedekatan: Inti, Sahabat, Profesional, Mentorship, dan Komunitas.",
     section: "people",
     categoryGroup: "People Manager",
@@ -1391,7 +1391,7 @@ export const STANDALONE_APPS: Record<string, StandaloneAppConfig> = {
 
   "catchup-cadence": {
     id: "catchup-cadence",
-    title: "Pengingat Silaturahmi",
+    title: "Catchup Reminder",
     subtitle: "Jadwal dan pengingat berkala untuk menyapa kerabat, sahabat lama, dan relasi penting.",
     section: "people",
     categoryGroup: "People Manager",
@@ -1418,7 +1418,7 @@ export const STANDALONE_APPS: Record<string, StandaloneAppConfig> = {
 
   "family-rules": {
     id: "family-rules",
-    title: "Aturan dan Kesepakatan Rumah",
+    title: "House Rules",
     subtitle: "Kesepakatan bersama keluarga mengenai jam istirahat, screen time anak, pembagian tugas domestik, dan tata tertib hunian.",
     section: "people",
     categoryGroup: "People Manager",
@@ -1445,7 +1445,7 @@ export const STANDALONE_APPS: Record<string, StandaloneAppConfig> = {
 
   "family-archive": {
     id: "family-archive",
-    title: "Arsip Akta dan Dokumen KK",
+    title: "Family Archive",
     subtitle: "Penyimpanan digital dan katalog fisik akta kelahiran, kartu keluarga, buku nikah, paspor, dan ijazah keluarga.",
     section: "people",
     categoryGroup: "People Manager",
@@ -1472,7 +1472,7 @@ export const STANDALONE_APPS: Record<string, StandaloneAppConfig> = {
 
   "medical-family": {
     id: "medical-family",
-    title: "Golongan Darah dan Alergi",
+    title: "Medical Profile",
     subtitle: "Pencatatan golongan darah, rhesus, riwayat alergi obat/makanan berat, dan kontak darurat medis anggota keluarga.",
     section: "people",
     categoryGroup: "People Manager",
@@ -1499,7 +1499,7 @@ export const STANDALONE_APPS: Record<string, StandaloneAppConfig> = {
 
   "borrowed-items": {
     id: "borrowed-items",
-    title: "Pinjam Meminjam Barang",
+    title: "Borrow Log",
     subtitle: "Pencatat buku, perkakas, perlengkapan kamping, atau aset yang dipinjamkan ke rekan atau dipinjam dari orang lain.",
     section: "people",
     categoryGroup: "People Manager",
@@ -1526,7 +1526,7 @@ export const STANDALONE_APPS: Record<string, StandaloneAppConfig> = {
 
   "gift-tracker": {
     id: "gift-tracker",
-    title: "Pencatat Kado dan Hadiah",
+    title: "Gift Tracker",
     subtitle: "Catatan pemberian kado pernikahan, hadiah ulang tahun kerabat, parsel hari raya, dan inspirasi wishlist kado.",
     section: "people",
     categoryGroup: "People Manager",
@@ -1553,7 +1553,7 @@ export const STANDALONE_APPS: Record<string, StandaloneAppConfig> = {
 
   "reunion-planner": {
     id: "reunion-planner",
-    title: "Perencana Reuni dan Arisan",
+    title: "Reunion Planner",
     subtitle: "Perencanaan pertemuan keluarga besar, temu kangen alumni, arisan trah, jadwal giliran, dan iuran konsumsi.",
     section: "people",
     categoryGroup: "People Manager",
@@ -1580,7 +1580,7 @@ export const STANDALONE_APPS: Record<string, StandaloneAppConfig> = {
 
   "family-anniversary": {
     id: "family-anniversary",
-    title: "Ulang Tahun dan Hari Jadi",
+    title: "Anniversary Tracker",
     subtitle: "Kalender pengingat hari lahir anggota keluarga besar, ulang tahun pernikahan, dan hari penting bersejarah.",
     section: "people",
     categoryGroup: "People Manager",
@@ -1607,7 +1607,7 @@ export const STANDALONE_APPS: Record<string, StandaloneAppConfig> = {
 
   "rt-rw-directory": {
     id: "rt-rw-directory",
-    title: "Buku Warga RT RW",
+    title: "Neighbor Directory",
     subtitle: "Direktori kependudukan rukun tetangga, susunan pengurus RT/RW, nomor pos satpam, dan data kontak darurat pemukiman.",
     section: "people",
     categoryGroup: "Komunitas Warga",
@@ -1634,7 +1634,7 @@ export const STANDALONE_APPS: Record<string, StandaloneAppConfig> = {
 
   "community-announcements": {
     id: "community-announcements",
-    title: "Papan Pengumuman Warga",
+    title: "Community Board",
     subtitle: "Mading digital pengumuman resmi lingkungan: jadwal kerja bakti, fogging DBD, ronda malam, dan surat edaran RW.",
     section: "people",
     categoryGroup: "Komunitas Warga",
@@ -1661,7 +1661,7 @@ export const STANDALONE_APPS: Record<string, StandaloneAppConfig> = {
 
   "membership-card": {
     id: "membership-card",
-    title: "KTA dan Kartu Anggota",
+    title: "Membership Card",
     subtitle: "Dompet digital nomor kartu tanda anggota (KTA): paguyuban alumni, asosiasi profesi, klub hobi, dan koperasi warga.",
     section: "people",
     categoryGroup: "Komunitas Warga",
@@ -1688,7 +1688,7 @@ export const STANDALONE_APPS: Record<string, StandaloneAppConfig> = {
 
   "meeting-resolutions": {
     id: "meeting-resolutions",
-    title: "Hasil Keputusan Rapat",
+    title: "Meeting Resolutions",
     subtitle: "Arsip notula musyawarah warga RT/RW, berita acara keputusan rapat tahunan, dan tindak lanjut penanggung jawab.",
     section: "people",
     categoryGroup: "Komunitas Warga",
@@ -1715,7 +1715,7 @@ export const STANDALONE_APPS: Record<string, StandaloneAppConfig> = {
 
   "public-services-guide": {
     id: "public-services-guide",
-    title: "Panduan Layanan Publik",
+    title: "Services Guide",
     subtitle: "Panduan alur administrasi kependudukan (KTP-el, KK baru, Akta Lahir), kontak kantor kelurahan, puskesmas, dan Samsat.",
     section: "people",
     categoryGroup: "Komunitas Warga",
@@ -1742,7 +1742,7 @@ export const STANDALONE_APPS: Record<string, StandaloneAppConfig> = {
 
   "civic-calendar": {
     id: "civic-calendar",
-    title: "Kalender Pemilu dan Libur",
+    title: "Civic Calendar",
     subtitle: "Jadwal pemilu, pilkada serentak, hari libur nasional, cuti bersama pemerintah, dan kalender kegiatan rukun warga.",
     section: "people",
     categoryGroup: "Komunitas Warga",
@@ -1769,7 +1769,7 @@ export const STANDALONE_APPS: Record<string, StandaloneAppConfig> = {
 
   "civil-registry": {
     id: "civil-registry",
-    title: "Administrasi Kependudukan",
+    title: "Civil Registry",
     subtitle: "Pelacak berkas domisili, surat pindah masuk/keluar, pelaporan kelahiran warga baru, dan verifikasi data kependudukan.",
     section: "people",
     categoryGroup: "Komunitas Warga",
@@ -1796,7 +1796,7 @@ export const STANDALONE_APPS: Record<string, StandaloneAppConfig> = {
 
   "tax-civic": {
     id: "tax-civic",
-    title: "PBB dan Iuran Warga",
+    title: "Civic Tax",
     subtitle: "Pencatatan pembayaran PBB-P2 rumah hunian, iuran sampah dan keamanan bulanan RT/RW, serta rekapitulasi bukti bayar.",
     section: "people",
     categoryGroup: "Komunitas Warga",

@@ -76,7 +76,7 @@ export function KitchenPantryView() {
             <Package size={22} />
           </div>
           <div>
-            <h3 className="font-bold text-base text-foreground">Inventaris Bahan Dapur & Pantry</h3>
+            <h3 className="font-bold text-base text-foreground">Pantry Inventory</h3>
             <p className="text-xs text-muted-foreground mt-0.5">
               Stok bahan kulkas (Chiller), pembeku (Freezer), dan bumbu kering agar masakan terencana tanpa kekurangan bahan.
             </p>
@@ -205,7 +205,7 @@ export function CookingLogView() {
             <BookOpen size={22} />
           </div>
           <div>
-            <h3 className="font-bold text-base text-foreground">Jurnal Memasak & Evaluasi Kuliner</h3>
+            <h3 className="font-bold text-base text-foreground">Cook Log</h3>
             <p className="text-xs text-muted-foreground mt-0.5">
               Catatan eksekusi resep di dapur, review rasa, penyesuaian porsi, dan feedback keluarga.
             </p>
@@ -250,7 +250,7 @@ export function CookingLogView() {
         />
         <div className="flex justify-end">
           <button type="submit" className="px-4 py-2 bg-primary text-primary-foreground font-semibold rounded-lg text-xs cursor-pointer">
-            Simpan ke Jurnal Memasak
+            Simpan ke Cook Log
           </button>
         </div>
       </form>
@@ -330,7 +330,7 @@ export function FoodExpiryView() {
             <AlertTriangle size={22} />
           </div>
           <div>
-            <h3 className="font-bold text-base text-foreground">Peringatan Kadaluarsa Makanan</h3>
+            <h3 className="font-bold text-base text-foreground">Expiry Alert</h3>
             <p className="text-xs text-muted-foreground mt-0.5">
               Pantau bahan yang mendekati batas konsumsi untuk memprioritaskan menu harian dan menekan pemborosan pangan.
             </p>
@@ -451,7 +451,7 @@ export function LeftoversManagerView() {
             <RefreshCw size={22} />
           </div>
           <div>
-            <h3 className="font-bold text-base text-foreground">Manajemen Makanan Sisa (Zero Food Waste)</h3>
+            <h3 className="font-bold text-base text-foreground">Leftover Manager</h3>
             <p className="text-xs text-muted-foreground mt-0.5">
               Transformasikan sisa hidangan berkualitas menjadi sajian baru yang segar, lezat, dan bergizi.
             </p>
@@ -476,7 +476,7 @@ export function LeftoversManagerView() {
           className="bg-background border border-input rounded-lg px-3 py-2 text-xs text-foreground focus:outline-none"
         />
         <button type="submit" className="px-4 py-2 bg-primary text-primary-foreground font-semibold rounded-lg text-xs cursor-pointer">
-          Catat Makanan Sisa
+          Catat di Leftover Manager
         </button>
       </form>
 
@@ -533,7 +533,7 @@ export function WeeklyMealPlannerView() {
             <CalendarDays size={22} />
           </div>
           <div>
-            <h3 className="font-bold text-base text-foreground">Perencana Menu Sepekan (Nutrisi & Jadwal)</h3>
+            <h3 className="font-bold text-base text-foreground">Meal Planner</h3>
             <p className="text-xs text-muted-foreground mt-0.5">
               Atur komposisi sarapan, makan siang, dan makan malam keluarga selama 7 hari untuk gizi berimbang.
             </p>

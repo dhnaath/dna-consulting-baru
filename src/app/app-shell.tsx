@@ -1351,7 +1351,7 @@ export function AppShell({
           {isTopPanelOpen && (
             <div
               id="top-panel-container"
-              className="pointer-events-auto w-full min-h-[380px] max-h-[85vh] liquid-glass-top-panel transition-all duration-300 relative overflow-hidden"
+              className="pointer-events-auto w-full max-h-[85vh] liquid-glass-top-panel transition-all duration-300 relative overflow-hidden"
             >
               <TopPanelControlHub
                 onClose={() => setIsTopPanelOpen(false)}

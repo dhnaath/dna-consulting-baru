@@ -87,14 +87,13 @@ export const STANDALONE_FINANCIAL_APPS: StandaloneFinancialAppDef[] = [
     id: "kepatuhan-hukum",
     to: "/surety?tab=cat_kepatuhan",
     title: "Legal Compliance",
-    subtitle: "Kepatuhan legalitas keuangan perbankan, regulasi otoritas jasa keuangan, serta panduan syariah muamalah.",
+    subtitle: "Kepatuhan legalitas keuangan perbankan, regulasi otoritas jasa keuangan, serta audit kepatuhan.",
     category: "surety",
     categoryLabel: "Surety",
     icon: Scale,
     badge: "Standalone",
-    features: [
-      { title: "Akad & Prinsip Syariah", to: "/syariah/akad", icon: HeartHandshake },
-    ],
+    isEmpty: true,
+    features: [],
   },
   {
     id: "perlindungan-publik",
@@ -112,14 +111,13 @@ export const STANDALONE_FINANCIAL_APPS: StandaloneFinancialAppDef[] = [
     id: "asuransi-pribadi",
     to: "/surety?tab=cat_asuransi",
     title: "Private Insurance",
-    subtitle: "Proteksi risiko kesehatan personal, penyakit kritis, dan akad takaful tolong-menolong berlandaskan syariah.",
+    subtitle: "Proteksi risiko kesehatan personal, penyakit kritis, dan proteksi asuransi jiwa finansial keluarga.",
     category: "surety",
     categoryLabel: "Surety",
     icon: Umbrella,
     badge: "Standalone",
-    features: [
-      { title: "Akad Takaful", to: "/syariah/akad?app=takaful", icon: Users },
-    ],
+    isEmpty: true,
+    features: [],
   },
   {
     id: "kecukupan-dana",
@@ -806,7 +804,7 @@ const FinancialFlipCard = ({
             </div>
 
             {/* Sub-Features Chips (If any) */}
-            {app.features && app.features.length > 0 ? (
+            {app.features && app.features.length > 0 && (
               <div className="mt-3 pt-3 border-t border-border/60">
                 <span className="text-[10px] font-bold tracking-wider text-muted-foreground block mb-2 text-center">
                   Features ({app.features.length}):
@@ -832,12 +830,6 @@ const FinancialFlipCard = ({
                     );
                   })}
                 </div>
-              </div>
-            ) : (
-              <div className="mt-4 pt-3 border-t border-border/60 flex justify-center">
-                <span className="inline-flex items-center justify-center gap-1.5 px-2.5 py-1 rounded-lg bg-muted/40 text-[11px] font-medium text-muted-foreground border border-dashed border-border/60 text-center">
-                  <span>Belum Ada Isi</span>
-                </span>
               </div>
             )}
           </div>

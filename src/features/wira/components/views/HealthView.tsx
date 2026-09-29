@@ -747,7 +747,7 @@ export function HealthView() {
             )}
           >
             <FileHeart size={15} />
-            <span>Riwayat Rekam Medis</span>
+            <span>Medical Records</span>
           </button>
 
           <button
@@ -760,7 +760,7 @@ export function HealthView() {
             )}
           >
             <Activity size={15} />
-            <span>Tekanan & Gula Darah</span>
+            <span>Vitals Tracker</span>
           </button>
 
           <button
@@ -773,7 +773,7 @@ export function HealthView() {
             )}
           >
             <Scale size={15} />
-            <span>Pengukuran Tubuh & Berat</span>
+            <span>Body Metrics</span>
           </button>
 
           <button
@@ -786,7 +786,7 @@ export function HealthView() {
             )}
           >
             <Moon size={15} />
-            <span>Kualitas Tidur & Istirahat</span>
+            <span>Sleep Quality</span>
           </button>
 
           <button
@@ -799,7 +799,7 @@ export function HealthView() {
             )}
           >
             <Sparkles size={15} />
-            <span>Skincare & Grooming</span>
+            <span>Skincare Log</span>
           </button>
 
           <button
