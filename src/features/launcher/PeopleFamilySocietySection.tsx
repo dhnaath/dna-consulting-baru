@@ -244,10 +244,10 @@ const PeopleFlipCard = ({
             {/* Sub-Features Chips (If any) */}
             {app.features && app.features.length > 0 && (
               <div className="mt-3 pt-3 border-t border-border/60">
-                <span className="text-[10px] font-bold tracking-wider text-muted-foreground block mb-2">
+                <span className="text-[10px] font-bold tracking-wider text-muted-foreground block mb-2 text-center">
                   Features ({app.features.length}):
                 </span>
-                <div className="flex flex-wrap gap-1.5">
+                <div className="flex flex-wrap justify-center gap-1.5">
                   {app.features.map((feat, idx) => {
                     const FeatIcon = feat.icon;
                     const featPath = feat.to.split("?")[0];
@@ -260,7 +260,7 @@ const PeopleFlipCard = ({
                         key={idx}
                         to={featPath}
                         search={featSearch as any}
-                        className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-muted/60 hover:bg-primary/10 hover:text-primary text-[11px] font-medium text-foreground transition-all cursor-pointer border border-border/40 hover:border-primary/30"
+                        className="inline-flex items-center justify-center gap-1.5 px-2.5 py-1 rounded-lg bg-muted/60 hover:bg-primary/10 hover:text-primary text-[11px] font-medium text-foreground transition-all cursor-pointer border border-border/40 hover:border-primary/30 text-center"
                       >
                         <FeatIcon size={12} className="text-primary shrink-0" />
                         <span>{feat.title}</span>

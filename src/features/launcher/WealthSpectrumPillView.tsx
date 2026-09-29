@@ -25,14 +25,11 @@ export function WealthSpectrumPillView({
             <Layers className="size-3.5" />
           </div>
           <div>
-            <h4 className="text-xs sm:text-sm font-bold text-foreground flex items-center gap-1.5">
-              <span>5 Tahapan Arsitektur Finansial</span>
-              <span className="text-[10px] font-mono px-1.5 py-0.2 rounded bg-primary/10 text-primary font-semibold">
-                Surety • Flow • Build • Grow • Legacy
-              </span>
+            <h4 className="text-xs sm:text-sm font-bold text-foreground">
+              Surety • Flow • Build • Grow • Legacy
             </h4>
-            <p className="text-[11px] text-muted-foreground hidden sm:block">
-              Setiap tahap memiliki 5 prinsip fondasi fundamental sistem kekayaan
+            <p className="text-[11px] text-muted-foreground">
+              Reg. DJKI No. 001085192
             </p>
           </div>
         </div>
