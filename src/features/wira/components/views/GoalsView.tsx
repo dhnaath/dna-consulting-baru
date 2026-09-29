@@ -392,7 +392,7 @@ export function GoalsView() {
       {/* Metric Cards Banner */}
       <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
         <div className="bg-card border border-border p-4 rounded-2xl shadow-sm flex items-center gap-3.5">
-          <div className="w-11 h-11 rounded-2xl bg-blue-500/10 text-blue-600 dark:text-blue-400 flex items-center justify-center shrink-0">
+          <div className="w-11 h-11 rounded-full bg-blue-500/10 text-blue-600 dark:text-blue-400 flex items-center justify-center shrink-0">
             <Target size={22} />
           </div>
           <div>
@@ -402,7 +402,7 @@ export function GoalsView() {
         </div>
 
         <div className="bg-card border border-border p-4 rounded-2xl shadow-sm flex items-center gap-3.5">
-          <div className="w-11 h-11 rounded-2xl bg-amber-500/10 text-amber-600 dark:text-amber-400 flex items-center justify-center shrink-0">
+          <div className="w-11 h-11 rounded-full bg-amber-500/10 text-amber-600 dark:text-amber-400 flex items-center justify-center shrink-0">
             <Flame size={22} />
           </div>
           <div>
@@ -412,7 +412,7 @@ export function GoalsView() {
         </div>
 
         <div className="bg-card border border-border p-4 rounded-2xl shadow-sm flex items-center gap-3.5">
-          <div className="w-11 h-11 rounded-2xl bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 flex items-center justify-center shrink-0">
+          <div className="w-11 h-11 rounded-full bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 flex items-center justify-center shrink-0">
             <Award size={22} />
           </div>
           <div>
@@ -422,7 +422,7 @@ export function GoalsView() {
         </div>
 
         <div className="bg-card border border-border p-4 rounded-2xl shadow-sm flex items-center gap-3.5">
-          <div className="w-11 h-11 rounded-2xl bg-purple-500/10 text-purple-600 dark:text-purple-400 flex items-center justify-center shrink-0">
+          <div className="w-11 h-11 rounded-full bg-purple-500/10 text-purple-600 dark:text-purple-400 flex items-center justify-center shrink-0">
             <BarChart3 size={22} />
           </div>
           <div className="w-full pr-2">

@@ -21,7 +21,7 @@ export function WealthSpectrumPillView({
       {/* Header Pengontrol Tampilan Deskripsi */}
       <div className="flex items-center justify-between gap-3 mb-3 px-1">
         <div className="flex items-center gap-2">
-          <div className="p-1 rounded-lg bg-primary/10 text-primary">
+          <div className="p-1 rounded-full bg-primary/10 text-primary">
             <Layers className="size-3.5" />
           </div>
           <div>
@@ -53,20 +53,19 @@ export function WealthSpectrumPillView({
           <button
             type="button"
             onClick={() => setShowDescriptions((prev) => !prev)}
-            className="flex items-center gap-1.5 px-2.5 py-1 rounded-lg border border-border/80 bg-background hover:bg-accent text-foreground text-xs font-medium transition-colors cursor-pointer"
-            title={showDescriptions ? "Sembunyikan Deskripsi Detail" : "Tampilkan Deskripsi Detail"}
+            className={`flex items-center gap-1.5 px-2.5 py-1 rounded-lg border text-xs font-medium transition-all cursor-pointer ${
+              showDescriptions
+                ? "bg-primary/10 border-primary/40 text-primary shadow-2xs"
+                : "border-border/80 bg-background hover:bg-accent text-muted-foreground hover:text-foreground"
+            }`}
+            title={showDescriptions ? "Deskripsi Aktif (Klik untuk mematikan)" : "Deskripsi Mati (Klik untuk menampilkan)"}
           >
             {showDescriptions ? (
-              <>
-                <EyeOff className="size-3 text-muted-foreground" />
-                <span className="text-[11px]">Sembunyikan Deskripsi</span>
-              </>
+              <Eye className="size-3.5 text-primary shrink-0" />
             ) : (
-              <>
-                <Eye className="size-3 text-primary" />
-                <span className="text-[11px]">Tampilkan Deskripsi (5 Butir)</span>
-              </>
+              <EyeOff className="size-3.5 text-muted-foreground shrink-0" />
             )}
+            <span className="text-[11px]">Deskripsi</span>
           </button>
         </div>
       </div>
@@ -90,7 +89,7 @@ export function WealthSpectrumPillView({
               {/* Header Kartu Tahap */}
               <div className="w-full">
                 <div className="flex items-center justify-between mb-2">
-                  <div className={`p-1.5 rounded-lg border text-xs font-semibold ${t.badgeBg}`}>
+                  <div className={`p-1.5 rounded-full border text-xs font-semibold ${t.badgeBg}`}>
                     <Icon className="size-4" />
                   </div>
                   <div className="flex items-center gap-1.5">

@@ -569,7 +569,7 @@ export function CoursesView() {
                   <div className="flex items-start gap-4 flex-1 min-w-0">
                     <div
                       className={cn(
-                        "w-12 h-12 rounded-2xl flex items-center justify-center text-white shrink-0 shadow-xs bg-linear-to-br",
+                        "w-12 h-12 rounded-full flex items-center justify-center text-white shrink-0 shadow-xs bg-linear-to-br",
                         course.accentColor || "from-blue-600 to-indigo-700"
                       )}
                     >

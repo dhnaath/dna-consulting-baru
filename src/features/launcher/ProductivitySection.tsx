@@ -486,7 +486,7 @@ const ProductivityFlipCard = ({
                 className="flex items-center gap-3.5 group/header min-w-0 flex-1 outline-none"
               >
                 <div
-                  className={`h-12 w-12 rounded-2xl flex items-center justify-center text-white shadow-xs shrink-0 ${gradient} group-hover/header:scale-105 transition-transform`}
+                  className={`h-12 w-12 rounded-full flex items-center justify-center text-white shadow-xs shrink-0 ${gradient} group-hover/header:scale-105 transition-transform`}
                 >
                   <Icon className="h-6 w-6 opacity-90 drop-shadow-sm" strokeWidth={1.75} />
                 </div>
@@ -579,7 +579,7 @@ const ProductivityFlipCard = ({
             {/* Header Back Face */}
             <div className="flex items-center gap-2.5 pb-3 border-b border-border/60 min-w-0">
               <div
-                className={`size-8 rounded-xl flex items-center justify-center text-white shrink-0 ${gradient}`}
+                className={`size-8 rounded-full flex items-center justify-center text-white shrink-0 ${gradient}`}
               >
                 <Icon className="size-4" strokeWidth={2} />
               </div>

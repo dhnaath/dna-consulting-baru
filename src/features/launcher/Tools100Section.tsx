@@ -704,7 +704,7 @@ const ToolsFlipCard = ({
                 className="flex items-center gap-3.5 group/header min-w-0 flex-1 outline-none"
               >
                 <div
-                  className={`h-12 w-12 rounded-2xl flex items-center justify-center text-white shadow-xs shrink-0 ${cardGradient} group-hover/header:scale-105 transition-transform`}
+                  className={`h-12 w-12 rounded-full flex items-center justify-center text-white shadow-xs shrink-0 ${cardGradient} group-hover/header:scale-105 transition-transform`}
                 >
                   <Icon className="h-6 w-6 opacity-90 drop-shadow-sm" strokeWidth={1.75} />
                 </div>
@@ -794,7 +794,7 @@ const ToolsFlipCard = ({
             {/* Header Back Face */}
             <div className="flex items-center gap-2.5 pb-3 border-b border-border/60 min-w-0">
               <div
-                className={`size-8 rounded-xl flex items-center justify-center text-white shrink-0 ${cardGradient}`}
+                className={`size-8 rounded-full flex items-center justify-center text-white shrink-0 ${cardGradient}`}
               >
                 <Icon className="size-4" strokeWidth={2} />
               </div>
@@ -905,7 +905,7 @@ const ValueTreatedFlipCard = ({
                 className="flex items-center gap-3.5 group/header min-w-0 flex-1 outline-none"
               >
                 <div
-                  className={`h-12 w-12 rounded-2xl flex items-center justify-center text-white shadow-xs shrink-0 ${app.gradient} group-hover/header:scale-105 transition-transform`}
+                  className={`h-12 w-12 rounded-full flex items-center justify-center text-white shadow-xs shrink-0 ${app.gradient} group-hover/header:scale-105 transition-transform`}
                 >
                   <Icon className="h-6 w-6 opacity-90 drop-shadow-sm" strokeWidth={1.75} />
                 </div>
@@ -995,7 +995,7 @@ const ValueTreatedFlipCard = ({
             {/* Header Back Face */}
             <div className="flex items-center gap-2.5 pb-3 border-b border-border/60 min-w-0">
               <div
-                className={`size-8 rounded-xl flex items-center justify-center text-white shrink-0 ${app.gradient}`}
+                className={`size-8 rounded-full flex items-center justify-center text-white shrink-0 ${app.gradient}`}
               >
                 <Icon className="size-4" strokeWidth={2} />
               </div>
@@ -1114,15 +1114,6 @@ export function Tools100Section({
         >
           <Wrench className="size-4 shrink-0" />
           <span>Tools</span>
-          <span
-            className={`text-[11px] px-2 py-0.5 rounded-full font-semibold ${
-              activeCategory === "tools"
-                ? "bg-primary-foreground/20 text-primary-foreground"
-                : "bg-background/80 text-muted-foreground"
-            }`}
-          >
-            {totalFeatures} Tools
-          </span>
         </button>
 
         {/* Tab 2: Value Treated (Selevel dengan Tools) */}
@@ -1136,15 +1127,6 @@ export function Tools100Section({
         >
           <Gem className="size-4 shrink-0 text-amber-300" />
           <span>Value Treated</span>
-          <span
-            className={`text-[11px] px-2 py-0.5 rounded-full font-semibold ${
-              activeCategory === "value"
-                ? "bg-primary-foreground/20 text-primary-foreground"
-                : "bg-background/80 text-muted-foreground"
-            }`}
-          >
-            {VALUE_TREATED_APPS.length} Disiplin
-          </span>
         </button>
       </div>
 

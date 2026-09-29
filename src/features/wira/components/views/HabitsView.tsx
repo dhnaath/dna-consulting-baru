@@ -405,7 +405,7 @@ export function HabitsView() {
               </p>
             </div>
 
-            <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-emerald-500 to-teal-600 text-white font-black text-lg flex items-center justify-center shadow-md shrink-0">
+            <div className="w-14 h-14 rounded-full bg-gradient-to-br from-emerald-500 to-teal-600 text-white font-black text-lg flex items-center justify-center shadow-md shrink-0">
               {stats.completionRate}%
             </div>
           </div>
@@ -518,7 +518,7 @@ export function HabitsView() {
                 {/* Left info */}
                 <div className="flex items-start gap-4 flex-1">
                   <div
-                    className={`w-13 h-13 rounded-2xl p-3 flex items-center justify-center shrink-0 shadow-sm ${color.light} ${color.text} border ${color.border}`}
+                    className={`w-13 h-13 rounded-full p-3 flex items-center justify-center shrink-0 shadow-sm ${color.light} ${color.text} border ${color.border}`}
                   >
                     <IconComp size={24} />
                   </div>

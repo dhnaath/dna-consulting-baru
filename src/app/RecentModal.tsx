@@ -221,7 +221,7 @@ export function RecentModal({ isOpen, onClose }: RecentModalProps) {
                       const isRevised = isNewlyRevisedApp(app.to, app.label);
                       return (
                         <div
-                          className={`w-8 h-8 rounded-xl flex items-center justify-center shrink-0 transition-transform group-hover:scale-105 ${
+                          className={`w-8 h-8 rounded-full flex items-center justify-center shrink-0 transition-transform group-hover:scale-105 ${
                             isRevised
                               ? "bg-white text-zinc-950 border border-zinc-300 dark:border-white shadow-2xs"
                               : "bg-primary/10 text-primary"

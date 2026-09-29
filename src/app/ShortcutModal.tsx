@@ -299,7 +299,7 @@ export function ShortcutModal({ isOpen, onClose, onOpenQuickCapture }: ShortcutM
                   onClick={() => handleItemClick(item)}
                   className="w-full flex items-center gap-2.5 p-2 rounded-xl text-left hover:bg-neutral-100/80 dark:hover:bg-zinc-800/70 transition-colors group cursor-pointer"
                 >
-                  <div className="p-1.5 rounded-lg bg-neutral-100 dark:bg-zinc-800 text-foreground group-hover:bg-primary/10 group-hover:text-primary transition-colors shrink-0">
+                  <div className="p-1.5 rounded-full bg-neutral-100 dark:bg-zinc-800 text-foreground group-hover:bg-primary/10 group-hover:text-primary transition-colors shrink-0">
                     <Icon className="size-4" />
                   </div>
                   <div className="flex-1 min-w-0">

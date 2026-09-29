@@ -310,7 +310,7 @@ export function StandaloneZakatApp({
 
           {/* Right Icon Box & Nisab Badge */}
           <div className="shrink-0 flex md:flex-col items-center gap-4 bg-muted/40 p-4 rounded-xl border border-border/60">
-            <div className="w-14 h-14 rounded-xl bg-primary/10 border border-primary/20 flex items-center justify-center text-primary">
+            <div className="w-14 h-14 rounded-full bg-primary/10 border border-primary/20 flex items-center justify-center text-primary">
               <IconComponent className="w-7 h-7" />
             </div>
             <div className="text-left md:text-center">

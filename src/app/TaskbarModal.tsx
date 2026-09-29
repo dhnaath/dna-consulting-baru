@@ -294,7 +294,7 @@ export function TaskbarModal({ isOpen, onClose }: TaskbarModalProps) {
                         const isRevised = isNewlyRevisedApp(win.to, win.title);
                         return (
                           <div
-                            className={`w-7 h-7 rounded-lg flex items-center justify-center ${
+                            className={`w-7 h-7 rounded-full flex items-center justify-center ${
                               isRevised
                                 ? "bg-white text-zinc-950 border border-zinc-300 dark:border-white shadow-2xs"
                                 : isCurrent
