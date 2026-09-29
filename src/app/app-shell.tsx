@@ -1396,47 +1396,57 @@ export function AppShell({
               </div>
             </div>
 
-            {/* Bagian Kanan Header: Floating Pill Kapsul Liquid Glass (Aksi, Portal, Toggle Top Panel & Right Sidebar) */}
-            <div className="pointer-events-auto flex items-center gap-1 p-1 rounded-full liquid-glass-header-pill">
-              {actions && (
-                <div className="relative z-10 flex items-center gap-1 shrink-0 px-1">
-                  {actions}
-                </div>
-              )}
+            {/* Bagian Kanan Header: 2 Floating Pills Terpisah (Pill 1: Elemen Menu App & Aksi Halaman, Pill 2: Setting & Sidebar Kanan) */}
+            <div className="flex items-center gap-2">
+              {/* Pill 1: Elemen Menu App & Aksi Halaman (actions & portal) */}
               <div
-                id="app-header-actions-portal"
-                className="relative z-10 flex items-center gap-1 min-w-0 empty:hidden overflow-x-auto no-scrollbar py-0.5"
-              />
-
-              {/* Toggle Panel Atas (Akun, Tema, Region) */}
-              <button
-                type="button"
-                className={`relative z-10 size-9 rounded-full aspect-square shrink-0 transition-colors flex items-center justify-center cursor-pointer ${
-                  isTopPanelOpen
-                    ? "bg-primary text-primary-foreground font-bold shadow-xs"
-                    : "text-muted-foreground hover:text-foreground hover:bg-accent"
+                className={`pointer-events-auto flex items-center gap-1 p-1 rounded-full liquid-glass-header-pill transition-all duration-200 ${
+                  Boolean(actions) || hasAppHeader ? "inline-flex" : "hidden"
                 }`}
-                onClick={() => setIsTopPanelOpen((prev) => !prev)}
-                title={isTopPanelOpen ? "Tutup Panel Bar Atas" : "Buka Panel Bar Atas (Akun, Tema & Region)"}
-                aria-label="Toggle panel bar atas"
               >
-                <Settings size={20} className={`transition-transform duration-300 ${isTopPanelOpen ? "rotate-90" : ""}`} />
-              </button>
+                {actions && (
+                  <div className="relative z-10 flex items-center gap-1 shrink-0 px-1">
+                    {actions}
+                  </div>
+                )}
+                <div
+                  id="app-header-actions-portal"
+                  className="relative z-10 flex items-center gap-1 min-w-0 empty:hidden overflow-x-auto no-scrollbar py-0.5"
+                />
+              </div>
 
-              {/* Toggle Sidebar Kanan (Control Center) */}
-              <button
-                type="button"
-                className={`relative z-10 size-9 rounded-full aspect-square shrink-0 transition-colors flex items-center justify-center cursor-pointer ${
-                  openDrawer === "right"
-                    ? "bg-primary text-primary-foreground font-bold shadow-2xs"
-                    : "text-muted-foreground hover:text-foreground hover:bg-accent"
-                }`}
-                onClick={() => setOpenDrawer(openDrawer === "right" ? null : "right")}
-                title={openDrawer === "right" ? "Sembunyikan Control Center" : "Tampilkan Control Center"}
-                aria-label="Toggle sidebar kanan"
-              >
-                <WindowPositionRightIcon size={24} />
-              </button>
+              {/* Pill 2: Pengaturan & Sidebar Kanan (Control Center) */}
+              <div className="pointer-events-auto flex items-center gap-1 p-1 rounded-full liquid-glass-header-pill">
+                {/* Toggle Panel Atas (Akun, Tema, Region / Setting) */}
+                <button
+                  type="button"
+                  className={`relative z-10 size-9 rounded-full aspect-square shrink-0 transition-colors flex items-center justify-center cursor-pointer ${
+                    isTopPanelOpen
+                      ? "bg-primary text-primary-foreground font-bold shadow-xs"
+                      : "text-muted-foreground hover:text-foreground hover:bg-accent"
+                  }`}
+                  onClick={() => setIsTopPanelOpen((prev) => !prev)}
+                  title={isTopPanelOpen ? "Tutup Panel Pengaturan Atas" : "Pengaturan (Akun, Tema & Preferensi)"}
+                  aria-label="Toggle panel bar atas"
+                >
+                  <Settings size={20} className={`transition-transform duration-300 ${isTopPanelOpen ? "rotate-90" : ""}`} />
+                </button>
+
+                {/* Toggle Sidebar Kanan (Control Center) */}
+                <button
+                  type="button"
+                  className={`relative z-10 size-9 rounded-full aspect-square shrink-0 transition-colors flex items-center justify-center cursor-pointer ${
+                    openDrawer === "right"
+                      ? "bg-primary text-primary-foreground font-bold shadow-2xs"
+                      : "text-muted-foreground hover:text-foreground hover:bg-accent"
+                  }`}
+                  onClick={() => setOpenDrawer(openDrawer === "right" ? null : "right")}
+                  title={openDrawer === "right" ? "Sembunyikan Control Center" : "Tampilkan Control Center (Sidebar Kanan)"}
+                  aria-label="Toggle sidebar kanan"
+                >
+                  <WindowPositionRightIcon size={24} />
+                </button>
+              </div>
             </div>
           </div>
         </header>

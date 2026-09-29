@@ -62,66 +62,9 @@ export function SuretyView({
 }) {
   const { ref, onScroll } = useScrollRestore("SuretyView_scroll");
   const lang = useLanguage();
+  const activeTab = currentTab || "cat_kepatuhan";
 
-  if (!currentTab) {
-    return (
-      <div className="flex flex-col min-h-screen bg-background relative overflow-hidden">
-        <div className="p-4 flex items-center gap-3 pt-6 shrink-0 bg-background">
-          <button
-            onClick={onBack}
-            className="text-foreground p-1 hover:text-foreground transition-colors"
-          >
-            <ArrowLeft size={24} />
-          </button>
-          <h1 className="text-lg font-medium text-foreground tracking-wide flex items-center gap-2">
-            <ShieldCheck size={20} className="text-muted-foreground" />{" "}
-            {translations.surety.viewTitle[lang]}
-          </h1>
-        </div>
-        <div
-          ref={ref}
-          onScroll={onScroll}
-          className="flex-1 overflow-y-auto p-6 pb-20 md:grid md:grid-cols-2 lg:grid-cols-3 md:gap-4 md:auto-rows-max md:content-start"
-        >
-          <div className="col-span-full mb-8 max-w-3xl">
-            <h2 className="text-2xl font-semibold text-foreground mb-3">
-              {translations.landing.categories.surety.desc[lang]}
-            </h2>
-            <p className="text-sm text-muted-foreground whitespace-pre-line leading-relaxed">
-              {translations.landing.categories.surety.long[lang]}
-            </p>
-          </div>
-          <MenuListItem
-            onClick={() => onSelectTab?.("cat_kepatuhan")}
-            icon={Scale}
-            title={translations.surety.tabs[0][lang]}
-          />
-          <MenuListItem
-            onClick={() => onSelectTab?.("cat_publik")}
-            icon={Globe}
-            title={translations.surety.tabs[1][lang]}
-          />
-          <MenuListItem
-            onClick={() => onSelectTab?.("cat_asuransi")}
-            icon={Umbrella}
-            title={translations.surety.tabs[2][lang]}
-          />
-          <MenuListItem
-            onClick={() => onSelectTab?.("cat_dana")}
-            icon={Vault}
-            title={translations.surety.tabs[3][lang]}
-          />
-          <MenuListItem
-            onClick={() => onSelectTab?.("cat_proteksi")}
-            icon={Lock}
-            title={translations.surety.tabs[4][lang]}
-          />
-        </div>
-      </div>
-    );
-  }
-
-  if (currentTab === "cat_kepatuhan") {
+  if (activeTab === "cat_kepatuhan") {
     return (
       <div className="flex flex-col min-h-screen bg-background relative overflow-hidden">
         <div className="p-4 flex items-center gap-3 pt-6 shrink-0 bg-background">
@@ -157,7 +100,7 @@ export function SuretyView({
     );
   }
 
-  if (currentTab === "cat_publik") {
+  if (activeTab === "cat_publik") {
     return (
       <div className="flex flex-col min-h-screen bg-background relative overflow-hidden">
         <div className="p-4 flex items-center gap-3 pt-6 shrink-0 bg-background">
@@ -199,7 +142,7 @@ export function SuretyView({
     );
   }
 
-  if (currentTab === "cat_asuransi") {
+  if (activeTab === "cat_asuransi") {
     return (
       <div className="flex flex-col min-h-screen bg-background relative overflow-hidden">
         <div className="p-4 flex items-center gap-3 pt-6 shrink-0 bg-background">
@@ -271,7 +214,7 @@ export function SuretyView({
     );
   }
 
-  if (currentTab === "cat_dana") {
+  if (activeTab === "cat_dana") {
     return (
       <div className="flex flex-col min-h-screen bg-background relative overflow-hidden">
         <div className="p-4 flex items-center gap-3 pt-6 shrink-0 bg-background">
@@ -313,7 +256,7 @@ export function SuretyView({
     );
   }
 
-  if (currentTab === "cat_proteksi") {
+  if (activeTab === "cat_proteksi") {
     return (
       <div className="flex flex-col min-h-screen bg-background relative overflow-hidden">
         <div className="p-4 flex items-center gap-3 pt-6 shrink-0 bg-background">
@@ -355,45 +298,45 @@ export function SuretyView({
     );
   }
 
-  if (currentTab === "emergency_fund")
+  if (activeTab === "emergency_fund")
     return <GoalsView onBack={() => onSelectTab?.("cat_dana")} />;
-  if (currentTab === "insurance")
+  if (activeTab === "insurance")
     return <InsuranceView onBack={() => onSelectTab?.("cat_asuransi")} />;
-  if (currentTab === "legal") return <LegalView onBack={() => onSelectTab?.("cat_kepatuhan")} />;
-  if (currentTab === "protection")
+  if (activeTab === "legal") return <LegalView onBack={() => onSelectTab?.("cat_kepatuhan")} />;
+  if (activeTab === "protection")
     return <ProtectionView onBack={() => onSelectTab?.("cat_proteksi")} />;
-  if (currentTab === "security")
+  if (activeTab === "security")
     return <AccountSecurityView onBack={() => onSelectTab?.("cat_proteksi")} />;
-  if (currentTab === "health")
+  if (activeTab === "health")
     return <HealthRecordView onBack={() => onSelectTab?.("cat_asuransi")} />;
 
-  if (currentTab === "calc_insurance")
+  if (activeTab === "calc_insurance")
     return <InsuranceCalculatorView onBack={() => onSelectTab?.("cat_asuransi")} />;
-  if (currentTab === "claims")
+  if (activeTab === "claims")
     return <ClaimsHistoryView onBack={() => onSelectTab?.("cat_publik")} />;
-  if (currentTab === "beneficiary")
+  if (activeTab === "beneficiary")
     return <BeneficiaryManagerView onBack={() => onSelectTab?.("cat_proteksi")} />;
-  if (currentTab === "health_risk")
+  if (activeTab === "health_risk")
     return <HealthRiskView onBack={() => onSelectTab?.("cat_asuransi")} />;
-  if (currentTab === "ci")
+  if (activeTab === "ci")
     return <CriticalIllnessView onBack={() => onSelectTab?.("cat_asuransi")} />;
-  if (currentTab === "general_ins")
+  if (activeTab === "general_ins")
     return <GeneralInsuranceView onBack={() => onSelectTab?.("cat_publik")} />;
-  if (currentTab === "unit_link")
+  if (activeTab === "unit_link")
     return <UnitLinkComparisonView onBack={() => onSelectTab?.("cat_asuransi")} />;
-  if (currentTab === "endowment")
+  if (activeTab === "endowment")
     return <EndowmentView onBack={() => onSelectTab?.("cat_asuransi")} />;
-  if (currentTab === "term_life")
+  if (activeTab === "term_life")
     return <TermLifeView onBack={() => onSelectTab?.("cat_asuransi")} />;
-  if (currentTab === "retirement")
+  if (activeTab === "retirement")
     return <RetirementPlannerView onBack={() => onSelectTab?.("cat_dana")} />;
-  if (currentTab === "insurance_gap")
+  if (activeTab === "insurance_gap")
     return <InsuranceGapAnalysisView onBack={() => onSelectTab?.("cat_asuransi")} />;
-  if (currentTab === "doc_vault")
+  if (activeTab === "doc_vault")
     return <DocumentVaultView onBack={() => onSelectTab?.("cat_kepatuhan")} />;
-  if (currentTab === "vehicle_property")
+  if (activeTab === "vehicle_property")
     return <VehiclePropertyInsuranceTrackerView onBack={() => onSelectTab?.("cat_publik")} />;
-  if (currentTab === "sinking_fund")
+  if (activeTab === "sinking_fund")
     return <SinkingFundView onBack={() => onSelectTab?.("cat_dana")} />;
 
   return null;

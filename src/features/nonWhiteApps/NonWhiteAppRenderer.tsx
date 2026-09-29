@@ -282,13 +282,7 @@ export function ValuationView() {
 }
 
 export function CommodityView() {
-  return (
-    <AppShell title="Indeks 100 Komoditas Dunia" subtitle="Pantau harga energi, logam mulia, pertanian, dan bahan baku">
-      <div className="w-full">
-        <CommodityDashboard />
-      </div>
-    </AppShell>
-  );
+  return <CommodityDashboard />;
 }
 
 export function IncotermsView() {
@@ -387,14 +381,17 @@ export function SpectrumStageView({ stage }: { stage: "grow" | "flow" | "build" 
   const routerState = useRouterState();
   const search = (routerState.location.search || {}) as Record<string, any>;
   const navigate = useNavigate();
-  const [tab, setTab] = useState(typeof search.tab === "string" ? search.tab : "");
+  const defaultTabs: Record<string, string> = {
+    surety: "cat_kepatuhan",
+    flow: "cat_liabilitas",
+    build: "cat_modal",
+    grow: "cat_profil",
+    legacy: "cat_pembelajaran",
+  };
+  const [tab, setTab] = useState(typeof search.tab === "string" && search.tab ? search.tab : (defaultTabs[stage] || ""));
 
   const handleBack = () => {
-    if (tab) {
-      setTab("");
-    } else {
-      navigate({ to: "/" } as any);
-    }
+    navigate({ to: "/" } as any);
   };
 
   const handleSelectTab = (newTab: string) => {

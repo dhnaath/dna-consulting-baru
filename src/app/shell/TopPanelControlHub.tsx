@@ -3,7 +3,6 @@ import {
   User,
   Settings,
   Globe,
-  X,
   Clock,
   Sparkles,
   Laptop,
@@ -88,17 +87,6 @@ export function TopPanelControlHub({
 
   return (
     <div className="w-full h-full flex flex-col relative z-10 animate-in slide-in-from-top-3 duration-200">
-      {/* Floating Close Button */}
-      <button
-        type="button"
-        onClick={onClose}
-        className="absolute top-3 right-4 z-30 p-1.5 rounded-full text-muted-foreground hover:text-foreground hover:bg-white/20 dark:hover:bg-white/10 border border-white/20 backdrop-blur-md transition-all cursor-pointer shadow-2xs hover:scale-105 active:scale-95"
-        title="Tutup Panel"
-        aria-label="Tutup Panel"
-      >
-        <X className="size-4" />
-      </button>
-
       {/* Grid Konten 4 Kolom: Akun, Tema & Bahasa, Region, Client OS Info */}
       <div className="flex-1 overflow-y-auto p-4 sm:p-5 scrollbar-thin">
         <div className="max-w-[1500px] mx-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 h-full items-stretch">

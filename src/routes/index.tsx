@@ -10,6 +10,7 @@ import { ProductivitySection } from "@/features/launcher/ProductivitySection";
 import { PersonalEssentialsSection } from "@/features/launcher/PersonalEssentialsSection";
 import { PeopleFamilySocietySection } from "@/features/launcher/PeopleFamilySocietySection";
 import { KurasiSection } from "@/features/launcher/KurasiSection";
+import { CommodityDashboardSection } from "./commodity-dashboard";
 import { COMMODITY_DATA } from "../commodityData";
 import { AnimatedSearchIcon } from "@/app/shell/AnimatedSearchIcon";
 import { TypewriterSearchText } from "@/app/shell/TypewriterSearchText";
@@ -257,81 +258,9 @@ export function Launcher() {
               />
             </div>
 
-            {/* Slide 5: 100 Komoditas */}
-            <div className="flex-[0_0_100%] min-w-0 pr-1 space-y-6">
-              <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 p-6 rounded-2xl border border-border bg-card/70">
-                <div>
-                  <div className="flex items-center gap-2">
-                    <span className="p-2 rounded-full bg-emerald-500/10 text-emerald-500">
-                      <TrendingUp className="size-5" />
-                    </span>
-                    <h2 className="text-xl font-bold text-foreground">100 Komoditas Unggulan Nasional</h2>
-                  </div>
-                  <p className="text-sm text-muted-foreground mt-1">
-                    Indeks dan intelijen rantai pasok untuk komoditas pertanian, perkebunan, pertambangan, dan energi.
-                  </p>
-                </div>
-                <Link
-                  to="/commodity-dashboard"
-                  className="flex items-center gap-2 px-4 py-2.5 rounded-xl bg-primary text-primary-foreground font-medium text-sm hover:bg-primary/90 transition-colors shrink-0"
-                >
-                  Buka Dashboard Penuh <ArrowRight className="size-4" />
-                </Link>
-              </div>
-
-              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-                {COMMODITY_DATA.slice(0, 16).map((item: any, idx: number) => {
-                  const formattedPrice = item.hargaTerbaru != null
-                    ? (item.mataUang === "USD" ? `$${item.hargaTerbaru.toLocaleString("en-US", { minimumFractionDigits: 2 })}` : `Rp ${item.hargaTerbaru.toLocaleString("id-ID")}`)
-                    : (item.harga || item.price || "Rp Ref Pasar");
-                  const isUp = item.perubahan24h != null ? item.perubahan24h >= 0 : true;
-                  const trendText = item.perubahan24h != null ? `${isUp ? "+" : ""}${item.perubahan24h}%` : (item.tren || item.trend || "+0.8%");
-
-                  return (
-                    <div
-                      key={item.id || idx}
-                      className="p-4 rounded-xl border border-border bg-card hover:border-primary/50 transition-all flex flex-col justify-between group"
-                    >
-                      <div>
-                        <div className="flex items-center justify-between mb-2 gap-1">
-                          <span className="text-[10px] uppercase font-mono px-2 py-0.5 rounded bg-muted text-muted-foreground truncate max-w-[170px]">
-                            {item.kategori || item.category || "Komoditas"}
-                          </span>
-                          <span className={`text-xs font-semibold px-1.5 py-0.5 rounded ${isUp ? "text-emerald-500 bg-emerald-500/10" : "text-rose-500 bg-rose-500/10"}`}>
-                            {trendText}
-                          </span>
-                        </div>
-                        <h4 className="font-semibold text-foreground text-sm line-clamp-1 group-hover:text-primary transition-colors">
-                          {item.nama || item.name}
-                        </h4>
-                      </div>
-
-                      <div className="mt-4 pt-3 border-t border-border/50 space-y-2">
-                        <div className="flex items-center justify-between text-xs">
-                          <span className="text-muted-foreground">{item.satuan || item.unit || "Per Satuan"}</span>
-                          <span className="font-bold text-foreground">{formattedPrice}</span>
-                        </div>
-
-                        {item.linkSumber && (
-                          <a
-                            href={item.linkSumber}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="inline-flex items-center justify-between w-full px-2.5 py-1.5 rounded-lg text-xs font-semibold text-primary bg-primary/10 hover:bg-primary hover:text-primary-foreground border border-primary/20 hover:border-transparent transition-all"
-                            title={`Buka web resmi ${item.sumberData || item.linkSumber}`}
-                          >
-                            <span className="flex items-center gap-1.5 truncate">
-                              <ExternalLink className="size-3.5 shrink-0" />
-                              <span className="truncate">Portal: {item.sumberData ? item.sumberData.split('/')[0].trim() : "Resmi"}</span>
-                            </span>
-                            <span className="text-[10px] opacity-80 shrink-0">&rarr;</span>
-                          </a>
-                        )}
-                      </div>
-                    </div>
-                  );
-                })}
-              </div>
+            {/* Slide 5: 100 Komoditas (1 Halaman Terpadu Tanpa Opsi Penuh / Lebih Lanjut) */}
+            <div className="flex-[0_0_100%] min-w-0 pr-1">
+              <CommodityDashboardSection isEmbedded={true} />
             </div>
 
             {/* Slide 6: Kurasi & Playbook */}
