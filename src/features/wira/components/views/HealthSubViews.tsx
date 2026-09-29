@@ -206,7 +206,7 @@ export function HealthMedicalRecordsView() {
             <FileHeart size={22} />
           </div>
           <div>
-            <h3 className="font-bold text-base text-foreground">Riwayat Rekam Medis & Diagnosis Dokter</h3>
+            <h3 className="font-bold text-base text-foreground">Medical Records</h3>
             <p className="text-xs text-muted-foreground mt-0.5">
               Catatan kunjungan rumah sakit, konsultasi spesialis, resep obat, dan riwayat imunisasi.
             </p>
@@ -319,7 +319,7 @@ export function HealthVitalsView() {
             <Activity size={22} />
           </div>
           <div>
-            <h3 className="font-bold text-base text-foreground">Pemantauan Tekanan Darah & Gula Darah</h3>
+            <h3 className="font-bold text-base text-foreground">Vitals Tracker</h3>
             <p className="text-xs text-muted-foreground mt-0.5">
               Deteksi dini beban vaskular dan kestabilan glukosa puasa untuk menjaga metabolisme energi otak.
             </p>
@@ -453,7 +453,7 @@ export function HealthBodyMetricsView() {
             <Scale size={22} />
           </div>
           <div>
-            <h3 className="font-bold text-base text-foreground">Pengukuran Komposisi Tubuh & Berat</h3>
+            <h3 className="font-bold text-base text-foreground">Body Metrics</h3>
             <p className="text-xs text-muted-foreground mt-0.5">
               Pelacak massa otot, lingkar pinggang, dan persentase lemak tubuh untuk kebugaran fungsional.
             </p>
@@ -538,7 +538,7 @@ export function HealthSleepView() {
             <Moon size={22} />
           </div>
           <div>
-            <h3 className="font-bold text-base text-foreground">Kualitas Tidur & Pemulihan Sirkadian</h3>
+            <h3 className="font-bold text-base text-foreground">Sleep Quality</h3>
             <p className="text-xs text-muted-foreground mt-0.5">
               Pantau durasi tidur nyenyak, skor istirahat, dan waktu pemulihan energi mental setiap malam.
             </p>
@@ -597,7 +597,7 @@ export function HealthSkincareView() {
             <Sparkles size={22} />
           </div>
           <div>
-            <h3 className="font-bold text-base text-foreground">Rutinitas Perawatan Diri & Grooming</h3>
+            <h3 className="font-bold text-base text-foreground">Skincare Log</h3>
             <p className="text-xs text-muted-foreground mt-0.5">
               Jadwal tahapan skincare pagi & malam, inventaris bahan aktif ramah kulit, dan tanggal kadaluarsa produk.
             </p>

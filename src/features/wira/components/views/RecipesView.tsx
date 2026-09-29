@@ -524,7 +524,7 @@ export function RecipesView() {
           )}
         >
           <Package size={15} />
-          <span>Inventaris Bahan Dapur</span>
+          <span>Pantry Inventory</span>
         </button>
 
         <button
@@ -537,7 +537,7 @@ export function RecipesView() {
           )}
         >
           <BookOpen size={15} />
-          <span>Jurnal Memasak</span>
+          <span>Cook Log</span>
         </button>
 
         <button
@@ -550,7 +550,7 @@ export function RecipesView() {
           )}
         >
           <AlertTriangle size={15} />
-          <span>Peringatan Kadaluarsa</span>
+          <span>Expiry Alert</span>
         </button>
 
         <button
@@ -563,7 +563,7 @@ export function RecipesView() {
           )}
         >
           <RefreshCw size={15} />
-          <span>Manajemen Makanan Sisa</span>
+          <span>Leftover Manager</span>
         </button>
 
         <button
@@ -576,7 +576,7 @@ export function RecipesView() {
           )}
         >
           <CalendarDays size={15} />
-          <span>Perencana Menu Mingguan</span>
+          <span>Meal Planner</span>
         </button>
       </div>
 

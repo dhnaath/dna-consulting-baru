@@ -347,16 +347,16 @@ export function PeopleManagerApp() {
         </div>
         <div className="flex flex-wrap gap-1.5">
           {[
-            { label: "Silsilah Keluarga", to: "/lainnya?app=family-tree", icon: GitFork },
-            { label: "Aturan & Kesepakatan Rumah", to: "/lainnya?app=family-rules", icon: Scale },
-            { label: "Arsip Akta & Dokumen KK", to: "/lainnya?app=family-archive", icon: Archive },
-            { label: "Golongan Darah & Alergi", to: "/lainnya?app=medical-family", icon: HeartHandshake },
-            { label: "Lingkaran Relasi (Circles)", to: "/lainnya?app=circle-groups", icon: Network },
-            { label: "Pengingat Silaturahmi", to: "/lainnya?app=catchup-cadence", icon: PhoneCall },
-            { label: "Pinjam Meminjam Barang", to: "/lainnya?app=borrowed-items", icon: ArrowRightLeft },
-            { label: "Pencatat Kado & Hadiah", to: "/lainnya?app=gift-tracker", icon: Gift },
-            { label: "Perencana Reuni & Arisan", to: "/lainnya?app=reunion-planner", icon: PartyPopper },
-            { label: "Ulang Tahun & Hari Jadi", to: "/lainnya?app=family-anniversary", icon: CalendarDays },
+            { label: "Family Tree", to: "/lainnya?app=family-tree", icon: GitFork },
+            { label: "House Rules", to: "/lainnya?app=family-rules", icon: Scale },
+            { label: "Family Archive", to: "/lainnya?app=family-archive", icon: Archive },
+            { label: "Medical Profile", to: "/lainnya?app=medical-family", icon: HeartHandshake },
+            { label: "Relation Circles", to: "/lainnya?app=circle-groups", icon: Network },
+            { label: "Catchup Reminder", to: "/lainnya?app=catchup-cadence", icon: PhoneCall },
+            { label: "Borrow Log", to: "/lainnya?app=borrowed-items", icon: ArrowRightLeft },
+            { label: "Gift Tracker", to: "/lainnya?app=gift-tracker", icon: Gift },
+            { label: "Reunion Planner", to: "/lainnya?app=reunion-planner", icon: PartyPopper },
+            { label: "Anniversary Tracker", to: "/lainnya?app=family-anniversary", icon: CalendarDays },
           ].map((feat, i) => {
             const Icon = feat.icon;
             const featPath = feat.to.split("?")[0];

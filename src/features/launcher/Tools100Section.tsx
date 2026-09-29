@@ -861,14 +861,9 @@ const ValueTreatedFlipCard = ({
                   <Icon className="h-6 w-6 opacity-90 drop-shadow-sm" strokeWidth={1.75} />
                 </div>
                 <div className="min-w-0">
-                  <div className="flex items-center gap-2 flex-wrap">
-                    <h4 className="font-bold text-base text-foreground group-hover/header:text-primary transition-colors truncate">
-                      {app.title}
-                    </h4>
-                    <span className="text-[10px] uppercase font-bold tracking-wider px-2 py-0.5 rounded-full bg-amber-500/10 text-amber-600 dark:text-amber-400 border border-amber-500/20 shrink-0">
-                      Value Treated
-                    </span>
-                  </div>
+                  <h4 className="font-bold text-base text-foreground group-hover/header:text-primary transition-colors truncate">
+                    {app.title}
+                  </h4>
                   <span className="text-[11px] text-muted-foreground truncate block mt-0.5">
                     {app.subtitle.split("•")[0]?.trim()}
                   </span>
