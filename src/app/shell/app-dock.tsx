@@ -73,7 +73,7 @@ function DockIcon({
         <span>{item.label}</span>
         {item.isFavorite && (
           <span className="text-[10px] text-amber-300 font-semibold flex items-center gap-0.5">
-            ★ Favorit
+            Favorit
           </span>
         )}
         {isActive && (
@@ -91,11 +91,6 @@ function DockIcon({
       >
         <item.icon className="w-1/2 h-1/2 shrink-0 pointer-events-none" strokeWidth={item.strokeWidth || 2} />
       </motion.div>
-      {item.isFavorite && !isActive && (
-        <div className="absolute -top-1 -right-1 w-3.5 h-3.5 rounded-full bg-amber-500 text-neutral-950 flex items-center justify-center text-[8px] font-bold shadow-xs pointer-events-none z-30">
-          ★
-        </div>
-      )}
       {isActive && (
         <div className="absolute -bottom-2.5 left-1/2 -translate-x-1/2 w-1.5 h-1.5 rounded-full bg-primary ring-2 ring-primary/30 shadow-xs z-20" />
       )}
@@ -340,19 +335,29 @@ export function AppDock({
 
     // Assemble the dock items:
     // 1. Core items (Launcher, Beranda)
-    // 2. Pinned Favorites (if any)
-    // 3. Separator
-    // 4. Utility tools (Recent, Taskbar, Shortcut, Quick Capture, Terminal, Expand)
-    const appsSection: DockItemConfig[] = [...baseCoreApps, ...dynamicFavs];
+    // 2. Separator garis lurus
+    // 3. Pinned Favorites (5 favorit terpisah dengan garis lurus tanpa emblem bintang)
+    // 4. Separator garis lurus
+    // 5. Utility tools (Recent, Taskbar, Shortcut, Quick Capture, Terminal, Expand)
+    const items: DockItemConfig[] = [...baseCoreApps];
 
-    const separator: DockItemConfig = {
-      id: "dock-separator",
+    const makeSeparator = (id: string): DockItemConfig => ({
+      id,
       label: "",
       icon: () => null,
       isSeparator: true,
-    };
+    });
 
-    return [...appsSection, separator, ...utilityModals];
+    if (dynamicFavs.length > 0) {
+      items.push(makeSeparator("dock-sep-fav-left"));
+      items.push(...dynamicFavs);
+      items.push(makeSeparator("dock-sep-fav-right"));
+    } else {
+      items.push(makeSeparator("dock-separator"));
+    }
+
+    items.push(...utilityModals);
+    return items;
   }, [
     pathname,
     favorites,
