@@ -17,12 +17,29 @@
     <meta name="twitter:card" content="summary_large_image" />
     <link rel="preconnect" href="https://rsms.me/" />
     <link rel="stylesheet" href="https://rsms.me/inter/inter.css" />
-<<<<<<< HEAD
-    <script type="module" crossorigin src="/assets/index-7o38HhzA.js"></script>
-    <link rel="stylesheet" crossorigin href="/assets/index-DQL6v_Pi.css">
     <style id="sidebar-tabs-style">
-      /* 1. Bar di atas tab pada #sidenavLeft menyatu tanpa borderline sama sekali */
-      div#root > div > aside#sidenavLeft > div:nth-of-type(1) {
+      /* Hilangkan seluruh scrollbar vertikal di kanan dan horizontal di bawah */
+      html, body, #root, #mainContent {
+        overflow-x: hidden !important;
+        max-width: 100vw;
+        scrollbar-width: none !important;
+        -ms-overflow-style: none !important;
+      }
+      * {
+        scrollbar-width: none !important;
+        -ms-overflow-style: none !important;
+      }
+      ::-webkit-scrollbar,
+      *::-webkit-scrollbar {
+        display: none !important;
+        width: 0px !important;
+        height: 0px !important;
+        background: transparent !important;
+      }
+
+      /* 1. Bar di atas tab pada #sidenavLeft & #sidenavRight menyatu tanpa borderline sama sekali */
+      div#root > div > aside#sidenavLeft > div:nth-of-type(1),
+      div#root > div > aside#sidenavRight > div:nth-of-type(1) {
         background-color: hsl(var(--primary)) !important;
         background: hsl(var(--primary)) !important;
         border: none !important;
@@ -31,20 +48,31 @@
         box-shadow: none !important;
       }
       div#root > div > aside#sidenavLeft > div:nth-of-type(1)::before,
-      div#root > div > aside#sidenavLeft > div:nth-of-type(1)::after {
+      div#root > div > aside#sidenavLeft > div:nth-of-type(1)::after,
+      div#root > div > aside#sidenavRight > div:nth-of-type(1)::before,
+      div#root > div > aside#sidenavRight > div:nth-of-type(1)::after {
         display: none !important;
       }
-      div#root > div > aside#sidenavLeft > div:nth-of-type(1) button {
+      div#root > div > aside#sidenavLeft > div:nth-of-type(1) button,
+      div#root > div > aside#sidenavRight > div:nth-of-type(1) button {
         color: rgba(255, 255, 255, 0.9) !important;
         border: none !important;
       }
-      div#root > div > aside#sidenavLeft > div:nth-of-type(1) button:hover {
+      div#root > div > aside#sidenavLeft > div:nth-of-type(1) button:hover,
+      div#root > div > aside#sidenavRight > div:nth-of-type(1) button:hover {
         color: #ffffff !important;
         background-color: rgba(255, 255, 255, 0.2) !important;
       }
+      div#root > div > aside#sidenavRight > div:nth-of-type(1) span {
+        color: #ffffff !important;
+        font-weight: 600 !important;
+      }
 
-      /* 2. Container bar tab pada #sidenavLeft menyatu sempurna dengan bar atas tanpa borderline */
-      div#root > div > aside#sidenavLeft > div:nth-of-type(2) {
+      /* 2. Container bar tab pada #sidenavLeft & #sidenavRight menyatu sempurna dengan bar atas tanpa borderline */
+      div#root > div > aside#sidenavLeft > .sidebar-tab-switcher-bar,
+      div#root > div > aside#sidenavRight > .sidebar-tab-switcher-bar,
+      div#root > div > aside#sidenavLeft:not(.w-\[75px\]) > div:nth-of-type(2),
+      div#root > div > aside#sidenavRight > div:nth-of-type(2) {
         background-color: hsl(var(--primary)) !important;
         background: hsl(var(--primary)) !important;
         border: none !important;
@@ -52,14 +80,22 @@
         border-bottom: none !important;
         box-shadow: none !important;
       }
-      div#root > div > aside#sidenavLeft > div:nth-of-type(2)::before,
-      div#root > div > aside#sidenavLeft > div:nth-of-type(2)::after {
+      div#root > div > aside#sidenavLeft > .sidebar-tab-switcher-bar::before,
+      div#root > div > aside#sidenavLeft > .sidebar-tab-switcher-bar::after,
+      div#root > div > aside#sidenavRight > .sidebar-tab-switcher-bar::before,
+      div#root > div > aside#sidenavRight > .sidebar-tab-switcher-bar::after,
+      div#root > div > aside#sidenavLeft:not(.w-\[75px\]) > div:nth-of-type(2)::before,
+      div#root > div > aside#sidenavLeft:not(.w-\[75px\]) > div:nth-of-type(2)::after,
+      div#root > div > aside#sidenavRight > div:nth-of-type(2)::before,
+      div#root > div > aside#sidenavRight > div:nth-of-type(2)::after {
         display: none !important;
       }
 
       /* 3. Khusus tab yang TIDAK AKTIF: menyatu mulus dengan warna biru tanpa borderline */
       div#root > div > aside#sidenavLeft > div:nth-of-type(2) > button.sidebar-tab-inactive-glass,
-      div#root > div > aside#sidenavLeft > div:nth-of-type(2) > button:not(.sidebar-tab-active-glass) {
+      div#root > div > aside#sidenavLeft > div:nth-of-type(2) > button:not(.sidebar-tab-active-glass),
+      div#root > div > aside#sidenavRight > div:nth-of-type(2) > button.sidebar-tab-inactive-glass,
+      div#root > div > aside#sidenavRight > div:nth-of-type(2) > button:not(.sidebar-tab-active-glass) {
         background-color: hsl(var(--primary)) !important;
         background: hsl(var(--primary)) !important;
         color: rgba(255, 255, 255, 0.82) !important;
@@ -76,21 +112,39 @@
       div#root > div > aside#sidenavLeft > div:nth-of-type(2) > button.sidebar-tab-inactive-glass::before,
       div#root > div > aside#sidenavLeft > div:nth-of-type(2) > button.sidebar-tab-inactive-glass::after,
       div#root > div > aside#sidenavLeft > div:nth-of-type(2) > button:not(.sidebar-tab-active-glass)::before,
-      div#root > div > aside#sidenavLeft > div:nth-of-type(2) > button:not(.sidebar-tab-active-glass)::after {
+      div#root > div > aside#sidenavLeft > div:nth-of-type(2) > button:not(.sidebar-tab-active-glass)::after,
+      div#root > div > aside#sidenavRight > div:nth-of-type(2) > button.sidebar-tab-inactive-glass::before,
+      div#root > div > aside#sidenavRight > div:nth-of-type(2) > button.sidebar-tab-inactive-glass::after,
+      div#root > div > aside#sidenavRight > div:nth-of-type(2) > button:not(.sidebar-tab-active-glass)::before,
+      div#root > div > aside#sidenavRight > div:nth-of-type(2) > button:not(.sidebar-tab-active-glass)::after {
         display: none !important;
       }
       div#root > div > aside#sidenavLeft > div:nth-of-type(2) > button.sidebar-tab-inactive-glass:hover,
-      div#root > div > aside#sidenavLeft > div:nth-of-type(2) > button:not(.sidebar-tab-active-glass):hover {
+      div#root > div > aside#sidenavLeft > div:nth-of-type(2) > button:not(.sidebar-tab-active-glass):hover,
+      div#root > div > aside#sidenavRight > div:nth-of-type(2) > button.sidebar-tab-inactive-glass:hover,
+      div#root > div > aside#sidenavRight > div:nth-of-type(2) > button:not(.sidebar-tab-active-glass):hover {
         color: #ffffff !important;
         background-color: rgba(255, 255, 255, 0.16) !important;
       }
       div#root > div > aside#sidenavLeft > div:nth-of-type(2) > button.sidebar-tab-inactive-glass svg,
-      div#root > div > aside#sidenavLeft > div:nth-of-type(2) > button:not(.sidebar-tab-active-glass) svg {
+      div#root > div > aside#sidenavLeft > div:nth-of-type(2) > button:not(.sidebar-tab-active-glass) svg,
+      div#root > div > aside#sidenavRight > div:nth-of-type(2) > button.sidebar-tab-inactive-glass svg,
+      div#root > div > aside#sidenavRight > div:nth-of-type(2) > button:not(.sidebar-tab-active-glass) svg {
         color: rgba(255, 255, 255, 0.85) !important;
+      }
+      div#root > div > aside#sidenavRight > div:nth-of-type(2) > button.sidebar-tab-inactive-glass span,
+      div#root > div > aside#sidenavRight > div:nth-of-type(2) > button:not(.sidebar-tab-active-glass) span {
+        color: rgba(255, 255, 255, 0.88) !important;
+      }
+      div#root > div > aside#sidenavRight > div:nth-of-type(2) > button.sidebar-tab-inactive-glass .rounded-full,
+      div#root > div > aside#sidenavRight > div:nth-of-type(2) > button:not(.sidebar-tab-active-glass) .rounded-full {
+        background-color: rgba(255, 255, 255, 0.22) !important;
+        color: #ffffff !important;
       }
 
       /* 4. Khusus tab yang AKTIF: putih bersih menyatu ke bawah tanpa borderline */
-      div#root > div > aside#sidenavLeft > div:nth-of-type(2) > button.sidebar-tab-active-glass {
+      div#root > div > aside#sidenavLeft > div:nth-of-type(2) > button.sidebar-tab-active-glass,
+      div#root > div > aside#sidenavRight > div:nth-of-type(2) > button.sidebar-tab-active-glass {
         background-color: #ffffff !important;
         background: #ffffff !important;
         color: hsl(var(--primary)) !important;
@@ -108,16 +162,27 @@
         z-index: 30 !important;
       }
       div#root > div > aside#sidenavLeft > div:nth-of-type(2) > button.sidebar-tab-active-glass::before,
-      div#root > div > aside#sidenavLeft > div:nth-of-type(2) > button.sidebar-tab-active-glass::after {
+      div#root > div > aside#sidenavLeft > div:nth-of-type(2) > button.sidebar-tab-active-glass::after,
+      div#root > div > aside#sidenavRight > div:nth-of-type(2) > button.sidebar-tab-active-glass::before,
+      div#root > div > aside#sidenavRight > div:nth-of-type(2) > button.sidebar-tab-active-glass::after {
         display: none !important;
       }
       div#root > div > aside#sidenavLeft > div:nth-of-type(2) > button.sidebar-tab-active-glass svg,
-      div#root > div > aside#sidenavLeft > div:nth-of-type(2) > button.sidebar-tab-active-glass span {
+      div#root > div > aside#sidenavLeft > div:nth-of-type(2) > button.sidebar-tab-active-glass span,
+      div#root > div > aside#sidenavRight > div:nth-of-type(2) > button.sidebar-tab-active-glass svg,
+      div#root > div > aside#sidenavRight > div:nth-of-type(2) > button.sidebar-tab-active-glass span {
+        color: hsl(var(--primary)) !important;
+      }
+      div#root > div > aside#sidenavRight > div:nth-of-type(2) > button.sidebar-tab-active-glass .rounded-full {
+        background-color: hsl(var(--primary) / 0.12) !important;
         color: hsl(var(--primary)) !important;
       }
 
       /* 5. Bagian bawahnya (body menu sidebar): putih menyatu langsung dengan tab aktif tanpa borderline pemisah */
-      div#root > div > aside#sidenavLeft > div:nth-of-type(3) {
+      div#root > div > aside#sidenavLeft:not([class*="w-[75px]"]):not(.w-\[75px\]) > .sidebar-menu-body-glass,
+      div#root > div > aside#sidenavRight > .sidebar-menu-body-glass,
+      div#root > div > aside#sidenavLeft:not([class*="w-[75px]"]):not(.w-\[75px\]) > div:nth-of-type(3),
+      div#root > div > aside#sidenavRight > div:nth-of-type(3) {
         background-color: #ffffff !important;
         background: #ffffff !important;
         border: none !important;
@@ -126,33 +191,127 @@
         box-shadow: none !important;
         margin-top: 0 !important;
       }
-      div#root > div > aside#sidenavLeft > div:nth-of-type(3)::before,
-      div#root > div > aside#sidenavLeft > div:nth-of-type(3)::after {
+      div#root > div > aside#sidenavLeft:not([class*="w-[75px]"]):not(.w-\[75px\]) > .sidebar-menu-body-glass::before,
+      div#root > div > aside#sidenavLeft:not([class*="w-[75px]"]):not(.w-\[75px\]) > .sidebar-menu-body-glass::after,
+      div#root > div > aside#sidenavRight > .sidebar-menu-body-glass::before,
+      div#root > div > aside#sidenavRight > .sidebar-menu-body-glass::after,
+      div#root > div > aside#sidenavLeft:not([class*="w-[75px]"]):not(.w-\[75px\]) > div:nth-of-type(3)::before,
+      div#root > div > aside#sidenavLeft:not([class*="w-[75px]"]):not(.w-\[75px\]) > div:nth-of-type(3)::after,
+      div#root > div > aside#sidenavRight > div:nth-of-type(3)::before,
+      div#root > div > aside#sidenavRight > div:nth-of-type(3)::after {
         display: none !important;
+      }
+
+      /* 6. Khusus saat MINIMIZE (75px): Seluruh kotak body sidebar kiri FULL BIRU menyatu dengan header */
+      div#root > div > aside#sidenavLeft[class*="w-[75px]"],
+      div#root > div > aside#sidenavLeft.w-\[75px\],
+      div#root > div > aside#sidenavLeft[class*="w-[75px]"] > .sidebar-menu-body-glass,
+      div#root > div > aside#sidenavLeft.w-\[75px\] > .sidebar-menu-body-glass,
+      div#root > div > aside#sidenavLeft[class*="w-[75px]"] > div:nth-of-type(2),
+      div#root > div > aside#sidenavLeft.w-\[75px\] > div:nth-of-type(2) {
+        background-color: hsl(var(--primary)) !important;
+        background: hsl(var(--primary)) !important;
+        border: none !important;
+        border-top: none !important;
+        outline: none !important;
+        box-shadow: none !important;
       }
 
       /* Dukungan Dark Mode tanpa borderline */
       .dark div#root > div > aside#sidenavLeft > div:nth-of-type(1),
       .dark div#root > div > aside#sidenavLeft > div:nth-of-type(2),
       .dark div#root > div > aside#sidenavLeft > div:nth-of-type(2) > button.sidebar-tab-inactive-glass,
-      .dark div#root > div > aside#sidenavLeft > div:nth-of-type(2) > button:not(.sidebar-tab-active-glass) {
+      .dark div#root > div > aside#sidenavLeft > div:nth-of-type(2) > button:not(.sidebar-tab-active-glass),
+      .dark div#root > div > aside#sidenavRight > div:nth-of-type(1),
+      .dark div#root > div > aside#sidenavRight > div:nth-of-type(2),
+      .dark div#root > div > aside#sidenavRight > div:nth-of-type(2) > button.sidebar-tab-inactive-glass,
+      .dark div#root > div > aside#sidenavRight > div:nth-of-type(2) > button:not(.sidebar-tab-active-glass) {
         background-color: hsl(221.2 83.2% 42%) !important;
         background: hsl(221.2 83.2% 42%) !important;
         border: none !important;
         box-shadow: none !important;
       }
-      .dark div#root > div > aside#sidenavLeft > div:nth-of-type(2) > button.sidebar-tab-active-glass {
+      .dark div#root > div > aside#sidenavLeft > div:nth-of-type(2) > button.sidebar-tab-active-glass,
+      .dark div#root > div > aside#sidenavRight > div:nth-of-type(2) > button.sidebar-tab-active-glass {
         background-color: #ffffff !important;
         background: #ffffff !important;
         color: hsl(221.2 83.2% 53.3%) !important;
         border: none !important;
         box-shadow: none !important;
       }
-      .dark div#root > div > aside#sidenavLeft > div:nth-of-type(3) {
+      .dark div#root > div > aside#sidenavLeft:not([class*="w-[75px]"]):not(.w-\[75px\]) > .sidebar-menu-body-glass,
+      .dark div#root > div > aside#sidenavRight > .sidebar-menu-body-glass,
+      .dark div#root > div > aside#sidenavLeft:not([class*="w-[75px]"]):not(.w-\[75px\]) > div:nth-of-type(3),
+      .dark div#root > div > aside#sidenavRight > div:nth-of-type(3) {
         background-color: #ffffff !important;
         background: #ffffff !important;
         border: none !important;
         box-shadow: none !important;
+      }
+
+      .dark div#root > div > aside#sidenavLeft[class*="w-[75px]"],
+      .dark div#root > div > aside#sidenavLeft.w-\[75px\],
+      .dark div#root > div > aside#sidenavLeft[class*="w-[75px]"] > .sidebar-menu-body-glass,
+      .dark div#root > div > aside#sidenavLeft.w-\[75px\] > .sidebar-menu-body-glass,
+      .dark div#root > div > aside#sidenavLeft[class*="w-[75px]"] > div:nth-of-type(2),
+      .dark div#root > div > aside#sidenavLeft.w-\[75px\] > div:nth-of-type(2) {
+        background-color: hsl(221.2 83.2% 42%) !important;
+        background: hsl(221.2 83.2% 42%) !important;
+        border: none !important;
+        box-shadow: none !important;
+      }
+
+      /* Penyesuaian elemen pada sidebar kanan (#sidenavRight) body */
+      div#root > div > aside#sidenavRight > div:nth-of-type(3) h3,
+      div#root > div > aside#sidenavRight > div:nth-of-type(3) h4,
+      div#root > div > aside#sidenavRight > div:nth-of-type(3) .text-foreground {
+        color: #0f172a !important;
+      }
+      div#root > div > aside#sidenavRight > div:nth-of-type(3) p,
+      div#root > div > aside#sidenavRight > div:nth-of-type(3) .text-muted-foreground {
+        color: #64748b !important;
+      }
+      div#root > div > aside#sidenavRight > div:nth-of-type(3) button.h-9,
+      div#root > div > aside#sidenavRight > div:nth-of-type(3) a.h-9 {
+        background-color: #f1f5f9 !important;
+        border-color: #e2e8f0 !important;
+        color: #0f172a !important;
+      }
+      div#root > div > aside#sidenavRight > div:nth-of-type(3) button.h-9:hover,
+      div#root > div > aside#sidenavRight > div:nth-of-type(3) a.h-9:hover {
+        background-color: #e2e8f0 !important;
+      }
+      div#root > div > aside#sidenavRight > div:nth-of-type(3) .border-t {
+        border-color: #e2e8f0 !important;
+      }
+      div#root > div > aside#sidenavRight > div:nth-of-type(3) .group.flex.items-center.justify-between.rounded-xl {
+        background-color: #f8fafc !important;
+        border-color: #e2e8f0 !important;
+        color: #0f172a !important;
+      }
+      div#root > div > aside#sidenavRight > div:nth-of-type(3) .group.flex.items-center.justify-between.rounded-xl:hover {
+        background-color: #f1f5f9 !important;
+      }
+      div#root > div > aside#sidenavRight > div:nth-of-type(3) a.rounded-xl {
+        background-color: #f8fafc !important;
+        border-color: #e2e8f0 !important;
+        color: #0f172a !important;
+      }
+      div#root > div > aside#sidenavRight > div:nth-of-type(3) a.rounded-xl:hover {
+        background-color: #f1f5f9 !important;
+      }
+      div#root > div > aside#sidenavRight > div:nth-of-type(3) button.rounded-xl {
+        background-color: #f8fafc !important;
+        border-color: #e2e8f0 !important;
+        color: #0f172a !important;
+      }
+      div#root > div > aside#sidenavRight > div:nth-of-type(3) button.rounded-xl:hover {
+        background-color: #f1f5f9 !important;
+      }
+      div#root > div > aside#sidenavRight > div:nth-of-type(3) kbd {
+        background-color: #e2e8f0 !important;
+        border-color: #cbd5e1 !important;
+        color: #475569 !important;
       }
 
       /* 6. Penyesuaian elemen navigasi & shortcut pada latar belakang biru (#sidenavLeft) */
@@ -249,21 +408,15 @@
   </head>
   <body>
     <!-- SVG Filter (Liquid Glass Distortion) -->
-=======
   </head>
   <body>
     <!-- SVG Filter (include once in your document) -->
->>>>>>> cd427a6a3574e601b7e79e5bbe64058b493c3b7f
     <svg width="0" height="0" style="position: absolute; pointer-events: none;" aria-hidden="true">
       <defs>
         <filter id="glass-distortion" x="0%" y="0%" width="100%" height="100%">
           <feTurbulence 
             type="fractalNoise" 
-<<<<<<< HEAD
             baseFrequency="0.012 0.012"
-=======
-            baseFrequency="0.008 0.008"
->>>>>>> cd427a6a3574e601b7e79e5bbe64058b493c3b7f
             numOctaves="2" 
             seed="92" 
             result="noise" 
@@ -276,11 +429,7 @@
           <feDisplacementMap 
             in="SourceGraphic" 
             in2="blurred" 
-<<<<<<< HEAD
             scale="85"
-=======
-            scale="150"
->>>>>>> cd427a6a3574e601b7e79e5bbe64058b493c3b7f
             xChannelSelector="R" 
             yChannelSelector="G" 
           />
@@ -288,10 +437,6 @@
       </defs>
     </svg>
     <div id="root"></div>
-<<<<<<< HEAD
-=======
     <script type="module" src="/src/main.tsx"></script>
->>>>>>> cd427a6a3574e601b7e79e5bbe64058b493c3b7f
   </body>
 </html>
-

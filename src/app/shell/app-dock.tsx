@@ -82,8 +82,8 @@ function DockIcon({
       </div>
       <motion.div
         ref={ref}
-        style={{ width, height: width, borderRadius: "24%" }}
-        className={`flex items-center justify-center cursor-pointer transition-colors relative z-20 ${
+        style={{ width, height: width, borderRadius: "9999px" }}
+        className={`flex items-center justify-center cursor-pointer transition-colors relative z-20 rounded-full ${
           isActive 
             ? "gradient-primary bg-primary text-primary-foreground shadow-lg shadow-primary/30 border-white/30 ring-2 ring-primary/40" 
             : "bg-card/90 text-muted-foreground shadow-xs hover:bg-accent hover:text-foreground border-border hover:shadow-md"
@@ -145,6 +145,7 @@ export function AppDock({
   isExpandOpen: propIsExpandOpen,
   isRecentOpen,
   isTaskbarOpen,
+  sidebarShift = false,
 }: {
   onQuickCapture?: () => void;
   onShortcut?: () => void;
@@ -158,6 +159,7 @@ export function AppDock({
   isExpandOpen?: boolean;
   isRecentOpen?: boolean;
   isTaskbarOpen?: boolean;
+  sidebarShift?: boolean;
 }) {
   const mouseX = useMotionValue(Infinity);
   const pathname = useRouterState({ select: (s) => s.location.pathname });
@@ -367,7 +369,13 @@ export function AppDock({
 
   return (
     <>
-      <div className="fixed bottom-5 left-1/2 -translate-x-1/2 z-50 flex items-center justify-center max-w-[95vw] pointer-events-none">
+      <div
+        className="fixed bottom-5 z-50 flex items-center justify-center max-w-[95vw] pointer-events-none transition-[left] duration-300 ease-in-out"
+        style={{
+          left: sidebarShift ? "calc(50% + 37.5px)" : "50%",
+          transform: "translateX(-50%)",
+        }}
+      >
         <motion.div
           onMouseMove={(e) => mouseX.set(e.pageX)}
           onMouseLeave={() => mouseX.set(Infinity)}

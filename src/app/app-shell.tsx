@@ -11,7 +11,6 @@ import { AnimatedSearchIcon } from "./shell/AnimatedSearchIcon";
 import {
   WindowPositionLeftIcon,
   WindowPositionRightIcon,
-  WindowPositionTopIcon,
 } from "@/components/icons/WindowPositionIcons";
 import { useState, useEffect, useMemo, useRef, useCallback, useLayoutEffect } from "react";
 import { Link, useNavigate, useRouterState } from "@tanstack/react-router";
@@ -562,23 +561,6 @@ export function AppShell({
     }
   }, [isLeftSidebar75]);
 
-  const [isLeftMenuOpen, setIsLeftMenuOpen] = useState(false);
-  const leftMenuRef = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    function handleClickOutside(e: MouseEvent) {
-      if (leftMenuRef.current && !leftMenuRef.current.contains(e.target as Node)) {
-        setIsLeftMenuOpen(false);
-      }
-    }
-    if (isLeftMenuOpen) {
-      document.addEventListener("mousedown", handleClickOutside);
-    }
-    return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
-    };
-  }, [isLeftMenuOpen]);
-
   const [activeSettingsTab, setActiveSettingsTab] = useState("general");
   const { favorites, toggleFavorite } = useFavorites();
 
@@ -783,7 +765,7 @@ export function AppShell({
         id="sidenavLeft"
         className={`fixed inset-y-0 left-0 z-50 flex ${
           isLeftSidebar75
-            ? "w-[75px] liquid-glass-sidebar-left border-r border-primary/20 shadow-xl"
+            ? "w-[75px] bg-primary border-r border-white/20 shadow-xl"
             : "w-[350px] liquid-glass-sidebar-left"
         } max-w-[85vw] shrink-0 flex-col transition-all duration-300 ease-in-out ${openDrawer === "left" ? "translate-x-0" : "-translate-x-full"}`}
       >
@@ -795,239 +777,77 @@ export function AppShell({
         >
           {!isLeftSidebar75 ? (
             <>
-              <div className="flex items-center gap-2">
-                {/* 3 Dots macOS Traffic Light Controls (Close, Minimize, Expand) */}
-                <div className="flex items-center gap-1.5 mr-1 pl-0.5">
-                  <button
-                    type="button"
-                    onClick={closeLeftSidebar}
-                    title="Tutup Navigasi (Close)"
-                    aria-label="Tutup navigasi"
-                    className="size-3 rounded-full bg-rose-500 hover:bg-rose-600 transition-transform active:scale-90 shadow-2xs cursor-pointer"
-                  />
-                  <button
-                    type="button"
-                    onClick={toggleLeftSidebar75}
-                    title="Mode Ringkas 75px (Compact)"
-                    aria-label="Mode ringkas 75px"
-                    className="size-3 rounded-full bg-amber-500 hover:bg-amber-600 transition-transform active:scale-90 shadow-2xs cursor-pointer"
-                  />
-                  <button
-                    type="button"
-                    onClick={() => setIsLeftSidebar75(false)}
-                    title="Lebar Penuh 350px (Expand)"
-                    aria-label="Lebar penuh 350px"
-                    className="size-3 rounded-full bg-emerald-500 hover:bg-emerald-600 transition-transform active:scale-90 shadow-2xs cursor-pointer"
-                  />
-                </div>
+              <button
+                type="button"
+                className="p-1.5 sm:p-2 rounded-xl text-primary bg-white/20 dark:bg-white/10 border border-white/25 backdrop-blur-md transition-all hover:bg-white/30 cursor-pointer shadow-2xs hover:scale-105 active:scale-95"
+                onClick={closeLeftSidebar}
+                title="Sembunyikan Navigasi"
+                aria-label="Tutup sidebar kiri"
+              >
+                <WindowPositionLeftIcon size={20} />
+              </button>
 
-                <button
-                  type="button"
-                  className="p-1.5 sm:p-2 rounded-xl text-primary bg-white/20 dark:bg-white/10 border border-white/25 backdrop-blur-md transition-all hover:bg-white/30 cursor-pointer shadow-2xs hover:scale-105 active:scale-95"
-                  onClick={closeLeftSidebar}
-                  title="Sembunyikan Navigasi"
-                  aria-label="Tutup sidebar kiri"
-                >
-                  <WindowPositionLeftIcon size={20} />
-                </button>
-              </div>
-
-              {/* 3 Dots Action Menu Button (MoreVertical) */}
-              <div className="relative" ref={!isLeftSidebar75 ? leftMenuRef : undefined}>
-                <button
-                  type="button"
-                  onClick={() => setIsLeftMenuOpen((prev) => !prev)}
-                  className={`p-1.5 sm:p-2 rounded-xl transition-all cursor-pointer shadow-2xs hover:scale-105 active:scale-95 border ${
-                    isLeftMenuOpen
-                      ? "bg-primary text-primary-foreground border-primary/50 shadow-md"
-                      : "text-muted-foreground hover:text-foreground bg-white/10 hover:bg-white/20 dark:bg-white/5 dark:hover:bg-white/15 border-white/20"
-                  }`}
-                  title="Menu Opsi Navigasi (3 Dots)"
-                  aria-label="3 dots menu navigasi"
-                >
-                  <MoreVertical className="size-4" />
-                </button>
-
-                {/* 3 Dots Dropdown Menu */}
-                {isLeftMenuOpen && (
-                  <div className="absolute right-0 top-full mt-2 w-52 rounded-2xl liquid-glass-panel p-1.5 shadow-2xl z-50 animate-in fade-in zoom-in-95 border border-white/25 dark:border-white/15 backdrop-blur-xl bg-card/95 text-card-foreground">
-                    <div className="px-2 py-1.5 text-[11px] font-semibold text-muted-foreground uppercase tracking-wider border-b border-border/40 mb-1">
-                      Opsi Sidebar Navigasi
-                    </div>
-                    <button
-                      type="button"
-                      onClick={() => {
-                        toggleLeftSidebar75();
-                        setIsLeftMenuOpen(false);
-                      }}
-                      className="w-full flex items-center justify-between px-2.5 py-2 text-xs rounded-xl hover:bg-primary/15 hover:text-primary transition-colors cursor-pointer text-left"
-                    >
-                      <span className="flex items-center gap-2">
-                        <Gauge className="size-3.5" />
-                        Mode Ringkas (75px)
-                      </span>
-                      {isLeftSidebar75 && <span className="size-1.5 rounded-full bg-primary" />}
-                    </button>
-                    <button
-                      type="button"
-                      onClick={() => {
-                        handleOpenSettings("general");
-                        setIsLeftMenuOpen(false);
-                      }}
-                      className="w-full flex items-center gap-2 px-2.5 py-2 text-xs rounded-xl hover:bg-primary/15 hover:text-primary transition-colors cursor-pointer text-left"
-                    >
-                      <Settings className="size-3.5" />
-                      Pengaturan Workspace
-                    </button>
-                    <div className="h-px bg-border/40 my-1" />
-                    <button
-                      type="button"
-                      onClick={() => {
-                        closeLeftSidebar();
-                        setIsLeftMenuOpen(false);
-                      }}
-                      className="w-full flex items-center gap-2 px-2.5 py-2 text-xs rounded-xl hover:bg-destructive/15 text-destructive transition-colors cursor-pointer text-left"
-                    >
-                      <WindowPositionLeftIcon size={14} />
-                      Tutup Sidebar
-                    </button>
-                  </div>
-                )}
-              </div>
+              {/* 3 Dots: Klik langsung minimize / switch ke mode ringkas 75px */}
+              <button
+                type="button"
+                onClick={toggleLeftSidebar75}
+                className="p-1.5 sm:p-2 rounded-xl transition-all cursor-pointer shadow-2xs hover:scale-105 active:scale-95 border border-white/25 bg-white/20 hover:bg-white/30 text-white"
+                title="Mode Ringkas 75px (Minimize)"
+                aria-label="Mode ringkas 75px"
+              >
+                <MoreVertical className="size-4" />
+              </button>
             </>
           ) : (
-            /* Mode Ringkas 75px: Menampilkan 3 Dots (Traffic Lights) + Tombol Menu Icon 3 Dots (MoreVertical) */
-            <div className="w-full flex flex-col items-center justify-center gap-1.5">
-              {/* 3 Dots macOS Traffic Light Controls (Close, Minimize, Expand) */}
-              <div className="flex items-center justify-center gap-1.5 px-2 py-1 rounded-full bg-slate-900/40 dark:bg-black/50 border border-white/15 shadow-inner">
-                <button
-                  type="button"
-                  onClick={closeLeftSidebar}
-                  title="Tutup Navigasi (Close)"
-                  aria-label="Tutup navigasi"
-                  className="size-2.5 rounded-full bg-rose-500 hover:bg-rose-600 transition-transform hover:scale-125 active:scale-90 shadow-2xs cursor-pointer"
-                />
-                <button
-                  type="button"
-                  onClick={toggleLeftSidebar75}
-                  title="Mode Ringkas 75px (Compact - Aktif)"
-                  aria-label="Mode ringkas 75px"
-                  className="size-2.5 rounded-full bg-amber-500 hover:bg-amber-600 transition-transform hover:scale-125 active:scale-90 shadow-2xs cursor-pointer ring-1 ring-amber-300/80"
-                />
-                <button
-                  type="button"
-                  onClick={() => {
-                    setIsLeftSidebar75(false);
-                    try {
-                      localStorage.setItem("aio_left_sidebar_75", "false");
-                    } catch {}
-                  }}
-                  title="Perluas Lebar Penuh 350px (Expand)"
-                  aria-label="Lebar penuh 350px"
-                  className="size-2.5 rounded-full bg-emerald-500 hover:bg-emerald-600 transition-transform hover:scale-125 active:scale-90 shadow-2xs cursor-pointer"
-                />
-              </div>
-
-              {/* 3 Dots Action Menu Button (MoreVertical) dengan Dropdown */}
-              <div className="relative" ref={isLeftSidebar75 ? leftMenuRef : undefined}>
-                <button
-                  type="button"
-                  onClick={() => setIsLeftMenuOpen((prev) => !prev)}
-                  className={`p-1 rounded-lg transition-all cursor-pointer shadow-2xs hover:scale-105 active:scale-95 border ${
-                    isLeftMenuOpen
-                      ? "bg-primary text-primary-foreground border-primary/50 shadow-md"
-                      : "text-muted-foreground hover:text-foreground bg-white/10 hover:bg-white/20 dark:bg-white/5 dark:hover:bg-white/15 border-white/20"
-                  }`}
-                  title="Menu Opsi Navigasi (3 Dots)"
-                  aria-label="3 dots menu navigasi"
-                >
-                  <MoreVertical className="size-3.5" />
-                </button>
-
-                {/* Dropdown Menu untuk Mode Ringkas */}
-                {isLeftMenuOpen && (
-                  <div className="absolute left-full top-0 ml-3 w-52 rounded-2xl liquid-glass-panel p-1.5 shadow-2xl z-50 animate-in fade-in zoom-in-95 border border-white/25 dark:border-white/15 backdrop-blur-xl bg-card/95 text-card-foreground">
-                    <div className="px-2 py-1.5 text-[11px] font-semibold text-muted-foreground uppercase tracking-wider border-b border-border/40 mb-1">
-                      Opsi Sidebar Navigasi
-                    </div>
-                    <button
-                      type="button"
-                      onClick={() => {
-                        setIsLeftSidebar75(false);
-                        try {
-                          localStorage.setItem("aio_left_sidebar_75", "false");
-                        } catch {}
-                        setIsLeftMenuOpen(false);
-                      }}
-                      className="w-full flex items-center justify-between px-2.5 py-2 text-xs rounded-xl hover:bg-primary/15 hover:text-primary transition-colors cursor-pointer text-left"
-                    >
-                      <span className="flex items-center gap-2">
-                        <Gauge className="size-3.5" />
-                        Mode Penuh (350px)
-                      </span>
-                    </button>
-                    <button
-                      type="button"
-                      onClick={() => {
-                        handleOpenSettings("general");
-                        setIsLeftMenuOpen(false);
-                      }}
-                      className="w-full flex items-center gap-2 px-2.5 py-2 text-xs rounded-xl hover:bg-primary/15 hover:text-primary transition-colors cursor-pointer text-left"
-                    >
-                      <Settings className="size-3.5" />
-                      Pengaturan Workspace
-                    </button>
-                    <div className="h-px bg-border/40 my-1" />
-                    <button
-                      type="button"
-                      onClick={() => {
-                        closeLeftSidebar();
-                        setIsLeftMenuOpen(false);
-                      }}
-                      className="w-full flex items-center gap-2 px-2.5 py-2 text-xs rounded-xl hover:bg-destructive/15 text-destructive transition-colors cursor-pointer text-left"
-                    >
-                      <WindowPositionLeftIcon size={14} />
-                      Tutup Sidebar
-                    </button>
-                  </div>
-                )}
-              </div>
+            /* Mode Ringkas 75px: Hanya 3 Dots untuk mengembalikan ke 350px (tombol kedua dihapus) */
+            <div className="w-full flex items-center justify-center">
+              <button
+                type="button"
+                onClick={toggleLeftSidebar75}
+                className="p-1.5 rounded-xl transition-all cursor-pointer shadow-2xs hover:scale-105 active:scale-95 border border-white/25 bg-white/20 hover:bg-white/30 text-white"
+                title="Perluas ke Lebar Penuh (350px)"
+                aria-label="Perluas ke 350px"
+              >
+                <MoreVertical className="size-4" />
+              </button>
             </div>
           )}
         </div>
 
-        {/* View switcher: Ribbon Tab - ujung/bagian atas tab diturunkan sejajar serata garis header 60px */}
-        <div className="flex items-end w-full h-10 bg-white/10 dark:bg-white/5 shrink-0 gap-0 relative z-20">
-          {/* Bilah Tab 1: Navigation */}
-          <button
-            type="button"
-            onClick={() => setSidebarView("navigation")}
-            className={`relative flex-1 h-10 flex items-center justify-center gap-2 px-2 text-xs transition-all cursor-pointer rounded-tl-none rounded-tr-xl -mb-px ${
-              sidebarView === "navigation"
-                ? "sidebar-tab-active-glass !border-b-0"
-                : "sidebar-tab-inactive-glass"
-            }`}
-            title="Navigation"
-          >
-            <Navigation className="h-3.5 w-3.5 shrink-0" />
-            {!isLeftSidebar75 && <span className="truncate">Navigation</span>}
-          </button>
+        {/* View switcher: Ribbon Tab - hanya muncul di mode full view (tidak muncul saat minimize) */}
+        {!isLeftSidebar75 && (
+          <div className="sidebar-tab-switcher-bar flex items-end w-full h-10 bg-white/10 dark:bg-white/5 shrink-0 gap-0 relative z-20">
+            {/* Bilah Tab 1: Navigation */}
+            <button
+              type="button"
+              onClick={() => setSidebarView("navigation")}
+              className={`relative flex-1 h-10 flex items-center justify-center gap-2 px-2 text-xs transition-all cursor-pointer rounded-tl-none rounded-tr-xl -mb-px ${
+                sidebarView === "navigation"
+                  ? "sidebar-tab-active-glass !border-b-0"
+                  : "sidebar-tab-inactive-glass"
+              }`}
+              title="Navigation"
+            >
+              <Navigation className="h-3.5 w-3.5 shrink-0" />
+              <span className="truncate">Navigation</span>
+            </button>
 
-          {/* Bilah Tab 2: Menu */}
-          <button
-            type="button"
-            onClick={() => setSidebarView("menu")}
-            className={`relative flex-1 h-10 flex items-center justify-center gap-2 px-2 text-xs transition-all cursor-pointer rounded-tl-xl rounded-tr-none -mb-px ${
-              sidebarView === "menu"
-                ? "sidebar-tab-active-glass !border-b-0"
-                : "sidebar-tab-inactive-glass"
-            }`}
-            title="Menu"
-          >
-            <Menu className="h-3.5 w-3.5 shrink-0" />
-            {!isLeftSidebar75 && <span className="truncate">Menu</span>}
-          </button>
-        </div>
+            {/* Bilah Tab 2: Menu */}
+            <button
+              type="button"
+              onClick={() => setSidebarView("menu")}
+              className={`relative flex-1 h-10 flex items-center justify-center gap-2 px-2 text-xs transition-all cursor-pointer rounded-tl-xl rounded-tr-none -mb-px ${
+                sidebarView === "menu"
+                  ? "sidebar-tab-active-glass !border-b-0"
+                  : "sidebar-tab-inactive-glass"
+              }`}
+              title="Menu"
+            >
+              <Menu className="h-3.5 w-3.5 shrink-0" />
+              <span className="truncate">Menu</span>
+            </button>
+          </div>
+        )}
 
         <div className="flex-1 min-h-0 overflow-y-auto no-scrollbar px-3 pt-5 pb-4 sidebar-menu-body-glass">
           {/* Slot untuk konten sidebar milik app (target portal ShellSidebar) */}
@@ -1061,8 +881,8 @@ export function AppShell({
                 </div>
               ) : (
                 <div className="flex justify-center py-1" title={`${activeModeConfig.label}: ${activeModeConfig.desc}`}>
-                  <div className="size-8 rounded-full bg-primary/20 border border-primary flex items-center justify-center text-primary shrink-0">
-                    <activeModeConfig.icon className="size-3.5" />
+                  <div className="size-10 rounded-2xl bg-white/20 hover:bg-white/30 border border-white/30 flex items-center justify-center text-white shrink-0 shadow-xs transition-transform hover:scale-105 cursor-pointer">
+                    <activeModeConfig.icon className="size-5 text-white" />
                   </div>
                 </div>
               )}
@@ -1083,13 +903,29 @@ export function AppShell({
                       to={link.to}
                       onClick={() => setOpenDrawer(null)}
                       title={link.label}
-                      className={`flex items-center ${isLeftSidebar75 ? "justify-center p-2.5" : "gap-2.5 px-3 py-2"} rounded-xl text-xs transition-all border ${
-                        isActive
-                          ? "bg-primary/15 border-primary/40 text-primary font-semibold shadow-2xs"
-                          : "bg-white/10 dark:bg-white/5 border-white/15 dark:border-white/10 text-foreground hover:bg-white/20 dark:hover:bg-white/10"
+                      className={`flex items-center ${
+                        isLeftSidebar75
+                          ? `justify-center p-2.5 rounded-xl border transition-all hover:scale-105 active:scale-95 ${
+                              isActive
+                                ? "bg-white text-primary border-white font-bold shadow-md ring-2 ring-white/40"
+                                : "bg-white/10 hover:bg-white/20 border-white/20 text-white/90 hover:text-white"
+                            }`
+                          : `gap-2.5 px-3 py-2 rounded-xl text-xs transition-all border ${
+                              isActive
+                                ? "bg-primary/15 border-primary/40 text-primary font-semibold shadow-2xs"
+                                : "bg-white/10 dark:bg-white/5 border-white/15 dark:border-white/10 text-foreground hover:bg-white/20 dark:hover:bg-white/10"
+                            }`
                       }`}
                     >
-                      <Icon className="size-4 shrink-0 text-primary" />
+                      <Icon
+                        className={`size-4 shrink-0 ${
+                          isLeftSidebar75
+                            ? isActive
+                              ? "text-primary"
+                              : "text-white"
+                            : "text-primary"
+                        }`}
+                      />
                       {!isLeftSidebar75 && <span className="truncate">{link.label}</span>}
                     </Link>
                   );
@@ -1097,7 +933,7 @@ export function AppShell({
               </div>
 
               {/* Pintasan Utama */}
-              <div className="flex flex-col gap-1.5 pt-2 border-t border-white/15 dark:border-white/10">
+              <div className={`flex flex-col gap-1.5 pt-2 border-t ${isLeftSidebar75 ? "border-white/20" : "border-white/15 dark:border-white/10"}`}>
                 {!isLeftSidebar75 && (
                   <p className="px-1 text-[11px] font-semibold uppercase tracking-wider text-muted-foreground">
                     Pintasan Cepat
@@ -1112,13 +948,29 @@ export function AppShell({
                       to={item.to}
                       onClick={() => setOpenDrawer(null)}
                       title={item.label}
-                      className={`flex items-center ${isLeftSidebar75 ? "justify-center p-2.5" : "gap-2.5 px-3 py-2"} rounded-xl text-xs transition-all border ${
-                        isActive
-                          ? "bg-primary/15 border-primary/40 text-primary font-semibold shadow-2xs"
-                          : "bg-white/10 dark:bg-white/5 border-white/15 dark:border-white/10 text-foreground hover:bg-white/20 dark:hover:bg-white/10"
+                      className={`flex items-center ${
+                        isLeftSidebar75
+                          ? `justify-center p-2.5 rounded-xl border transition-all hover:scale-105 active:scale-95 ${
+                              isActive
+                                ? "bg-white text-primary border-white font-bold shadow-md ring-2 ring-white/40"
+                                : "bg-white/10 hover:bg-white/20 border-white/20 text-white/90 hover:text-white"
+                            }`
+                          : `gap-2.5 px-3 py-2 rounded-xl text-xs transition-all border ${
+                              isActive
+                                ? "bg-primary/15 border-primary/40 text-primary font-semibold shadow-2xs"
+                                : "bg-white/10 dark:bg-white/5 border-white/15 dark:border-white/10 text-foreground hover:bg-white/20 dark:hover:bg-white/10"
+                            }`
                       }`}
                     >
-                      <Icon className="size-4 shrink-0 text-muted-foreground" />
+                      <Icon
+                        className={`size-4 shrink-0 ${
+                          isLeftSidebar75
+                            ? isActive
+                              ? "text-primary"
+                              : "text-white/85"
+                            : "text-muted-foreground"
+                        }`}
+                      />
                       {!isLeftSidebar75 && <span className="truncate">{item.label}</span>}
                     </Link>
                   );
@@ -1147,15 +999,29 @@ export function AppShell({
                         window.dispatchEvent(new Event("aio_mode_changed"));
                       } catch {}
                     }}
-                    className={`flex items-center ${isLeftSidebar75 ? "justify-center p-2" : "gap-3 p-2.5"} w-full rounded-xl border text-left transition-all cursor-pointer ${
-                      isSelected
-                        ? "border-primary/40 bg-white/30 dark:bg-white/15 text-foreground font-semibold shadow-2xs"
-                        : "border-white/15 dark:border-white/10 bg-white/10 dark:bg-white/5 text-muted-foreground hover:bg-white/20 hover:text-foreground"
+                    className={`flex items-center ${
+                      isLeftSidebar75
+                        ? `justify-center p-2 rounded-xl border transition-all hover:scale-105 active:scale-95 cursor-pointer ${
+                            isSelected
+                              ? "bg-white text-primary border-white font-bold shadow-md ring-2 ring-white/40"
+                              : "bg-white/10 hover:bg-white/20 border-white/20 text-white/90 hover:text-white"
+                          }`
+                        : `gap-3 p-2.5 w-full rounded-xl border text-left transition-all cursor-pointer ${
+                            isSelected
+                              ? "border-primary/40 bg-white/30 dark:bg-white/15 text-foreground font-semibold shadow-2xs"
+                              : "border-white/15 dark:border-white/10 bg-white/10 dark:bg-white/5 text-muted-foreground hover:bg-white/20 hover:text-foreground"
+                          }`
                     }`}
                   >
                     <span
                       className={`grid size-8 place-items-center rounded-lg shrink-0 ${
-                        isSelected ? "bg-primary text-primary-foreground" : "bg-white/15 dark:bg-white/10 text-muted-foreground"
+                        isLeftSidebar75
+                          ? isSelected
+                            ? "bg-primary text-white"
+                            : "bg-white/20 text-white"
+                          : isSelected
+                            ? "bg-primary text-primary-foreground"
+                            : "bg-white/15 dark:bg-white/10 text-muted-foreground"
                       }`}
                     >
                       <Icon className="size-4" />
@@ -1190,7 +1056,7 @@ export function AppShell({
         </div>
 
         {/* Right Sidebar Tab Switcher: Ribbon Tab diturunkan sejajar serata di bawah garis header 60px */}
-        <div className="flex items-end w-full h-10 bg-white/10 dark:bg-white/5 shrink-0 gap-0 relative z-20">
+        <div className="sidebar-tab-switcher-bar flex items-end w-full h-10 bg-white/10 dark:bg-white/5 shrink-0 gap-0 relative z-20">
           <button
             type="button"
             onClick={() => setRightSidebarTab("control")}
@@ -1212,7 +1078,7 @@ export function AppShell({
                 : "sidebar-tab-inactive-glass"
             }`}
           >
-            <Star className={`h-3.5 w-3.5 shrink-0 ${rightSidebarTab === "favorites" ? "text-amber-500 fill-amber-500" : "text-muted-foreground"}`} />
+            <Star className={`h-3.5 w-3.5 shrink-0 ${rightSidebarTab === "favorites" ? "text-amber-500 fill-amber-500" : "text-white/80"}`} />
             <span className="truncate">Favorit</span>
             {favorites.length > 0 && (
               <span className={`text-[10px] px-1.5 py-0.2 rounded-full font-bold leading-none shrink-0 ${
@@ -1397,8 +1263,15 @@ export function AppShell({
         </div>
 
       </aside>
-      <main id="mainContent" className="relative flex flex-1 flex-col overflow-hidden w-full">
-        {openDrawer && (
+      <main
+        id="mainContent"
+        className={`relative flex flex-1 flex-col overflow-hidden transition-[margin,width] duration-300 ease-in-out ${
+          openDrawer === "left" && isLeftSidebar75
+            ? "ml-[75px] w-[calc(100%-75px)]"
+            : "ml-0 w-full"
+        }`}
+      >
+        {openDrawer && !(openDrawer === "left" && isLeftSidebar75) && (
           <div
             className="fixed inset-0 z-40 bg-transparent cursor-default"
             onClick={() => setOpenDrawer(null)}
@@ -1419,35 +1292,39 @@ export function AppShell({
           )}
 
           <div className="flex items-center justify-between gap-3 px-3 py-3 sm:px-5 pointer-events-none">
-            {/* Bagian Kiri Header: Floating Pill Kapsul Liquid Glass (Nav Toggle, Home, Nav Controls Undo/Refresh/Redo) */}
-            <div className="pointer-events-auto flex items-center gap-1 p-1 rounded-full liquid-glass-header-pill">
-              <button
-                type="button"
-                className={`relative z-10 p-2 rounded-full shrink-0 transition-colors flex items-center justify-center cursor-pointer ${
-                  openDrawer === "left"
-                    ? "bg-primary text-primary-foreground font-bold shadow-2xs"
-                    : "text-muted-foreground hover:text-foreground hover:bg-accent"
-                }`}
-                onClick={() => setOpenDrawer(openDrawer === "left" ? null : "left")}
-                title={openDrawer === "left" ? "Sembunyikan Navigasi" : "Tampilkan Navigasi"}
-                aria-label="Toggle sidebar kiri"
-              >
-                <WindowPositionLeftIcon size={19} />
-              </button>
+            {/* Bagian Kiri Header: 2 Floating Pills Terpisah (Pill 1: Nav Toggle & Home, Pill 2: Panah Kiri, Refresh & Panah Kanan) */}
+            <div className="flex items-center gap-2">
+              {/* Pill 1: Nav Toggle & Home */}
+              <div className="pointer-events-auto flex items-center gap-1 p-1 rounded-full liquid-glass-header-pill">
+                <button
+                  type="button"
+                  className={`relative z-10 p-2 rounded-full shrink-0 transition-colors flex items-center justify-center cursor-pointer ${
+                    openDrawer === "left"
+                      ? "bg-primary text-primary-foreground font-bold shadow-2xs"
+                      : "text-muted-foreground hover:text-foreground hover:bg-accent"
+                  }`}
+                  onClick={() => setOpenDrawer(openDrawer === "left" ? null : "left")}
+                  title={openDrawer === "left" ? "Sembunyikan Navigasi" : "Tampilkan Navigasi"}
+                  aria-label="Toggle sidebar kiri"
+                >
+                  <WindowPositionLeftIcon size={19} />
+                </button>
 
-              {/* Icon Home */}
-              <Link
-                to="/"
-                className="relative z-10 p-2 rounded-full shrink-0 transition-colors flex items-center justify-center cursor-pointer text-muted-foreground hover:text-foreground hover:bg-accent"
-                title="Beranda (Home)"
-                aria-label="Beranda"
-              >
-                <Home size={18} className="shrink-0" />
-              </Link>
+                {/* Icon Home */}
+                <Link
+                  to="/"
+                  className="relative z-10 p-2 rounded-full shrink-0 transition-colors flex items-center justify-center cursor-pointer text-muted-foreground hover:text-foreground hover:bg-accent"
+                  title="Beranda (Home)"
+                  aria-label="Beranda"
+                >
+                  <Home size={18} className="shrink-0" />
+                </Link>
+              </div>
 
-              <div className="relative z-10 h-4 w-px bg-border/80 mx-0.5 shrink-0 opacity-60" />
-
-              <HeaderNavControls />
+              {/* Pill 2: Panah Kiri, Refresh & Panah Kanan */}
+              <div className="pointer-events-auto flex items-center p-1 rounded-full liquid-glass-header-pill">
+                <HeaderNavControls />
+              </div>
             </div>
 
             {/* Bagian Kanan Header: Floating Pill Kapsul Liquid Glass (Aksi, Portal, Toggle Top Panel & Right Sidebar) */}
@@ -1474,7 +1351,7 @@ export function AppShell({
                 title={isTopPanelOpen ? "Tutup Panel Bar Atas" : "Buka Panel Bar Atas (Akun, Tema & Region)"}
                 aria-label="Toggle panel bar atas"
               >
-                <WindowPositionTopIcon size={19} />
+                <Settings size={19} className={`transition-transform duration-300 ${isTopPanelOpen ? "rotate-90" : ""}`} />
               </button>
 
               {/* Toggle Sidebar Kanan (Control Center) */}
@@ -1495,7 +1372,7 @@ export function AppShell({
           </div>
         </header>
         <div
-          className={`flex-1 flex flex-col min-h-0 overflow-y-auto no-scrollbar relative z-10 ${
+          className={`flex-1 flex flex-col min-h-0 overflow-y-auto overflow-x-hidden no-scrollbar relative z-10 ${
             pathname === "/" ? "px-4 pb-[90px] sm:px-6 sm:pb-[90px]" : "pb-[80px]"
           }`}
           style={{ paddingTop: headerHeight }}
@@ -1504,7 +1381,12 @@ export function AppShell({
         </div>
         {/* iOS-Style Floating Search Pill above Dock (Active when not in Launcher) */}
         {pathname !== "/" && (
-          <div className="fixed bottom-[calc(5rem+10pt)] left-0 right-0 flex justify-center pb-1 pointer-events-none z-30 animate-in fade-in duration-200">
+          <div
+            className="fixed bottom-[calc(5rem+10pt)] right-0 flex justify-center pb-1 pointer-events-none z-30 animate-in fade-in duration-200 transition-[left] duration-300 ease-in-out"
+            style={{
+              left: openDrawer === "left" && isLeftSidebar75 ? "75px" : "0px",
+            }}
+          >
             <button
               type="button"
               onClick={() => setIsCommandPaletteOpen(true)}
@@ -1519,6 +1401,7 @@ export function AppShell({
           </div>
         )}
         <AppDock
+          sidebarShift={openDrawer === "left" && isLeftSidebar75}
           onQuickCapture={() => {
             setIsQuickCaptureOpen((prev) => !prev);
             setIsShortcutOpen(false);

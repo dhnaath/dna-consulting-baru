@@ -153,7 +153,7 @@ export function MacExpandStack({
                     className="group flex items-center justify-between w-full px-3 py-2 rounded-2xl text-left transition-all duration-150 select-none cursor-pointer border bg-neutral-50 dark:bg-zinc-800 text-neutral-600 dark:text-neutral-300 shadow-xs hover:bg-neutral-100 dark:hover:bg-zinc-700 hover:text-neutral-900 dark:hover:text-white border-neutral-200/70 dark:border-zinc-700/60"
                   >
                     <div className="flex items-center gap-3 min-w-0">
-                      <div className="size-8 rounded-xl flex items-center justify-center shrink-0 transition-all duration-150 bg-white dark:bg-zinc-700 text-neutral-500 dark:text-neutral-300 shadow-2xs border border-neutral-200/50 dark:border-zinc-600/50 group-hover:text-neutral-900 dark:group-hover:text-white group-hover:scale-105">
+                      <div className="size-8 rounded-full flex items-center justify-center shrink-0 transition-all duration-150 bg-white dark:bg-zinc-700 text-neutral-500 dark:text-neutral-300 shadow-2xs border border-neutral-200/50 dark:border-zinc-600/50 group-hover:text-neutral-900 dark:group-hover:text-white group-hover:scale-105">
                         <app.icon className="size-4 shrink-0" strokeWidth={2.2} />
                       </div>
                       <div className="flex flex-col min-w-0">

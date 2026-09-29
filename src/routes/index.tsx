@@ -262,7 +262,7 @@ export function Launcher() {
               <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 p-6 rounded-2xl border border-border bg-card/70">
                 <div>
                   <div className="flex items-center gap-2">
-                    <span className="p-2 rounded-lg bg-emerald-500/10 text-emerald-500">
+                    <span className="p-2 rounded-full bg-emerald-500/10 text-emerald-500">
                       <TrendingUp className="size-5" />
                     </span>
                     <h2 className="text-xl font-bold text-foreground">100 Komoditas Unggulan Nasional</h2>
@@ -339,7 +339,7 @@ export function Launcher() {
               <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 p-6 rounded-2xl border border-border bg-card/70">
                 <div>
                   <div className="flex items-center gap-2">
-                    <span className="p-2 rounded-lg bg-amber-500/10 text-amber-500">
+                    <span className="p-2 rounded-full bg-amber-500/10 text-amber-500">
                       <BookOpen className="size-5" />
                     </span>
                     <h2 className="text-xl font-bold text-foreground">Kurasi & Playbook Bisnis DNA</h2>

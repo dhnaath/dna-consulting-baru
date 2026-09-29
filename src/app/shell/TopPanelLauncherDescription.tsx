@@ -84,7 +84,7 @@ export function TopPanelLauncherDescription({
 
       {/* Header Baris 2: Judul & Subtitle Tahap */}
       <div className="flex items-center gap-2.5 mb-2.5">
-        <div className={`size-8 rounded-lg border flex items-center justify-center shrink-0 ${currentTahap.badgeBg}`}>
+        <div className={`size-8 rounded-full border flex items-center justify-center shrink-0 ${currentTahap.badgeBg}`}>
           <Icon size={18} />
         </div>
         <div className="min-w-0">

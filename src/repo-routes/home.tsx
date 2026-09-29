@@ -34,7 +34,7 @@ function HomePage() {
             className="group p-5 rounded-2xl border border-border bg-card/70 hover:bg-muted/40 transition-all shadow-xs flex flex-col justify-between"
           >
             <div>
-              <div className="size-10 rounded-xl bg-primary/10 text-primary flex items-center justify-center mb-3 group-hover:scale-105 transition-transform">
+              <div className="size-10 rounded-full bg-primary/10 text-primary flex items-center justify-center mb-3 group-hover:scale-105 transition-transform">
                 <Compass className="size-5" />
               </div>
               <h4 className="text-sm font-bold text-foreground mb-1">
@@ -56,7 +56,7 @@ function HomePage() {
             className="group p-5 rounded-2xl border border-border bg-card/70 hover:bg-muted/40 transition-all shadow-xs flex flex-col justify-between"
           >
             <div>
-              <div className="size-10 rounded-xl bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 flex items-center justify-center mb-3 group-hover:scale-105 transition-transform">
+              <div className="size-10 rounded-full bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 flex items-center justify-center mb-3 group-hover:scale-105 transition-transform">
                 <TrendingUp className="size-5" />
               </div>
               <h4 className="text-sm font-bold text-foreground mb-1">
@@ -78,7 +78,7 @@ function HomePage() {
             className="group p-5 rounded-2xl border border-border bg-card/70 hover:bg-muted/40 transition-all shadow-xs flex flex-col justify-between"
           >
             <div>
-              <div className="size-10 rounded-xl bg-blue-500/10 text-blue-600 dark:text-blue-400 flex items-center justify-center mb-3 group-hover:scale-105 transition-transform">
+              <div className="size-10 rounded-full bg-blue-500/10 text-blue-600 dark:text-blue-400 flex items-center justify-center mb-3 group-hover:scale-105 transition-transform">
                 <Clock className="size-5" />
               </div>
               <h4 className="text-sm font-bold text-foreground mb-1">

@@ -572,7 +572,7 @@ export function HealthView() {
               </span>
             </div>
           </div>
-          <div className="w-10 h-10 rounded-xl bg-indigo-500/10 text-indigo-600 dark:text-indigo-400 flex items-center justify-center">
+          <div className="w-10 h-10 rounded-full bg-indigo-500/10 text-indigo-600 dark:text-indigo-400 flex items-center justify-center">
             <Moon size={20} />
           </div>
         </div>
@@ -588,7 +588,7 @@ export function HealthView() {
               <span className="text-xs text-muted-foreground">bpm (Optimal)</span>
             </div>
           </div>
-          <div className="w-10 h-10 rounded-xl bg-rose-500/10 text-rose-600 dark:text-rose-400 flex items-center justify-center">
+          <div className="w-10 h-10 rounded-full bg-rose-500/10 text-rose-600 dark:text-rose-400 flex items-center justify-center">
             <Heart size={20} />
           </div>
         </div>
@@ -604,7 +604,7 @@ export function HealthView() {
               <span className="text-xs text-muted-foreground">mmHg</span>
             </div>
           </div>
-          <div className="w-10 h-10 rounded-xl bg-blue-500/10 text-blue-600 dark:text-blue-400 flex items-center justify-center">
+          <div className="w-10 h-10 rounded-full bg-blue-500/10 text-blue-600 dark:text-blue-400 flex items-center justify-center">
             <Activity size={20} />
           </div>
         </div>
@@ -620,7 +620,7 @@ export function HealthView() {
               <span className="text-xs text-muted-foreground">Stres: {latestLog.stressLevel}/10</span>
             </div>
           </div>
-          <div className="w-10 h-10 rounded-xl bg-amber-500/10 text-amber-600 dark:text-amber-400 flex items-center justify-center">
+          <div className="w-10 h-10 rounded-full bg-amber-500/10 text-amber-600 dark:text-amber-400 flex items-center justify-center">
             <Zap size={20} />
           </div>
         </div>
@@ -630,7 +630,7 @@ export function HealthView() {
       <div className="bg-card border border-blue-500/20 bg-gradient-to-r from-blue-500/5 via-sky-500/5 to-cyan-500/5 rounded-2xl p-5 shadow-sm">
         <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
           <div className="flex items-center gap-3">
-            <div className="w-12 h-12 rounded-2xl bg-blue-600 text-white flex items-center justify-center shadow-md shadow-blue-500/30">
+            <div className="w-12 h-12 rounded-full bg-blue-600 text-white flex items-center justify-center shadow-md shadow-blue-500/30">
               <Droplet size={24} />
             </div>
             <div>

@@ -14,7 +14,7 @@ export function KurasiSection() {
           to="/"
           className="flex items-center gap-4 p-4 rounded-xl border border-border bg-card/60 hover:bg-accent/40 transition-colors"
         >
-          <div className="p-3 rounded-lg bg-primary/10 text-primary">
+          <div className="p-3 rounded-full bg-primary/10 text-primary">
             <BookOpen className="size-6" />
           </div>
           <div>

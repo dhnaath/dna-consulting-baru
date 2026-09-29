@@ -79,7 +79,7 @@ export function ToolsGrid({ onToolClick }: ToolsGridProps) {
         >
           <div className={tool.decoration} />
 
-          <div className="relative z-10 w-12 h-12 bg-card/60 backdrop-blur-sm rounded-2xl flex items-center justify-center shadow-sm">
+          <div className="relative z-10 w-12 h-12 bg-card/60 backdrop-blur-sm rounded-full flex items-center justify-center shadow-sm">
             <tool.icon className={cn("w-6 h-6", tool.iconColor)} />
           </div>
 
