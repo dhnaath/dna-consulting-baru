@@ -20,6 +20,18 @@ import {
   ArrowRight,
   History,
   GalleryHorizontal,
+  ExternalLink,
+  Pill,
+  Landmark,
+  Scale,
+  BarChart3,
+  Globe,
+  ShieldCheck,
+  Sprout,
+  Database,
+  BookOpen,
+  FileCheck,
+  Figma,
 } from "lucide-react";
 
 interface ShortcutModalProps {
@@ -32,9 +44,10 @@ interface ShortcutItem {
   id: string;
   title: string;
   subtitle?: string;
-  category: "nav" | "action" | "key";
+  category: "nav" | "action" | "key" | "external";
   icon: any;
   to?: string;
+  externalUrl?: string;
   action?: () => void;
   badge?: string;
 }
@@ -42,7 +55,7 @@ interface ShortcutItem {
 export function ShortcutModal({ isOpen, onClose, onOpenQuickCapture }: ShortcutModalProps) {
   const navigate = useNavigate();
   const [search, setSearch] = useState("");
-  const [selectedCategory, setSelectedCategory] = useState<"all" | "nav" | "action">("all");
+  const [selectedCategory, setSelectedCategory] = useState<"all" | "nav" | "action" | "external">("all");
 
   const shortcuts: ShortcutItem[] = useMemo(
     () => [
@@ -179,6 +192,107 @@ export function ShortcutModal({ isOpen, onClose, onOpenQuickCapture }: ShortcutM
         icon: Compass,
         to: "/outward",
       },
+
+      // --- Tautan Eksternal Resmi Pemerintah & Alat Produktivitas ---
+      {
+        id: "ext-farmaplus",
+        title: "FarmaPlus Kemkes",
+        subtitle: "Pencarian ketersediaan & harga eceran tertinggi obat resmi Kemenkes",
+        category: "external",
+        icon: Pill,
+        externalUrl: "https://farmaplus.kemkes.go.id/medicine/search",
+        badge: "Kemenkes",
+      },
+      {
+        id: "ext-pihps",
+        title: "PIHPS Bank Indonesia",
+        subtitle: "Pusat Informasi Harga Pangan Strategis Nasional terpadu BI",
+        category: "external",
+        icon: Landmark,
+        externalUrl: "https://www.bi.go.id/hargapangan/",
+        badge: "Bank Indonesia",
+      },
+      {
+        id: "ext-sp2kp",
+        title: "SP2KP Kemendag",
+        subtitle: "Sistem Pemantauan Pasar & Kebutuhan Pokok Kementerian Perdagangan",
+        category: "external",
+        icon: Scale,
+        externalUrl: "https://sp2kp.kemendag.go.id/statistik/tabulasi-harga",
+        badge: "Kemendag",
+      },
+      {
+        id: "ext-bapanas",
+        title: "Panel Harga Badan Pangan",
+        subtitle: "Informasi harga pangan produsen & konsumen Badan Pangan Nasional",
+        category: "external",
+        icon: BarChart3,
+        externalUrl: "https://panelharga.badanpangan.go.id/",
+        badge: "Bapanas",
+      },
+      {
+        id: "ext-bps",
+        title: "Badan Pusat Statistik (BPS)",
+        subtitle: "Data sensus, inflasi nasional, PDB & indikator makroekonomi",
+        category: "external",
+        icon: Globe,
+        externalUrl: "https://www.bps.go.id/",
+        badge: "BPS",
+      },
+      {
+        id: "ext-farmalkes",
+        title: "Ditjen Farmalkes Kemenkes",
+        subtitle: "Portal regulasi farmasi, standar alat kesehatan & izin edar",
+        category: "external",
+        icon: ShieldCheck,
+        externalUrl: "https://farmalkes.kemkes.go.id/",
+        badge: "Farmalkes",
+      },
+      {
+        id: "ext-kementan",
+        title: "PSP Kementerian Pertanian",
+        subtitle: "Prasarana, sarana pertanian & alokasi pupuk bersubsidi",
+        category: "external",
+        icon: Sprout,
+        externalUrl: "https://psp.pertanian.go.id/",
+        badge: "Kementan",
+      },
+      {
+        id: "ext-satudata",
+        title: "Satu Data Indonesia",
+        subtitle: "Portal keterbukaan data terpadu kementerian dan lembaga negara",
+        category: "external",
+        icon: Database,
+        externalUrl: "https://data.go.id/",
+        badge: "SatuData",
+      },
+      {
+        id: "ext-jdih-bumn",
+        title: "JDIH Kementerian BUMN",
+        subtitle: "Jaringan dokumentasi & informasi hukum serta regulasi BUMN",
+        category: "external",
+        icon: BookOpen,
+        externalUrl: "https://jdih.bumn.go.id/",
+        badge: "BUMN",
+      },
+      {
+        id: "ext-ojk",
+        title: "Regulasi OJK (POJK)",
+        subtitle: "Aturan & surat edaran Otoritas Jasa Keuangan sektor keuangan",
+        category: "external",
+        icon: FileCheck,
+        externalUrl: "https://www.ojk.go.id/id/regulasi/Pages/POJK-Perbankan.aspx",
+        badge: "OJK",
+      },
+      {
+        id: "ext-figma",
+        title: "Template Figma Dashboard",
+        subtitle: "Showcase & template UI dashboard resmi Figma Community",
+        category: "external",
+        icon: Figma,
+        externalUrl: "https://www.figma.com/templates/dashboard-designs/",
+        badge: "Figma",
+      },
     ],
     [onClose, onOpenQuickCapture]
   );
@@ -197,7 +311,10 @@ export function ShortcutModal({ isOpen, onClose, onOpenQuickCapture }: ShortcutM
   if (!isOpen) return null;
 
   const handleItemClick = (item: ShortcutItem) => {
-    if (item.action) {
+    if (item.externalUrl) {
+      window.open(item.externalUrl, "_blank", "noopener,noreferrer");
+      onClose();
+    } else if (item.action) {
       item.action();
     } else if (item.to) {
       navigate({ to: item.to as any });
@@ -212,7 +329,7 @@ export function ShortcutModal({ isOpen, onClose, onOpenQuickCapture }: ShortcutM
 
       {/* Pop-up window positioned directly above dock */}
       <div
-        className="fixed bottom-[88px] left-1/2 -translate-x-1/2 z-50 w-[92vw] sm:w-[380px] max-h-[calc(100vh-110px)] rounded-3xl bg-white/90 dark:bg-zinc-900/90 backdrop-blur-[30px] border border-white/60 dark:border-white/15 shadow-[0px_4px_21px_-8px_rgba(255,255,255,0.5),0_20px_50px_rgba(0,0,0,0.22)] liquid-glass-dock overflow-hidden flex flex-col animate-in fade-in slide-in-from-bottom-3 zoom-in-95 duration-200 select-none cursor-default"
+        className="fixed bottom-[88px] left-1/2 -translate-x-1/2 z-50 w-[92vw] sm:w-[420px] max-h-[calc(100vh-110px)] rounded-3xl bg-white/90 dark:bg-zinc-900/90 backdrop-blur-[30px] border border-white/60 dark:border-white/15 shadow-[0px_4px_21px_-8px_rgba(255,255,255,0.5),0_20px_50px_rgba(0,0,0,0.22)] liquid-glass-dock overflow-hidden flex flex-col animate-in fade-in slide-in-from-bottom-3 zoom-in-95 duration-200 select-none cursor-default"
         onClick={(e) => e.stopPropagation()}
       >
         {/* Header */}
@@ -240,13 +357,13 @@ export function ShortcutModal({ isOpen, onClose, onOpenQuickCapture }: ShortcutM
               type="text"
               value={search}
               onChange={(e) => setSearch(e.target.value)}
-              placeholder="Cari pintasan atau navigasi..."
+              placeholder="Cari pintasan, navigasi, atau tautan portal..."
               className="w-full pl-8 pr-3 py-1.5 text-xs rounded-xl border border-neutral-200/60 dark:border-zinc-700/60 bg-white/80 dark:bg-zinc-800/80 focus:outline-none focus:ring-1.5 focus:ring-primary/40 text-foreground placeholder:text-muted-foreground/70"
             />
           </div>
 
           {/* Filter pills */}
-          <div className="grid grid-cols-3 gap-1 p-0.5 bg-background/80 dark:bg-zinc-800/80 rounded-xl border border-border/60 backdrop-blur-md">
+          <div className="grid grid-cols-4 gap-1 p-0.5 bg-background/80 dark:bg-zinc-800/80 rounded-xl border border-border/60 backdrop-blur-md">
             <button
               type="button"
               onClick={() => setSelectedCategory("all")}
@@ -280,6 +397,17 @@ export function ShortcutModal({ isOpen, onClose, onOpenQuickCapture }: ShortcutM
             >
               Aksi
             </button>
+            <button
+              type="button"
+              onClick={() => setSelectedCategory("external")}
+              className={`py-1 text-[11px] font-medium rounded-lg transition-all ${
+                selectedCategory === "external"
+                  ? "bg-primary text-primary-foreground shadow-xs font-semibold"
+                  : "text-muted-foreground hover:text-foreground"
+              }`}
+            >
+              Tautan ({shortcuts.filter((s) => s.category === "external").length})
+            </button>
           </div>
         </div>
 
@@ -292,6 +420,7 @@ export function ShortcutModal({ isOpen, onClose, onOpenQuickCapture }: ShortcutM
           ) : (
             filtered.map((item) => {
               const Icon = item.icon;
+              const isExternal = Boolean(item.externalUrl);
               return (
                 <button
                   key={item.id}
@@ -303,8 +432,11 @@ export function ShortcutModal({ isOpen, onClose, onOpenQuickCapture }: ShortcutM
                     <Icon className="size-4" />
                   </div>
                   <div className="flex-1 min-w-0">
-                    <div className="text-xs font-medium text-foreground truncate group-hover:text-primary transition-colors">
-                      {item.title}
+                    <div className="text-xs font-medium text-foreground truncate group-hover:text-primary transition-colors flex items-center gap-1.5">
+                      <span>{item.title}</span>
+                      {isExternal && (
+                        <ExternalLink className="size-3 text-muted-foreground/60 shrink-0 inline" />
+                      )}
                     </div>
                     {item.subtitle && (
                       <div className="text-[10px] text-muted-foreground truncate">
@@ -328,7 +460,7 @@ export function ShortcutModal({ isOpen, onClose, onOpenQuickCapture }: ShortcutM
         {/* Footer info */}
         <div className="p-2.5 border-t border-border/60 bg-muted/20 flex items-center justify-between text-[10px] text-muted-foreground">
           <span>Tekan Esc untuk menutup</span>
-          <span className="font-mono">Pintasan Cepat</span>
+          <span className="font-mono">Pintasan Cepat & Tautan</span>
         </div>
       </div>
     </>

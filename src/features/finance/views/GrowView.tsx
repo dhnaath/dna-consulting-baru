@@ -57,71 +57,10 @@ export function GrowView({
   const { ref, onScroll } = useScrollRestore("GrowView_scroll");
   const lang = useLanguage();
 
-  if (!currentTab) {
-    return (
-      <div className="flex flex-col min-h-screen bg-background relative overflow-hidden">
-        <div className="p-4 flex items-center gap-3 pt-6 shrink-0 bg-background">
-          <button
-            onClick={onBack}
-            className="text-foreground p-1 hover:text-foreground transition-colors"
-          >
-            <ArrowLeft size={24} />
-          </button>
-          <h1 className="text-lg font-medium text-foreground tracking-wide flex items-center gap-2">
-            <TrendingUp size={20} className="text-muted-foreground" />{" "}
-            {translations.grow.viewTitle[lang]}
-          </h1>
-        </div>
-        <div
-          ref={ref}
-          onScroll={onScroll}
-          className="flex-1 overflow-y-auto p-6 pb-20 md:grid md:grid-cols-2 lg:grid-cols-3 md:gap-4 md:auto-rows-max md:content-start"
-        >
-          <div className="col-span-full mb-8 max-w-3xl">
-            <h2 className="text-2xl font-semibold text-foreground mb-3">
-              {translations.landing.categories.grow.desc[lang]}
-            </h2>
-            <p className="text-sm text-muted-foreground whitespace-pre-line leading-relaxed">
-              {translations.landing.categories.grow.long[lang]}
-            </p>
-          </div>
-          <MenuListItem
-            onClick={() => onSelectTab?.("cat_profil")}
-            icon={Activity}
-            title={translations.grow.tabs[0][lang]}
-            desc={translations.grow.tabs[0].desc[lang]}
-          />
-          <MenuListItem
-            onClick={() => onSelectTab?.("cat_alokasi")}
-            icon={PieChart}
-            title={translations.grow.tabs[1][lang]}
-            desc={translations.grow.tabs[1].desc[lang]}
-          />
-          <MenuListItem
-            onClick={() => onSelectTab?.("cat_efektif")}
-            icon={Zap}
-            title={translations.grow.tabs[2][lang]}
-            desc={translations.grow.tabs[2].desc[lang]}
-          />
-          <MenuListItem
-            onClick={() => onSelectTab?.("cat_bunga")}
-            icon={TrendingUp}
-            title={translations.grow.tabs[3][lang]}
-            desc={translations.grow.tabs[3].desc[lang]}
-          />
-          <MenuListItem
-            onClick={() => onSelectTab?.("cat_rebalance")}
-            icon={RefreshCw}
-            title={translations.grow.tabs[4][lang]}
-            desc={translations.grow.tabs[4].desc[lang]}
-          />
-        </div>
-      </div>
-    );
-  }
+  const activeTab = currentTab || "cat_profil";
 
   // Category: Profil Risiko
-  if (currentTab === "cat_profil") {
+  if (activeTab === "cat_profil") {
     return (
       <div className="flex flex-col min-h-screen bg-background relative overflow-hidden">
         <div className="p-4 flex items-center gap-3 pt-6 shrink-0 bg-background">
@@ -151,7 +90,7 @@ export function GrowView({
   }
 
   // Category: Alokasi Aset
-  if (currentTab === "cat_alokasi") {
+  if (activeTab === "cat_alokasi") {
     return (
       <div className="flex flex-col min-h-screen bg-background relative overflow-hidden">
         <div className="p-4 flex items-center gap-3 pt-6 shrink-0 bg-background">
@@ -229,7 +168,7 @@ export function GrowView({
   }
 
   // Category: Efektif-Efisien
-  if (currentTab === "cat_efektif") {
+  if (activeTab === "cat_efektif") {
     return (
       <div className="flex flex-col min-h-screen bg-background relative overflow-hidden">
         <div className="p-4 flex items-center gap-3 pt-6 shrink-0 bg-background">
@@ -259,7 +198,7 @@ export function GrowView({
   }
 
   // Category: Bunga Berbunga
-  if (currentTab === "cat_bunga") {
+  if (activeTab === "cat_bunga") {
     return (
       <div className="flex flex-col min-h-screen bg-background relative overflow-hidden">
         <div className="p-4 flex items-center gap-3 pt-6 shrink-0 bg-background">
@@ -283,7 +222,7 @@ export function GrowView({
   }
 
   // Category: Rebalance
-  if (currentTab === "cat_rebalance") {
+  if (activeTab === "cat_rebalance") {
     return (
       <div className="flex flex-col min-h-screen bg-background relative overflow-hidden">
         <div className="p-4 flex items-center gap-3 pt-6 shrink-0 bg-background">

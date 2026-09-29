@@ -24,6 +24,7 @@ import {
   MessageCircle,
 } from "lucide-react";
 import { chapters } from "./data";
+import { ECONOMICS_DESCRIPTIONS } from "./curatedOverrides";
 import { useState, useMemo, useEffect } from "react";
 
 // Custom card component to handle randomized flip animations
@@ -249,10 +250,10 @@ export default function App_Component({ initialChapterId = 1 }: { initialChapter
           </div>
         </div>
 
-        {/* Sub-chapters Grid */}
+        {/* Sub-chapters Table of Contents (Daftar Isi Teks ke Bawah) */}
         <div className="mt-4">
           <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-6">
-            <div className="flex bg-muted p-1 rounded-lg text-sm font-medium">
+            <div className="flex bg-muted p-1 rounded-xl text-xs sm:text-sm font-medium border border-border/60 overflow-x-auto max-w-full no-scrollbar">
               {[2, 3, 4, 5, 6].map((size) => {
                 const sizeLabels: Record<number, string> = {
                   2: "Matrikulasi",
@@ -261,37 +262,73 @@ export default function App_Component({ initialChapterId = 1 }: { initialChapter
                   5: "3 SKS",
                   6: "+ Praktikum",
                 };
+                const countLabels: Record<number, number> = {
+                  2: 4,
+                  3: 9,
+                  4: 16,
+                  5: 25,
+                  6: 36,
+                };
+                const isActive = gridSize === size;
                 return (
                   <button
                     key={size}
                     onClick={() => setGridSize(size)}
-                    className={`px-3 py-1.5 rounded-md transition-colors ${gridSize === size ? "bg-background text-foreground shadow-sm" : "text-muted-foreground hover:bg-background/50 hover:text-foreground"}`}
+                    className={`px-3 sm:px-4 py-1.5 rounded-lg transition-all flex items-center gap-1.5 whitespace-nowrap cursor-pointer ${
+                      isActive
+                        ? "bg-background text-foreground shadow-2xs font-semibold"
+                        : "text-muted-foreground hover:bg-background/50 hover:text-foreground"
+                    }`}
                   >
-                    {sizeLabels[size]}
+                    <span>{sizeLabels[size]}</span>
+                    <span
+                      className={`text-[10px] px-1.5 py-0.2 rounded-full font-mono ${
+                        isActive ? "bg-primary/15 text-primary font-bold" : "bg-muted text-muted-foreground"
+                      }`}
+                    >
+                      {countLabels[size]}
+                    </span>
                   </button>
                 );
               })}
             </div>
+
+            <div className="text-xs text-muted-foreground font-medium hidden sm:block">
+              Jenjang: <span className="font-semibold text-foreground">
+                {gridSize === 2 ? "Matrikulasi" : gridSize === 3 ? "1 SKS" : gridSize === 4 ? "2 SKS" : gridSize === 5 ? "3 SKS" : "+ Praktikum"}
+              </span> ({gridSize * gridSize} Materi Pokok)
+            </div>
           </div>
 
-          <div className="w-full pb-8">
-            <motion.div
-              key={`grid-${currentChapter.id}`}
-              variants={containerVariants}
-              initial="hidden"
-              animate="visible"
-              className="grid gap-3 sm:gap-4"
-              style={{
-                gridTemplateColumns: `repeat(${gridSize}, minmax(140px, 1fr))`,
-              }}
-            >
-              {Array.from({ length: gridSize * gridSize }).map((_, index) => {
-                const row = Math.floor(index / gridSize);
-                const col = index % gridSize;
+          {/* Daftar Isi Teks ke Bawah (Text Table of Contents) */}
+          <div className="w-full pb-12">
+            <div className="rounded-2xl border border-border bg-card shadow-2xs overflow-hidden">
+              <div className="px-5 py-4 border-b border-border bg-muted/25 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+                <div className="flex items-center gap-2.5">
+                  <span className="p-2 rounded-xl bg-primary/10 text-primary">
+                    <BookOpen size={16} />
+                  </span>
+                  <div>
+                    <h3 className="font-bold text-foreground text-sm sm:text-base">
+                      Daftar Isi Silabus Materi Pokok
+                    </h3>
+                    <p className="text-xs text-muted-foreground">
+                      Kurikulum terstruktur jenjang {gridSize === 2 ? "Matrikulasi" : gridSize === 3 ? "1 SKS" : gridSize === 4 ? "2 SKS" : gridSize === 5 ? "3 SKS" : "+ Praktikum"} • {currentChapter.title}
+                    </p>
+                  </div>
+                </div>
 
-                const dataIndex = row * gridSize + col;
+                <div className="flex items-center gap-2">
+                  <span className="text-xs font-mono font-medium px-2.5 py-1 rounded-lg bg-muted text-muted-foreground border border-border/60">
+                    Total {gridSize * gridSize} Bab Bahasan
+                  </span>
+                </div>
+              </div>
 
-                const titleOverrides: Record<number, Record<number, string[]>> = {
+              <div className="divide-y divide-border/60">
+                {Array.from({ length: gridSize * gridSize }).map((_, index) => {
+                  const dataIndex = index;
+                  const titleOverrides: Record<number, Record<number, string[]>> = {
                   1: {
                     2: ["Uang", "Barter", "Perputaran", "Kelangkaan"],
                     3: [
@@ -876,24 +913,55 @@ export default function App_Component({ initialChapterId = 1 }: { initialChapter
                   },
                 };
 
-                const baseChapter = currentChapter.subChapters[dataIndex];
+                const baseChapter = currentChapter.subChapters[dataIndex % currentChapter.subChapters.length];
                 const overrideTitle = titleOverrides[currentChapter.id]?.[gridSize]?.[dataIndex];
+                const title = overrideTitle || baseChapter?.title || `Materi ${dataIndex + 1}`;
 
-                const chapter = overrideTitle
-                  ? { ...baseChapter, title: overrideTitle }
-                  : baseChapter;
+                const ecoDetail = ECONOMICS_DESCRIPTIONS[title];
+                const focus = ecoDetail?.focus || baseChapter?.focus || "Konsep pokok dan kerangka berpikir operasional.";
+                const example = ecoDetail?.example || baseChapter?.example || "Kajian kasus dan penerapan dunia usaha.";
 
                 return (
-                  <ChapterCard
-                    key={`${currentChapter.id}-${dataIndex}`}
-                    chapter={chapter}
-                    gridSize={gridSize}
-                    row={row}
-                    col={col}
-                  />
+                  <div
+                    key={`${currentChapter.id}-${gridSize}-${dataIndex}`}
+                    className="p-4 sm:p-5 hover:bg-muted/30 transition-colors flex items-start gap-3.5 sm:gap-5 group"
+                  >
+                    <span className="font-mono text-xs font-bold text-muted-foreground group-hover:text-primary transition-colors px-2.5 py-1 rounded-lg bg-muted/60 border border-border/50 shrink-0 mt-0.5">
+                      {String(dataIndex + 1).padStart(2, "0")}
+                    </span>
+
+                    <div className="flex-1 min-w-0">
+                      <div className="flex flex-col sm:flex-row sm:items-baseline justify-between gap-1 sm:gap-4">
+                        <h4 className="font-bold text-foreground text-sm sm:text-base group-hover:text-primary transition-colors tracking-tight">
+                          {title}
+                        </h4>
+                        <span className="text-[11px] font-mono text-muted-foreground shrink-0 hidden sm:inline">
+                          Materi {String(dataIndex + 1).padStart(2, "0")} / {gridSize * gridSize}
+                        </span>
+                      </div>
+
+                      {focus && (
+                        <p className="text-xs sm:text-sm text-foreground/85 mt-1 leading-relaxed">
+                          {focus}
+                        </p>
+                      )}
+
+                      {example && (
+                        <div className="mt-2.5 pt-2 border-t border-border/40 flex items-start gap-2 text-xs">
+                          <span className="font-semibold text-primary shrink-0">
+                            Konteks & Contoh:
+                          </span>
+                          <span className="text-muted-foreground leading-relaxed italic">
+                            {example}
+                          </span>
+                        </div>
+                      )}
+                    </div>
+                  </div>
                 );
               })}
-            </motion.div>
+              </div>
+            </div>
           </div>
         </div>
       </main>

@@ -593,9 +593,9 @@ const FinancialFlipCard = ({
           </div>
         </div>
 
-        {/* Back Face */}
+        {/* Back Face (Warna icon app + tombol kembali di ujung bawah kanan) */}
         <div
-          className="absolute inset-0 w-full h-full rounded-2xl border border-primary/40 bg-card p-5 shadow-md flex flex-col justify-between gap-3 overflow-hidden [backface-visibility:hidden]"
+          className={`absolute inset-0 w-full h-full rounded-2xl ${gradient} p-4 shadow-lg border border-white/20 flex flex-col justify-end items-end overflow-hidden [backface-visibility:hidden]`}
           style={{
             transform:
               interactionConfig.axis === "x"
@@ -603,71 +603,15 @@ const FinancialFlipCard = ({
                 : `rotateY(${180 * interactionConfig.dir}deg)`,
           }}
         >
-          <div>
-            {/* Header Back Face */}
-            <div className="flex items-center gap-2.5 pb-3 border-b border-border/60 min-w-0">
-              <div
-                className={`size-8 rounded-full flex items-center justify-center text-white shrink-0 ${gradient}`}
-              >
-                <Icon className="size-4" strokeWidth={2} />
-              </div>
-              <div className="min-w-0">
-                <h5 className="font-bold text-sm text-foreground truncate">
-                  Related
-                </h5>
-                <p className="text-[11px] text-muted-foreground truncate">
-                  {app.title}
-                </p>
-              </div>
-            </div>
-
-            {/* Features List */}
-            <div className="mt-3 overflow-y-auto max-h-[175px] pr-1 space-y-1.5 [scrollbar-width:thin]">
-              {app.features && app.features.length > 0 ? (
-                app.features.map((feat, idx) => {
-                  const FeatIcon = feat.icon;
-                  const featPath = feat.to.split("?")[0];
-                  const featSearch = feat.to.includes("?")
-                    ? Object.fromEntries(new URLSearchParams(feat.to.split("?")[1]))
-                    : undefined;
-
-                  return (
-                    <Link
-                      key={idx}
-                      to={featPath}
-                      search={featSearch as any}
-                      className="flex items-center justify-between px-2.5 py-2 rounded-lg border border-border/70 hover:bg-muted text-muted-foreground hover:text-foreground text-xs font-medium transition-colors shadow-2xs group/item"
-                    >
-                      <div className="flex items-center gap-2 min-w-0">
-                        <FeatIcon size={13} className="text-muted-foreground group-hover/item:text-foreground transition-colors shrink-0" />
-                        <span className="truncate">
-                          {feat.title}
-                        </span>
-                      </div>
-                      <ArrowRight size={12} className="text-muted-foreground group-hover/item:text-foreground group-hover/item:translate-x-0.5 transition-all shrink-0 ml-1" />
-                    </Link>
-                  );
-                })
-              ) : (
-                <div className="py-8 text-center text-xs text-muted-foreground">
-                  Belum ada instrumen terkait
-                </div>
-              )}
-            </div>
-          </div>
-
-          {/* Footer Back Face */}
-          <div className="border-t border-border/50 pt-2.5 flex items-center justify-end text-xs">
-            <button
-              type="button"
-              onClick={handleFlip}
-              className="px-2.5 py-1 rounded-lg border border-border/70 hover:bg-muted text-muted-foreground hover:text-foreground text-xs font-medium flex items-center gap-1 cursor-pointer transition-colors shadow-2xs"
-              title="Putar balik"
-            >
-              <RotateCcw size={12} />
-              <span className="text-[11px]">Kembali</span>
-            </button>
-          </div>
+          <button
+            type="button"
+            onClick={handleFlip}
+            className="px-2.5 py-1.5 rounded-lg bg-white/20 hover:bg-white/30 active:scale-95 text-white border border-white/25 text-xs font-medium flex items-center gap-1.5 cursor-pointer transition-all shadow-2xs backdrop-blur-xs"
+            title="Kembali"
+          >
+            <RotateCcw size={12} />
+            <span className="text-[11px] font-medium">Kembali</span>
+          </button>
         </div>
       </motion.div>
     </div>
@@ -744,15 +688,6 @@ export function FinancialWealthSection({
         >
           <ShieldCheck className="size-4 shrink-0 text-emerald-500" />
           <span>Wealth Spectrum</span>
-          <span
-            className={`text-[10px] px-2 py-0.5 rounded-full font-bold ${
-              activeTab === "spectrum" || selectedPillar
-                ? "bg-primary-foreground/20 text-primary-foreground"
-                : "bg-background/80 text-muted-foreground"
-            }`}
-          >
-            {selectedPillar ? selectedPillar.toUpperCase() : "5 Tahapan"}
-          </span>
         </button>
       </div>
 

@@ -60,65 +60,9 @@ export function FlowView({
   onUnavailable?: () => void;
 }) {
   const lang = useLanguage();
+  const activeTab = currentTab || "cat_liabilitas";
 
-  if (!currentTab) {
-    return (
-      <div className="flex flex-col min-h-screen bg-background relative">
-        <div className="p-4 flex items-center gap-3 pt-6 shrink-0 bg-background">
-          <button
-            onClick={onBack}
-            className="text-foreground p-1 hover:text-foreground transition-colors"
-          >
-            <ArrowLeft size={24} />
-          </button>
-          <h1 className="text-lg font-medium text-foreground tracking-wide flex items-center gap-2">
-            <RefreshCw size={20} className="text-muted-foreground" />{" "}
-            {translations.flow.viewTitle[lang]}
-          </h1>
-        </div>
-        <ScrollContainer
-          id="flow-view-main"
-          className="flex-1 overflow-y-auto p-6 pb-20 md:grid md:grid-cols-2 lg:grid-cols-3 md:gap-4 md:auto-rows-max md:content-start"
-        >
-          <div className="col-span-full mb-8 max-w-3xl">
-            <h2 className="text-2xl font-semibold text-foreground mb-3">
-              {translations.landing.categories.flow.desc[lang]}
-            </h2>
-            <p className="text-sm text-muted-foreground whitespace-pre-line leading-relaxed">
-              {translations.landing.categories.flow.long[lang]}
-            </p>
-          </div>
-          <MenuListItem
-            onClick={() => onSelectTab?.("cat_liabilitas")}
-            icon={CreditCard}
-            title={translations.flow.tabs[0][lang]}
-          />
-          <MenuListItem
-            onClick={() => onSelectTab?.("cat_pengeluaran")}
-            icon={ArrowRightLeft}
-            title={translations.flow.tabs[1][lang]}
-          />
-          <MenuListItem
-            onClick={() => onSelectTab?.("cat_kredit")}
-            icon={Banknote}
-            title={translations.flow.tabs[2][lang]}
-          />
-          <MenuListItem
-            onClick={() => onSelectTab?.("cat_pajak")}
-            icon={Receipt}
-            title={translations.flow.tabs[3][lang]}
-          />
-          <MenuListItem
-            onClick={() => onSelectTab?.("cat_otomatisasi")}
-            icon={Activity}
-            title={translations.flow.tabs[4][lang]}
-          />
-        </ScrollContainer>
-      </div>
-    );
-  }
-
-  if (currentTab === "cat_liabilitas") {
+  if (activeTab === "cat_liabilitas") {
     return (
       <div className="flex flex-col min-h-screen bg-background relative">
         <div className="p-4 flex items-center gap-3 pt-6 shrink-0 bg-background">
@@ -171,7 +115,7 @@ export function FlowView({
     );
   }
 
-  if (currentTab === "cat_pengeluaran") {
+  if (activeTab === "cat_pengeluaran") {
     return (
       <div className="flex flex-col min-h-screen bg-background relative">
         <div className="p-4 flex items-center gap-3 pt-6 shrink-0 bg-background">
@@ -231,7 +175,7 @@ export function FlowView({
     );
   }
 
-  if (currentTab === "cat_kredit") {
+  if (activeTab === "cat_kredit") {
     return (
       <div className="flex flex-col min-h-screen bg-background relative">
         <div className="p-4 flex items-center gap-3 pt-6 shrink-0 bg-background">
@@ -266,7 +210,7 @@ export function FlowView({
     );
   }
 
-  if (currentTab === "cat_pajak") {
+  if (activeTab === "cat_pajak") {
     return (
       <div className="flex flex-col min-h-screen bg-background relative">
         <div className="p-4 flex items-center gap-3 pt-6 shrink-0 bg-background">
@@ -307,7 +251,7 @@ export function FlowView({
     );
   }
 
-  if (currentTab === "cat_otomatisasi") {
+  if (activeTab === "cat_otomatisasi") {
     return (
       <div className="flex flex-col min-h-screen bg-background relative">
         <div className="p-4 flex items-center gap-3 pt-6 shrink-0 bg-background">
@@ -336,9 +280,9 @@ export function FlowView({
     );
   }
 
-  if (currentTab === "liability")
+  if (activeTab === "liability")
     return <DebtManagerView onBack={() => onSelectTab?.("cat_liabilitas")} />;
-  if (currentTab === "liquidity")
+  if (activeTab === "liquidity")
     return (
       <CreditCardDashboard
         onNavigate={onNavigate}
@@ -349,7 +293,7 @@ export function FlowView({
       />
     );
 
-  if (currentTab === "cashflow") {
+  if (activeTab === "cashflow") {
     return (
       <div className="flex flex-col min-h-screen bg-background relative">
         <div className="p-4 flex items-center gap-3 pt-6 shrink-0 bg-background">
@@ -374,34 +318,34 @@ export function FlowView({
     );
   }
 
-  if (currentTab === "budget")
+  if (activeTab === "budget")
     return (
       <SubscriptionManagerView
         onBack={() => onSelectTab?.("cat_pengeluaran")}
         onSettings={() => onNavigate("sub_settings")}
       />
     );
-  if (currentTab === "savings")
+  if (activeTab === "savings")
     return <SavingsPlanView onBack={() => onSelectTab?.("cat_otomatisasi")} />;
-  if (currentTab === "tax") return <TaxPlannerView onBack={() => onSelectTab?.("cat_pajak")} />;
-  if (currentTab === "transactions")
+  if (activeTab === "tax") return <TaxPlannerView onBack={() => onSelectTab?.("cat_pajak")} />;
+  if (activeTab === "transactions")
     return <TransactionsView onBack={() => onSelectTab?.("cat_pengeluaran")} onNewTransaction={() => onNavigate("new_tx")} onUnavailable={onUnavailable} />;
-  if (currentTab === "snowball")
+  if (activeTab === "snowball")
     return <DebtSnowballAvalancheView onBack={() => onSelectTab?.("cat_liabilitas")} />;
-  if (currentTab === "cashflow_forecast")
+  if (activeTab === "cashflow_forecast")
     return <CashflowForecastView onBack={() => onSelectTab?.("cat_pengeluaran")} />;
-  if (currentTab === "split_bill")
+  if (activeTab === "split_bill")
     return <SplitBillView onBack={() => onSelectTab?.("cat_pengeluaran")} />;
-  if (currentTab === "tax_harvesting")
+  if (activeTab === "tax_harvesting")
     return <TaxLossHarvestingView onBack={() => onSelectTab?.("cat_pajak")} />;
 
-  if (currentTab === "emergency")
+  if (activeTab === "emergency")
     return <EmergencyFundView onBack={() => onSelectTab?.("cat_pajak")} />;
-  if (currentTab === "expense_cat")
+  if (activeTab === "expense_cat")
     return <ExpenseCategoryView onBack={() => onSelectTab?.("cat_pengeluaran")} />;
-  if (currentTab === "bill_reminders")
+  if (activeTab === "bill_reminders")
     return <BillRemindersView onBack={() => onSelectTab?.("cat_liabilitas")} />;
-  if (currentTab === "monthly_burden")
+  if (activeTab === "monthly_burden")
     return (
       <div className="p-4 text-foreground flex items-center gap-3 pt-6">
         <button onClick={() => onSelectTab?.("cat_liabilitas")}>
@@ -410,9 +354,9 @@ export function FlowView({
         Estimasi Beban Bulanan is currently unavailable.
       </div>
     );
-  if (currentTab === "emi_calculator")
+  if (activeTab === "emi_calculator")
     return <EmiCalculatorView onBack={() => onSelectTab?.("cat_liabilitas")} />;
-  if (currentTab === "bank_sync")
+  if (activeTab === "bank_sync")
     return <BankMutationsView onBack={() => onSelectTab?.("cat_kredit")} />;
 
   return null;

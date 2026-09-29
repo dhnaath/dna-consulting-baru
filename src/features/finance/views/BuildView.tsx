@@ -50,72 +50,10 @@ export function BuildView({
 }) {
   const { ref, onScroll } = useScrollRestore("BuildView_scroll");
   const lang = useLanguage();
-
-  if (!currentTab) {
-    return (
-      <div className="flex flex-col min-h-screen bg-background relative overflow-hidden">
-        <div className="p-4 flex items-center gap-3 pt-6 shrink-0 bg-background">
-          <button
-            onClick={onBack}
-            className="text-foreground p-1 hover:text-foreground transition-colors"
-          >
-            <ArrowLeft size={24} />
-          </button>
-          <h1 className="text-lg font-medium text-foreground tracking-wide flex items-center gap-2">
-            <Settings size={20} className="text-muted-foreground" />{" "}
-            {translations.build.viewTitle[lang]}
-          </h1>
-        </div>
-        <div
-          ref={ref}
-          onScroll={onScroll}
-          className="flex-1 overflow-y-auto p-6 pb-20 md:grid md:grid-cols-2 lg:grid-cols-3 md:gap-4 md:auto-rows-max md:content-start"
-        >
-          <div className="col-span-full mb-8 max-w-3xl">
-            <h2 className="text-2xl font-semibold text-foreground mb-3">
-              {translations.landing.categories.build.desc[lang]}
-            </h2>
-            <p className="text-sm text-muted-foreground whitespace-pre-line leading-relaxed">
-              {translations.landing.categories.build.long[lang]}
-            </p>
-          </div>
-          <MenuListItem
-            onClick={() => onSelectTab?.("cat_modal")}
-            icon={Brain}
-            title={translations.build.tabs[0][lang]}
-            desc={translations.build.tabs[0].desc[lang]}
-          />
-          <MenuListItem
-            onClick={() => onSelectTab?.("cat_jaringan")}
-            icon={Network}
-            title={translations.build.tabs[1][lang]}
-            desc={translations.build.tabs[1].desc[lang]}
-          />
-          <MenuListItem
-            onClick={() => onSelectTab?.("cat_portofolio")}
-            icon={Briefcase}
-            title={translations.build.tabs[2][lang]}
-            desc={translations.build.tabs[2].desc[lang]}
-          />
-          <MenuListItem
-            onClick={() => onSelectTab?.("cat_kekayaan")}
-            icon={Landmark}
-            title={translations.build.tabs[3][lang]}
-            desc={translations.build.tabs[3].desc[lang]}
-          />
-          <MenuListItem
-            onClick={() => onSelectTab?.("cat_pembukuan")}
-            icon={BookOpen}
-            title={translations.build.tabs[4][lang]}
-            desc={translations.build.tabs[4].desc[lang]}
-          />
-        </div>
-      </div>
-    );
-  }
+  const activeTab = currentTab || "cat_modal";
 
   // Category: Modal Manusia
-  if (currentTab === "cat_modal") {
+  if (activeTab === "cat_modal") {
     return (
       <div className="flex flex-col min-h-screen bg-background relative overflow-hidden">
         <div className="p-4 flex items-center gap-3 pt-6 shrink-0 bg-background">
@@ -139,7 +77,7 @@ export function BuildView({
   }
 
   // Category: Jaringan
-  if (currentTab === "cat_jaringan") {
+  if (activeTab === "cat_jaringan") {
     return (
       <div className="flex flex-col min-h-screen bg-background relative overflow-hidden">
         <div className="p-4 flex items-center gap-3 pt-6 shrink-0 bg-background">
@@ -169,7 +107,7 @@ export function BuildView({
   }
 
   // Category: Portofolio
-  if (currentTab === "cat_portofolio") {
+  if (activeTab === "cat_portofolio") {
     return (
       <div className="flex flex-col min-h-screen bg-background relative overflow-hidden">
         <div className="p-4 flex items-center gap-3 pt-6 shrink-0 bg-background">
@@ -205,7 +143,7 @@ export function BuildView({
   }
 
   // Category: Kekayaan Bersih
-  if (currentTab === "cat_kekayaan") {
+  if (activeTab === "cat_kekayaan") {
     return (
       <div className="flex flex-col min-h-screen bg-background relative overflow-hidden">
         <div className="p-4 flex items-center gap-3 pt-6 shrink-0 bg-background">
@@ -247,7 +185,7 @@ export function BuildView({
   }
 
   // Category: Pembukuan
-  if (currentTab === "cat_pembukuan") {
+  if (activeTab === "cat_pembukuan") {
     return (
       <div className="flex flex-col min-h-screen bg-background relative overflow-hidden">
         <div className="p-4 flex items-center gap-3 pt-6 shrink-0 bg-background">
@@ -271,17 +209,17 @@ export function BuildView({
   }
 
   // Subview routing
-  if (currentTab === "human_capital") return <HumanCapitalView onBack={() => onSelectTab?.("cat_modal")} />;
-  if (currentTab === "business_val") return <BusinessValuationView onBack={() => onSelectTab?.("cat_jaringan")} />;
-  if (currentTab === "cap_table") return <PersonalCapTableView onBack={() => onSelectTab?.("cat_jaringan")} />;
-  if (currentTab === "portfolio_rec") return <PortfolioRecommendationView onBack={() => onSelectTab?.("cat_portofolio")} />;
-  if (currentTab === "mortgage") return <MortgageSimulatorView onBack={() => onSelectTab?.("cat_portofolio")} />;
-  if (currentTab === "child_edu") return <ChildEducationPlanView onBack={() => onSelectTab?.("cat_portofolio")} />;
-  if (currentTab === "net_worth") return <NetWorthView onBack={() => onSelectTab?.("cat_kekayaan")} />;
-  if (currentTab === "assets") return <AssetsView onBack={() => onSelectTab?.("cat_kekayaan")} />;
-  if (currentTab === "financial_health") return <FinancialHealthView onBack={() => onSelectTab?.("cat_kekayaan")} />;
-  if (currentTab === "demographic_benchmark") return <DemographicBenchmarkView onBack={() => onSelectTab?.("cat_kekayaan")} />;
-  if (currentTab === "reports") return <FinancialReportsView onBack={() => onSelectTab?.("cat_pembukuan")} />;
+  if (activeTab === "human_capital") return <HumanCapitalView onBack={() => onSelectTab?.("cat_modal")} />;
+  if (activeTab === "business_val") return <BusinessValuationView onBack={() => onSelectTab?.("cat_jaringan")} />;
+  if (activeTab === "cap_table") return <PersonalCapTableView onBack={() => onSelectTab?.("cat_jaringan")} />;
+  if (activeTab === "portfolio_rec") return <PortfolioRecommendationView onBack={() => onSelectTab?.("cat_portofolio")} />;
+  if (activeTab === "mortgage") return <MortgageSimulatorView onBack={() => onSelectTab?.("cat_portofolio")} />;
+  if (activeTab === "child_edu") return <ChildEducationPlanView onBack={() => onSelectTab?.("cat_portofolio")} />;
+  if (activeTab === "net_worth") return <NetWorthView onBack={() => onSelectTab?.("cat_kekayaan")} />;
+  if (activeTab === "assets") return <AssetsView onBack={() => onSelectTab?.("cat_kekayaan")} />;
+  if (activeTab === "financial_health") return <FinancialHealthView onBack={() => onSelectTab?.("cat_kekayaan")} />;
+  if (activeTab === "demographic_benchmark") return <DemographicBenchmarkView onBack={() => onSelectTab?.("cat_kekayaan")} />;
+  if (activeTab === "reports") return <FinancialReportsView onBack={() => onSelectTab?.("cat_pembukuan")} />;
 
   return null;
 }
