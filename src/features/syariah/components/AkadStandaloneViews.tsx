@@ -18,6 +18,8 @@ import {
   RotateCcw,
   Shield,
   Heart,
+  Building,
+  Coins,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Link } from "@tanstack/react-router";
@@ -31,7 +33,9 @@ export type AkadType =
   | "murabahah"
   | "tamin"
   | "takaful"
-  | "tadhamun";
+  | "tadhamun"
+  | "ijarah"
+  | "qardh";
 
 export interface AkadDetailInfo {
   id: AkadType;
@@ -510,6 +514,85 @@ export const AKAD_DATA: Record<AkadType, AkadDetailInfo> = {
       "Santunan Pendidikan Anak Yatim & Dhuafa Berkelanjutan",
     ],
   },
+  ijarah: {
+    id: "ijarah",
+    title: "Ijarah",
+    arabicName: "عقد الإجارة",
+    badge: "Sewa Hak Guna & Jasa",
+    category: "Sharia Finance",
+    icon: Building,
+    tagline: "Pemindahan hak guna (manfaat) suatu barang atau jasa dalam waktu tertentu dengan pembayaran sewa (ujrah).",
+    description:
+      "Akad Ijarah adalah akad pemindahan hak guna atas suatu barang atau jasa melalui pembayaran upah sewa (ujrah), tanpa diikuti dengan pemindahan kepemilikan barang itu sendiri. Dalam perkembangannya di perbankan syariah, dikenal pula Ijarah Muntahiya Bittamlik (IMBT), yaitu sewa menyewa yang diakhiri dengan perpindahan kepemilikan aset di akhir masa sewa melalui hibah atau jual beli.",
+    dalil: {
+      text: "“...Jika mereka menyusukan (anak-anak)mu untukmu, maka berikanlah kepada mereka imbalannya (ujrah)...”",
+      source: "QS. Ath-Thalaq (65): 6 & HR. Ibnu Majah (Berikan upah pekerja sebelum keringatnya kering)",
+    },
+    rukun: [
+      "Penyewa / Penerima jasa (Musta'jir)",
+      "Pemberi sewa / Penyedia jasa (Mu'jir)",
+      "Objek manfaat barang atau jasa (Ma'jur)",
+      "Uang sewa / Upah imbalan (Ujrah)",
+      "Ijab dan qabul (Shighat)",
+    ],
+    syaratSah: [
+      "Manfaat objek sewa harus mubah (halal), jelas spesifikasinya, dan dapat diserahterimakan",
+      "Kewajiban pemeliharaan kerusakan struktural aset berada pada pemilik barang",
+      "Besaran ujrah dan jangka waktu sewa disepakati secara pasti di awal akad",
+      "Penyewa hanya bertanggung jawab atas kerusakan akibat kelalaian atau pemakaian di luar batas wajar",
+    ],
+    skemaAlur: [
+      { step: 1, title: "Penetapan Objek & Manfaat", desc: "Penyewa dan pemilik menyepakati objek sewa (properti/kendaraan/alat) dan batasan pemanfaatannya." },
+      { step: 2, title: "Kesepakatan Tarif Ujrah", desc: "Menentukan nominal biaya sewa berkala dan tenor masa sewa tanpa klausul denda bunga ribawi." },
+      { step: 3, title: "Pemanfaatan Manfaat Aset", desc: "Penyewa menikmati hak guna barang secara penuh selama masa kontrak sewa berlangsung." },
+      { step: 4, title: "Pengembalian / Opsi Hibah", desc: "Aset dikembalikan dalam kondisi baik atau dialihkan kepemilikannya jika menggunakan skema IMBT." },
+    ],
+    contohPenerapan: [
+      "Pembiayaan Properti & Kendaraan IMBT di Bank Syariah",
+      "Sewa Guna Usaha Mesin Operasional & Alat Berat Syariah",
+      "Jasa Ketenagakerjaan Profesional, Konsultan, dan Upah Karyawan",
+      "Sewa Ruang Kantor, Gudang Logistik & Komputasi Awan",
+    ],
+  },
+  qardh: {
+    id: "qardh",
+    title: "Qardh al-Hasan",
+    arabicName: "عقد القرض الحسن",
+    badge: "Pinjaman Kebajikan 0%",
+    category: "Sharia Finance",
+    icon: Coins,
+    tagline: "Penyaluran pinjaman dana kebajikan murni tanpa bunga sepeserpun untuk membantu kebutuhan mendesak.",
+    description:
+      "Akad Qardh (khususnya Qardh al-Hasan) adalah akad pinjaman dana kebajikan di mana pemberi pinjaman menyerahkan sejumlah uang kepada penerima pinjaman dengan kewajiban bagi peminjam untuk mengembalikan jumlah pokok yang sama persis tanpa tambahan keuntungan atau bunga materiil sedikitpun. Setiap tambahan yang disyaratkan di awal atas pinjaman tergolong Riba Qardh yang diharamkan secara ijma'.",
+    dalil: {
+      text: "“Siapakah yang mau memberi pinjaman kepada Allah pinjaman yang baik (qardhan hasanan), maka Allah akan melipatgandakan balasan kepadanya dengan lipat ganda yang banyak...”",
+      source: "QS. Al-Baqarah (2): 245 & Hadits Riwayat Ibnu Majah",
+    },
+    rukun: [
+      "Pemberi pinjaman (Muqridh)",
+      "Penerima pinjaman (Muqtaridh)",
+      "Dana pinjaman pokok yang sah (Maal al-Qardh)",
+      "Ijab dan qabul (Shighat)",
+    ],
+    syaratSah: [
+      "Tidak boleh mensyaratkan keuntungan, bunga, atau hadiah kompensasi dari peminjam",
+      "Peminjam wajib berkomitmen mengembalikan pinjaman pokok sesuai jadwal kesepakatan",
+      "Pemberi pinjaman dianjurkan memberikan kelonggaran waktu bila peminjam mengalami kesulitan nyata (QS. 2:280)",
+      "Boleh mengenakan biaya administrasi riil (ri'ayah) aktual yang tidak dipersentasekan dari pokok pinjaman",
+    ],
+    skemaAlur: [
+      { step: 1, title: "Pengajuan Dana Kebajikan", desc: "Peminjam mengajukan kebutuhan dana mendesak kepada lembaga pengelola dana kebajikan / shahibul maal." },
+      { step: 2, title: "Verifikasi Kelayakan", desc: "Memastikan peminjam berhak menerima talangan dan memiliki komitmen etis pengembalian pokok." },
+      { step: 3, title: "Pencairan Pokok 100%", desc: "Dana diserahkan secara utuh tanpa pemotongan bunga di depan." },
+      { step: 4, title: "Pelunasan Pokok Tanpa Bunga", desc: "Peminjam mengangsur atau melunasi pokok tepat waktu tanpa tambahan riba." },
+    ],
+    contohPenerapan: [
+      "Pinjaman Talangan Haji / Umrah Syariah",
+      "Pembiayaan Mikro Bergulir Pengentasan Kemiskinan BMT",
+      "Kas Darurat Kebajikan Perusahaan bagi Karyawan",
+      "Dana Talangan Pelunasan Utang Darurat Mustahik",
+    ],
+  },
 };
 
 export function StandaloneAkadApp({
@@ -575,6 +658,16 @@ export function StandaloneAkadApp({
   const [tadhIuranBulan, setTadhIuranBulan] = useState(100000);
   const [tadhKasusTahun, setTadhKasusTahun] = useState(6);
   const [tadhSantunanKasus, setTadhSantunanKasus] = useState(5000000);
+
+  // 10. Ijarah simulator (Sewa Hak Guna & Ujrah)
+  const [ijrSewaBulan, setIjrSewaBulan] = useState(4500000);
+  const [ijrDurasiBulan, setIjrDurasiBulan] = useState(12);
+  const [ijrUjrahPemeliharaan, setIjrUjrahPemeliharaan] = useState(350000);
+
+  // 11. Qardh simulator (Pinjaman Kebajikan 0% Bunga)
+  const [qrdPokok, setQrdPokok] = useState(15000000);
+  const [qrdTenorBulan, setQrdTenorBulan] = useState(10);
+  const [qrdBiayaAdminRiil, setQrdBiayaAdminRiil] = useState(50000);
 
   const formatRupiah = (val: number) => {
     return new Intl.NumberFormat("id-ID", {
@@ -1727,6 +1820,188 @@ export function StandaloneAkadApp({
                       </div>
                       <p className="text-[11px] text-muted-foreground italic pt-1">
                         *Prinsip Tadhamun memperkuat ikatan persaudaraan sejati, di mana yang lapang menopang yang sempit tanpa komersialisasi.
+                      </p>
+                    </div>
+                  );
+                })()}
+              </div>
+            )}
+
+            {/* IJARAH SIMULATOR */}
+            {akadId === "ijarah" && (
+              <div className="space-y-4">
+                <p className="text-xs text-muted-foreground">
+                  Simulasikan perhitungan biaya sewa hak guna aset (properti/kendaraan/alat) dan akumulasi ujrah operasional secara transparan.
+                </p>
+
+                <div className="space-y-3">
+                  <div>
+                    <label className="text-xs font-semibold text-foreground flex justify-between">
+                      <span>Tarif Sewa Pokok / Bulan</span>
+                      <span className="text-primary font-bold">{formatRupiah(ijrSewaBulan)}</span>
+                    </label>
+                    <input
+                      type="range"
+                      min={500000}
+                      max={25000000}
+                      step={250000}
+                      value={ijrSewaBulan}
+                      onChange={(e) => setIjrSewaBulan(Number(e.target.value))}
+                      className="w-full accent-primary mt-1"
+                    />
+                  </div>
+
+                  <div>
+                    <label className="text-xs font-semibold text-foreground flex justify-between">
+                      <span>Jangka Waktu Sewa (Tenor)</span>
+                      <span className="text-primary font-bold">{ijrDurasiBulan} Bulan</span>
+                    </label>
+                    <input
+                      type="range"
+                      min={1}
+                      max={60}
+                      step={1}
+                      value={ijrDurasiBulan}
+                      onChange={(e) => setIjrDurasiBulan(Number(e.target.value))}
+                      className="w-full accent-primary mt-1"
+                    />
+                  </div>
+
+                  <div>
+                    <label className="text-xs font-semibold text-foreground flex justify-between">
+                      <span>Biaya Pemeliharaan / Ujrah Jasa (per bulan)</span>
+                      <span className="text-primary font-bold">{formatRupiah(ijrUjrahPemeliharaan)}</span>
+                    </label>
+                    <input
+                      type="range"
+                      min={0}
+                      max={2000000}
+                      step={50000}
+                      value={ijrUjrahPemeliharaan}
+                      onChange={(e) => setIjrUjrahPemeliharaan(Number(e.target.value))}
+                      className="w-full accent-primary mt-1"
+                    />
+                  </div>
+                </div>
+
+                {(() => {
+                  const totalSewaPokok = ijrSewaBulan * ijrDurasiBulan;
+                  const totalUjrahJasa = ijrUjrahPemeliharaan * ijrDurasiBulan;
+                  const grandTotalIjarah = totalSewaPokok + totalUjrahJasa;
+                  const cicilanPerBulan = grandTotalIjarah / ijrDurasiBulan;
+
+                  return (
+                    <div className="mt-5 p-4 rounded-xl bg-muted/60 border border-border/60 space-y-2.5">
+                      <div className="flex justify-between items-center text-xs">
+                        <span className="text-muted-foreground">Total Sewa Hak Guna:</span>
+                        <span className="font-bold text-foreground">{formatRupiah(totalSewaPokok)}</span>
+                      </div>
+                      <div className="flex justify-between items-center text-xs">
+                        <span className="text-muted-foreground">Total Biaya Pemeliharaan/Jasa:</span>
+                        <span className="font-semibold text-foreground">{formatRupiah(totalUjrahJasa)}</span>
+                      </div>
+                      <div className="w-full h-px bg-border/80 my-1" />
+                      <div className="flex justify-between items-center text-xs sm:text-sm">
+                        <span className="font-bold text-foreground">Total Nilai Kontrak Ijarah:</span>
+                        <span className="font-extrabold text-primary">{formatRupiah(grandTotalIjarah)}</span>
+                      </div>
+                      <div className="flex justify-between items-center text-xs">
+                        <span className="text-muted-foreground">Angsuran Sewa per Bulan:</span>
+                        <span className="font-bold text-emerald-600 dark:text-emerald-400">
+                          {formatRupiah(cicilanPerBulan)} / bln
+                        </span>
+                      </div>
+                      <p className="text-[11px] text-muted-foreground italic pt-1">
+                        *Pada skema Ijarah Muntahiya Bittamlik (IMBT), di akhir masa tenor penyewa dapat memperoleh hak milik aset melalui opsi hibah atau akad jual beli simbolik.
+                      </p>
+                    </div>
+                  );
+                })()}
+              </div>
+            )}
+
+            {/* QARDH AL-HASAN SIMULATOR */}
+            {akadId === "qardh" && (
+              <div className="space-y-4">
+                <p className="text-xs text-muted-foreground">
+                  Simulasikan pinjaman dana kebajikan syariah (Qardh al-Hasan) 100% bebas bunga dan denda ribawi untuk kebutuhan darurat.
+                </p>
+
+                <div className="space-y-3">
+                  <div>
+                    <label className="text-xs font-semibold text-foreground flex justify-between">
+                      <span>Pokok Pinjaman Kebajikan</span>
+                      <span className="text-primary font-bold">{formatRupiah(qrdPokok)}</span>
+                    </label>
+                    <input
+                      type="range"
+                      min={1000000}
+                      max={50000000}
+                      step={500000}
+                      value={qrdPokok}
+                      onChange={(e) => setQrdPokok(Number(e.target.value))}
+                      className="w-full accent-primary mt-1"
+                    />
+                  </div>
+
+                  <div>
+                    <label className="text-xs font-semibold text-foreground flex justify-between">
+                      <span>Tenor Pengembalian (Bulan)</span>
+                      <span className="text-primary font-bold">{qrdTenorBulan} Bulan</span>
+                    </label>
+                    <input
+                      type="range"
+                      min={1}
+                      max={36}
+                      step={1}
+                      value={qrdTenorBulan}
+                      onChange={(e) => setQrdTenorBulan(Number(e.target.value))}
+                      className="w-full accent-primary mt-1"
+                    />
+                  </div>
+
+                  <div>
+                    <label className="text-xs font-semibold text-foreground flex justify-between">
+                      <span>Biaya Administrasi Riil (Satu Kali, Notaris/Materai)</span>
+                      <span className="text-primary font-bold">{formatRupiah(qrdBiayaAdminRiil)}</span>
+                    </label>
+                    <input
+                      type="range"
+                      min={0}
+                      max={200000}
+                      step={10000}
+                      value={qrdBiayaAdminRiil}
+                      onChange={(e) => setQrdBiayaAdminRiil(Number(e.target.value))}
+                      className="w-full accent-primary mt-1"
+                    />
+                  </div>
+                </div>
+
+                {(() => {
+                  const angsuranPokokBulan = qrdPokok / qrdTenorBulan;
+                  const totalHarusDibayar = qrdPokok + qrdBiayaAdminRiil;
+
+                  return (
+                    <div className="mt-5 p-4 rounded-xl bg-muted/60 border border-border/60 space-y-2.5">
+                      <div className="flex justify-between items-center text-xs">
+                        <span className="text-muted-foreground">Suku Bunga / Mark-Up Tambahan:</span>
+                        <span className="font-extrabold text-emerald-600 dark:text-emerald-400">0% (Murni Bebas Riba)</span>
+                      </div>
+                      <div className="flex justify-between items-center text-xs">
+                        <span className="text-muted-foreground">Angsuran Pokok Bulanan:</span>
+                        <span className="font-bold text-foreground">{formatRupiah(angsuranPokokBulan)} / bln</span>
+                      </div>
+                      <div className="flex justify-between items-center text-xs">
+                        <span className="text-muted-foreground">Biaya Riil Pengelolaan (One-off):</span>
+                        <span className="font-medium text-muted-foreground">{formatRupiah(qrdBiayaAdminRiil)}</span>
+                      </div>
+                      <div className="w-full h-px bg-border/80 my-1" />
+                      <div className="flex justify-between items-center text-xs sm:text-sm">
+                        <span className="font-bold text-foreground">Total Pengembalian:</span>
+                        <span className="font-extrabold text-primary">{formatRupiah(totalHarusDibayar)}</span>
+                      </div>
+                      <p className="text-[11px] text-emerald-600 dark:text-emerald-400 italic pt-1">
+                        *Kaidah fiqh: "Kullu qardin jarra manfa'atan fahuwa riba" — Setiap pinjaman yang menarik manfaat/keuntungan bersyarat adalah riba. Qardh al-Hasan hanya mengembalikan pokok pinjaman.
                       </p>
                     </div>
                   );

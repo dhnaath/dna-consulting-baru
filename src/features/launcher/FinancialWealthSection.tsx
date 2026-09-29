@@ -46,6 +46,14 @@ import {
   ShieldCheck,
   Heart,
   RotateCcw,
+  Handshake,
+  Archive,
+  Tag,
+  Shield,
+  CheckCircle2,
+  AlertOctagon,
+  ShieldAlert,
+  Dice5,
   type LucideIcon,
 } from "lucide-react";
 import { type NavItem } from "@/config/nav";
@@ -63,7 +71,7 @@ export interface StandaloneFinancialAppDef {
   to: string;
   title: string;
   subtitle: string;
-  category: "surety" | "flow" | "build" | "grow" | "legacy";
+  category: "surety" | "flow" | "build" | "grow" | "legacy" | "sharia";
   categoryLabel: string;
   icon: LucideIcon;
   badge?: string;
@@ -81,11 +89,11 @@ export const STANDALONE_FINANCIAL_APPS: StandaloneFinancialAppDef[] = [
     title: "Legal Compliance",
     subtitle: "Kepatuhan legalitas keuangan perbankan, regulasi otoritas jasa keuangan, serta panduan syariah muamalah.",
     category: "surety",
-    categoryLabel: "Pilar 1: Surety",
+    categoryLabel: "Surety",
     icon: Scale,
     badge: "Standalone",
     features: [
-      { title: "Panduan Syariah dan Muamalah", to: "/syariah", icon: HeartHandshake },
+      { title: "Akad & Prinsip Syariah", to: "/syariah/akad", icon: HeartHandshake },
     ],
   },
   {
@@ -94,7 +102,7 @@ export const STANDALONE_FINANCIAL_APPS: StandaloneFinancialAppDef[] = [
     title: "Public Protection",
     subtitle: "Sistem jaminan sosial nasional, perlindungan keselamatan publik, dan asuransi sosial dasar tenaga kerja.",
     category: "surety",
-    categoryLabel: "Pilar 1: Surety",
+    categoryLabel: "Surety",
     icon: Globe,
     badge: "Standalone",
     isEmpty: true,
@@ -106,7 +114,7 @@ export const STANDALONE_FINANCIAL_APPS: StandaloneFinancialAppDef[] = [
     title: "Private Insurance",
     subtitle: "Proteksi risiko kesehatan personal, penyakit kritis, dan akad takaful tolong-menolong berlandaskan syariah.",
     category: "surety",
-    categoryLabel: "Pilar 1: Surety",
+    categoryLabel: "Surety",
     icon: Umbrella,
     badge: "Standalone",
     features: [
@@ -119,7 +127,7 @@ export const STANDALONE_FINANCIAL_APPS: StandaloneFinancialAppDef[] = [
     title: "Fund Sufficiency",
     subtitle: "Fondasi cadangan dana darurat, buffer likuiditas operasional, dan pemeliharaan kas likuid tak terduga.",
     category: "surety",
-    categoryLabel: "Pilar 1: Surety",
+    categoryLabel: "Surety",
     icon: Vault,
     badge: "Standalone",
     features: [
@@ -132,7 +140,7 @@ export const STANDALONE_FINANCIAL_APPS: StandaloneFinancialAppDef[] = [
     title: "Asset Protection",
     subtitle: "Brankas terenkripsi dokumen fisik aset, akses sandi finansial aman, dan pengarsipan nota garansi belanja.",
     category: "surety",
-    categoryLabel: "Pilar 1: Surety",
+    categoryLabel: "Surety",
     icon: Lock,
     badge: "Standalone",
     features: [
@@ -151,7 +159,7 @@ export const STANDALONE_FINANCIAL_APPS: StandaloneFinancialAppDef[] = [
     title: "Burden Liability",
     subtitle: "Pengawasan kewajiban finansial jangka pendek dan panjang, pemetaan rasio utang, serta cicilan bulanan.",
     category: "flow",
-    categoryLabel: "Pilar 2: Flow",
+    categoryLabel: "Flow",
     icon: CreditCard,
     badge: "Standalone",
     features: [
@@ -164,7 +172,7 @@ export const STANDALONE_FINANCIAL_APPS: StandaloneFinancialAppDef[] = [
     title: "Income-Expense",
     subtitle: "Monitoring komprehensif aliran pendapatan aktif/pasif serta tracking kuadran pengeluaran primer dan sekunder.",
     category: "flow",
-    categoryLabel: "Pilar 2: Flow",
+    categoryLabel: "Flow",
     icon: ArrowRightLeft,
     badge: "Standalone",
     features: [
@@ -178,7 +186,7 @@ export const STANDALONE_FINANCIAL_APPS: StandaloneFinancialAppDef[] = [
     title: "Cash-Credit",
     subtitle: "Pengelolaan saldo kas harian, transaksi multi-wallet, serta kontrol limit kartu kredit dan pinjaman lunak.",
     category: "flow",
-    categoryLabel: "Pilar 2: Flow",
+    categoryLabel: "Flow",
     icon: Banknote,
     badge: "Standalone",
     features: [
@@ -192,7 +200,7 @@ export const STANDALONE_FINANCIAL_APPS: StandaloneFinancialAppDef[] = [
     title: "Retribution-Contribution",
     subtitle: "Perhitungan estimasi pajak penghasilan pribadi (PPh 21 progresif), PTKP, dan kepatuhan kontribusi pajak resmi.",
     category: "flow",
-    categoryLabel: "Pilar 2: Flow",
+    categoryLabel: "Flow",
     icon: Receipt,
     badge: "Standalone",
     features: [
@@ -205,7 +213,7 @@ export const STANDALONE_FINANCIAL_APPS: StandaloneFinancialAppDef[] = [
     title: "Automation System",
     subtitle: "Otomasi sistem alokasi anggaran bulanan dengan formula persentase 50/30/20 dan autodebet investasi rutin.",
     category: "flow",
-    categoryLabel: "Pilar 2: Flow",
+    categoryLabel: "Flow",
     icon: Activity,
     badge: "Standalone",
     features: [
@@ -222,7 +230,7 @@ export const STANDALONE_FINANCIAL_APPS: StandaloneFinancialAppDef[] = [
     title: "Human Capital",
     subtitle: "Valuasi kapasitas nilai keahlian diri, daya ungkit karier profesional, dan estimasi nilai kapital manusia.",
     category: "build",
-    categoryLabel: "Pilar 3: Build",
+    categoryLabel: "Build",
     icon: Brain,
     badge: "Standalone",
     isEmpty: true,
@@ -234,7 +242,7 @@ export const STANDALONE_FINANCIAL_APPS: StandaloneFinancialAppDef[] = [
     title: "Net-Work",
     subtitle: "Pusat relasi kemitraan bisnis penghasil omset dan direktori kontak spesialis keuangan, banker, serta akuntan.",
     category: "build",
-    categoryLabel: "Pilar 3: Build",
+    categoryLabel: "Build",
     icon: Network,
     badge: "Standalone",
     features: [
@@ -248,7 +256,7 @@ export const STANDALONE_FINANCIAL_APPS: StandaloneFinancialAppDef[] = [
     title: "Portfolio",
     subtitle: "Manajemen kepemilikan multi-aset: properti real estate, surat berharga saham/sukuk, aset digital, dan HKI.",
     category: "build",
-    categoryLabel: "Pilar 3: Build",
+    categoryLabel: "Build",
     icon: Briefcase,
     badge: "Standalone",
     features: [
@@ -264,7 +272,7 @@ export const STANDALONE_FINANCIAL_APPS: StandaloneFinancialAppDef[] = [
     title: "Net-Worth",
     subtitle: "Perhitungan kalkulasi total net worth bersih dari seluruh kelas aset serta asesmen rasio kesehatan keuangan.",
     category: "build",
-    categoryLabel: "Pilar 3: Build",
+    categoryLabel: "Build",
     icon: Landmark,
     badge: "Standalone",
     features: [
@@ -278,7 +286,7 @@ export const STANDALONE_FINANCIAL_APPS: StandaloneFinancialAppDef[] = [
     title: "Book Entry",
     subtitle: "Sistem pembukuan neraca saldo aset personal, jurnal penyesuaian arus transaksi, dan pencatatan buku besar.",
     category: "build",
-    categoryLabel: "Pilar 3: Build",
+    categoryLabel: "Build",
     icon: BookOpen,
     badge: "Standalone",
     isEmpty: true,
@@ -294,7 +302,7 @@ export const STANDALONE_FINANCIAL_APPS: StandaloneFinancialAppDef[] = [
     title: "Risk Profiling",
     subtitle: "Diagnostik toleransi risiko investor (konservatif, moderat, agresif) serta horizon waktu pencapaian target modal.",
     category: "grow",
-    categoryLabel: "Pilar 4: Grow",
+    categoryLabel: "Grow",
     icon: Activity,
     badge: "Standalone",
     isEmpty: true,
@@ -306,12 +314,11 @@ export const STANDALONE_FINANCIAL_APPS: StandaloneFinancialAppDef[] = [
     title: "Allocation",
     subtitle: "Strategi alokasi aset syariah melalui pasar muamalah fisik, indeks saham sharia, dan 100 komoditas riil dunia.",
     category: "grow",
-    categoryLabel: "Pilar 4: Grow",
+    categoryLabel: "Grow",
     icon: PieChart,
     badge: "Standalone",
     features: [
-      { title: "Pasar Muamalah", to: "/syariah", icon: HeartHandshake },
-      { title: "Indeks Sharia", to: "/syariah/indeks", icon: LineChart },
+      { title: "Logam Mulia & Saham", to: "/100-komoditas", icon: Coins },
       { title: "100 Komoditas", to: "/100-komoditas", icon: Package },
     ],
   },
@@ -321,7 +328,7 @@ export const STANDALONE_FINANCIAL_APPS: StandaloneFinancialAppDef[] = [
     title: "Effective-Efficient",
     subtitle: "Pengurangan friction fee transaksi, rasio efisiensi pengelolaan instrumen, dan maksimalisasi net yield return.",
     category: "grow",
-    categoryLabel: "Pilar 4: Grow",
+    categoryLabel: "Grow",
     icon: Zap,
     badge: "Standalone",
     isEmpty: true,
@@ -333,7 +340,7 @@ export const STANDALONE_FINANCIAL_APPS: StandaloneFinancialAppDef[] = [
     title: "Compounding",
     subtitle: "Simulasi kekuatan bunga majemuk (compounding interest) dan kalkulator Return on Investment (ROI) berkala.",
     category: "grow",
-    categoryLabel: "Pilar 4: Grow",
+    categoryLabel: "Grow",
     icon: TrendingUp,
     badge: "Standalone",
     features: [
@@ -346,7 +353,7 @@ export const STANDALONE_FINANCIAL_APPS: StandaloneFinancialAppDef[] = [
     title: "Periodic Rebalancing",
     subtitle: "Penyesuaian periodik deviasi alokasi aset investasi agar tetap berada pada batas toleransi risiko yang optimal.",
     category: "grow",
-    categoryLabel: "Pilar 4: Grow",
+    categoryLabel: "Grow",
     icon: RefreshCw,
     badge: "Standalone",
     isEmpty: true,
@@ -362,7 +369,7 @@ export const STANDALONE_FINANCIAL_APPS: StandaloneFinancialAppDef[] = [
     title: "Lifelong Learning",
     subtitle: "Edukasi filosofi kekayaan keluarga, kurikulum literasi finansial antargenerasi, dan transfer nilai-nilai bijak.",
     category: "legacy",
-    categoryLabel: "Pilar 5: Legacy",
+    categoryLabel: "Legacy",
     icon: GraduationCap,
     badge: "Standalone",
     isEmpty: true,
@@ -374,7 +381,7 @@ export const STANDALONE_FINANCIAL_APPS: StandaloneFinancialAppDef[] = [
     title: "Valuasi MAPPI",
     subtitle: "Standar Penilaian Indonesia (SPI) terakreditasi: penilaian properti komersial/residensial, valuasi entitas bisnis, dan opini nilai wajar aset.",
     category: "legacy",
-    categoryLabel: "Pilar 5: Legacy",
+    categoryLabel: "Legacy",
     icon: Building,
     badge: "Standalone",
     features: [
@@ -389,7 +396,7 @@ export const STANDALONE_FINANCIAL_APPS: StandaloneFinancialAppDef[] = [
     title: "Good Governance",
     subtitle: "Tata kelola legalitas aset keluarga dan sertifikasi nilai pasar independen sesuai standar penilaian MAPPI.",
     category: "legacy",
-    categoryLabel: "Pilar 5: Legacy",
+    categoryLabel: "Legacy",
     icon: Scale,
     badge: "Standalone",
     features: [
@@ -402,7 +409,7 @@ export const STANDALONE_FINANCIAL_APPS: StandaloneFinancialAppDef[] = [
     title: "Charitable Concern",
     subtitle: "Penyaluran zakat dan sedekah terstruktur, pelacak donasi infaq kemanusiaan, serta pencatatan relawan sosial.",
     category: "legacy",
-    categoryLabel: "Pilar 5: Legacy",
+    categoryLabel: "Legacy",
     icon: HeartHandshake,
     badge: "Standalone",
     features: [
@@ -417,7 +424,7 @@ export const STANDALONE_FINANCIAL_APPS: StandaloneFinancialAppDef[] = [
     title: "Liability Liquidation",
     subtitle: "Prosedur penutupan dan pelunasan seluruh sisa kewajiban hutang piutang sebelum transisi pembagian warisan aset.",
     category: "legacy",
-    categoryLabel: "Pilar 5: Legacy",
+    categoryLabel: "Legacy",
     icon: ReceiptText,
     badge: "Standalone",
     features: [
@@ -430,11 +437,267 @@ export const STANDALONE_FINANCIAL_APPS: StandaloneFinancialAppDef[] = [
     title: "Wealth Transfer",
     subtitle: "Perencanaan suksesi peralihan portofolio aset, pembagian hak waris, dan pemindahan hak milik bebas sengketa.",
     category: "legacy",
-    categoryLabel: "Pilar 5: Legacy",
+    categoryLabel: "Legacy",
     icon: Gift,
     badge: "Standalone",
     features: [
       { title: "Portfolio", to: "/build?tab=cat_portofolio", icon: Briefcase },
+    ],
+  },
+
+  // ==========================================
+  // KATEGORI KHUSUS: SHARIA PRINCIPLES
+  // ==========================================
+  {
+    id: "akad-tabarru",
+    to: "/syariah/akad?app=tabarru",
+    title: "Tabarru'",
+    subtitle: "Akad kebajikan dan tolong-menolong tanpa motif komersial untuk proteksi risiko musibah, santunan, dan donasi sosial.",
+    category: "sharia",
+    categoryLabel: "Sharia Principles",
+    icon: HeartHandshake,
+    badge: "Standalone",
+    features: [
+      { title: "Kalkulator Dana Tabarru'", to: "/syariah/akad?app=tabarru", icon: Calculator },
+      { title: "Rukun & Fatwa DSN", to: "/syariah/akad?app=tabarru", icon: BookOpen },
+    ],
+  },
+  {
+    id: "akad-mudharabah",
+    to: "/syariah/akad?app=mudharabah",
+    title: "Mudharabah",
+    subtitle: "Akad kemitraan usaha bagi hasil antara shahibul maal (penyedia modal 100%) dan mudharib (pengelola keahlian usaha).",
+    category: "sharia",
+    categoryLabel: "Sharia Principles",
+    icon: Scale,
+    badge: "Standalone",
+    features: [
+      { title: "Simulasi Nisbah Bagi Hasil", to: "/syariah/akad?app=mudharabah", icon: Calculator },
+      { title: "Struktur Modal & Profit", to: "/syariah/akad?app=mudharabah", icon: TrendingUp },
+    ],
+  },
+  {
+    id: "akad-wakalah",
+    to: "/syariah/akad?app=wakalah",
+    title: "Wakalah",
+    subtitle: "Pelimpahan kuasa perwakilan dari satu pihak kepada pihak lain untuk mengelola urusan finansial atau investasi dengan ujrah.",
+    category: "sharia",
+    categoryLabel: "Sharia Principles",
+    icon: Handshake,
+    badge: "Standalone",
+    features: [
+      { title: "Kalkulator Fee Ujrah", to: "/syariah/akad?app=wakalah", icon: Calculator },
+      { title: "Mandat Kuasa Kelola", to: "/syariah/akad?app=wakalah", icon: CheckCircle2 },
+    ],
+  },
+  {
+    id: "akad-wadiah",
+    to: "/syariah/akad?app=wadiah",
+    title: "Wadiah",
+    subtitle: "Akad penitipan murni dana atau aset (amanah) atau titipan dengan hak guna kelola dan jaminan penarikan penuh (dhamanah).",
+    category: "sharia",
+    categoryLabel: "Sharia Principles",
+    icon: Archive,
+    badge: "Standalone",
+    features: [
+      { title: "Audit Titipan Amanah", to: "/syariah/akad?app=wadiah", icon: ShieldCheck },
+      { title: "Simulasi Bonus Sukarela", to: "/syariah/akad?app=wadiah", icon: Coins },
+    ],
+  },
+  {
+    id: "akad-musyarakah",
+    to: "/syariah/akad?app=musyarakah",
+    title: "Musyarakah",
+    subtitle: "Akad kerja sama permodalan bersama (joint venture) dengan porsi modal bersama dan pembagian laba rugi proporsional.",
+    category: "sharia",
+    categoryLabel: "Sharia Principles",
+    icon: Users,
+    badge: "Standalone",
+    features: [
+      { title: "Kalkulator Porsi Ekuitas", to: "/syariah/akad?app=musyarakah", icon: Calculator },
+      { title: "Bagi Hasil Syirkah", to: "/syariah/akad?app=musyarakah", icon: TrendingUp },
+    ],
+  },
+  {
+    id: "akad-murabahah",
+    to: "/syariah/akad?app=murabahah",
+    title: "Murabahah",
+    subtitle: "Akad jual beli barang dengan pengungkapan transparan harga pokok perolehan dan margin keuntungan (mark-up) yang disepakati.",
+    category: "sharia",
+    categoryLabel: "Sharia Principles",
+    icon: Tag,
+    badge: "Standalone",
+    features: [
+      { title: "Kalkulator Angsuran Tetap", to: "/syariah/akad?app=murabahah", icon: Calculator },
+      { title: "Rincian Margin Pokok", to: "/syariah/akad?app=murabahah", icon: Receipt },
+    ],
+  },
+  {
+    id: "akad-tamin",
+    to: "/syariah/akad?app=tamin",
+    title: "Ta'min",
+    subtitle: "Sistem perlindungan finansial mutual dan penjaminan risiko bersama antar pihak berbasis kepastian akad syariah.",
+    category: "sharia",
+    categoryLabel: "Sharia Principles",
+    icon: Shield,
+    badge: "Standalone",
+    features: [
+      { title: "Audit Proteksi Risiko", to: "/syariah/akad?app=tamin", icon: ShieldCheck },
+      { title: "Klaim Mutual Syariah", to: "/syariah/akad?app=tamin", icon: HeartHandshake },
+    ],
+  },
+  {
+    id: "akad-takaful",
+    to: "/syariah/akad?app=takaful",
+    title: "Takaful",
+    subtitle: "Asuransi syariah berlandaskan gotong royong saling memikul beban risiko kerugian antar peserta melalui kumpulan dana kebajikan.",
+    category: "sharia",
+    categoryLabel: "Sharia Principles",
+    icon: Users,
+    badge: "Standalone",
+    features: [
+      { title: "Simulasi Polis Takaful", to: "/syariah/akad?app=takaful", icon: Calculator },
+      { title: "Pengelolaan Surplus", to: "/syariah/akad?app=takaful", icon: Coins },
+    ],
+  },
+  {
+    id: "akad-tadhamun",
+    to: "/syariah/akad?app=tadhamun",
+    title: "Tadhamun",
+    subtitle: "Prinsip solidaritas komprehensif, jaminan kolektif, dan tanggung renteng dalam muamalah finansial kemasyarakatan.",
+    category: "sharia",
+    categoryLabel: "Sharia Principles",
+    icon: Heart,
+    badge: "Standalone",
+    features: [
+      { title: "Manajemen Tanggung Renteng", to: "/syariah/akad?app=tadhamun", icon: Users },
+      { title: "Dana Tanggap Darurat", to: "/syariah/akad?app=tadhamun", icon: HeartHandshake },
+    ],
+  },
+  {
+    id: "akad-ijarah",
+    to: "/syariah/akad?app=ijarah",
+    title: "Ijarah",
+    subtitle: "Akad sewa menyewa atas pemanfaatan hak guna (manfaat) aset atau jasa tanpa pemindahan kepemilikan pokok (opsi IMBT).",
+    category: "sharia",
+    categoryLabel: "Sharia Principles",
+    icon: Building,
+    badge: "Standalone",
+    features: [
+      { title: "Simulasi Ujrah Sewa", to: "/syariah/akad?app=ijarah", icon: Calculator },
+      { title: "Skema IMBT (Sewa Beli)", to: "/syariah/akad?app=ijarah", icon: Home },
+    ],
+  },
+  {
+    id: "akad-qardh",
+    to: "/syariah/akad?app=qardh",
+    title: "Qardh al-Hasan",
+    subtitle: "Pinjaman dana kebajikan syariah murni 100% bebas bunga dan denda ribawi untuk membantu kebutuhan darurat.",
+    category: "sharia",
+    categoryLabel: "Sharia Principles",
+    icon: Coins,
+    badge: "Standalone",
+    features: [
+      { title: "Kalkulator Cicilan Pokok 0%", to: "/syariah/akad?app=qardh", icon: Calculator },
+      { title: "Audit Pinjaman Halal", to: "/syariah/akad?app=qardh", icon: ShieldCheck },
+    ],
+  },
+  {
+    id: "zakat-penghasilan",
+    to: "/zakat?app=penghasilan",
+    title: "Zakat Penghasilan",
+    subtitle: "Kalkulator kewajiban zakat profesi atas gaji, bonus, dan honorarium rutin bulanan setelah mencapai nishab 85g emas.",
+    category: "sharia",
+    categoryLabel: "Sharia Principles",
+    icon: Briefcase,
+    badge: "Standalone",
+    features: [
+      { title: "Kalkulator 2.5% Profesi", to: "/zakat?app=penghasilan", icon: Calculator },
+      { title: "Fatwa & Nisab Emas", to: "/zakat?app=penghasilan", icon: BookOpen },
+    ],
+  },
+  {
+    id: "zakat-maal",
+    to: "/zakat?app=maal",
+    title: "Zakat Maal",
+    subtitle: "Penghitungan zakat simpanan tabungan, deposito, emas batangan, perak, dan aset investasi yang telah mencapai haul 1 tahun.",
+    category: "sharia",
+    categoryLabel: "Sharia Principles",
+    icon: Coins,
+    badge: "Standalone",
+    features: [
+      { title: "Kalkulator Haul 1 Tahun", to: "/zakat?app=maal", icon: Calculator },
+      { title: "Nisab Tabungan & Emas", to: "/zakat?app=maal", icon: Scale },
+    ],
+  },
+  {
+    id: "zakat-fitrah",
+    to: "/zakat?app=fitrah",
+    title: "Zakat Fitrah",
+    subtitle: "Kewajiban pensucian jiwa menjelang Idul Fitri bagi setiap anggota keluarga (setara 2.5 kg atau 3.5 liter beras per jiwa).",
+    category: "sharia",
+    categoryLabel: "Sharia Principles",
+    icon: Users,
+    badge: "Standalone",
+    features: [
+      { title: "Kalkulator Jiwa Keluarga", to: "/zakat?app=fitrah", icon: Calculator },
+      { title: "Konversi Beras / Rupiah", to: "/zakat?app=fitrah", icon: Coins },
+    ],
+  },
+  {
+    id: "zakat-hub",
+    to: "/zakat",
+    title: "Zakat & Sedekah Hub",
+    subtitle: "Pusat integrasi penunaian zakat, infaq kemanusiaan, sedekah produktif, dan audit distribusi 8 asnaf mustahik.",
+    category: "sharia",
+    categoryLabel: "Sharia Principles",
+    icon: HeartHandshake,
+    badge: "Standalone",
+    features: [
+      { title: "Kalkulator Multiaset", to: "/zakat", icon: Calculator },
+      { title: "8 Asnaf Mustahik", to: "/zakat", icon: Users },
+    ],
+  },
+  {
+    id: "audit-riba",
+    to: "/syariah/terlarang?app=riba",
+    title: "Audit Riba",
+    subtitle: "Pemeriksaan dan diagnosis transaksi keuangan untuk memastikan bebas dari unsur bunga, denda berlipat, dan riba nasi'ah.",
+    category: "sharia",
+    categoryLabel: "Sharia Principles",
+    icon: AlertOctagon,
+    badge: "Standalone",
+    features: [
+      { title: "Checklist Riba Qardh & Jual Beli", to: "/syariah/terlarang?app=riba", icon: ShieldAlert },
+      { title: "Fatwa Bunga Bank", to: "/syariah/terlarang?app=riba", icon: BookOpen },
+    ],
+  },
+  {
+    id: "audit-gharar",
+    to: "/syariah/terlarang?app=gharar",
+    title: "Audit Gharar",
+    subtitle: "Audit kejelasan dan kepastian objek akad, kuantitas, harga, serta kesanggupan serah terima untuk menghindari sengketa.",
+    category: "sharia",
+    categoryLabel: "Sharia Principles",
+    icon: ShieldAlert,
+    badge: "Standalone",
+    features: [
+      { title: "Audit Ketidakpastian Akad", to: "/syariah/terlarang?app=gharar", icon: CheckCircle2 },
+      { title: "Standar Kejelasan Objek", to: "/syariah/terlarang?app=gharar", icon: BookOpen },
+    ],
+  },
+  {
+    id: "audit-maysir",
+    to: "/syariah/terlarang?app=maysir",
+    title: "Audit Maysir",
+    subtitle: "Evaluasi instrumen spekulasi zero-sum game, untung-untungan tanpa underlying riil, dan transaksi berunsur perjudian.",
+    category: "sharia",
+    categoryLabel: "Sharia Principles",
+    icon: Dice5,
+    badge: "Standalone",
+    features: [
+      { title: "Uji Spekulasi vs Investasi", to: "/syariah/terlarang?app=maysir", icon: Calculator },
+      { title: "Kaidah Underlying Riil", to: "/syariah/terlarang?app=maysir", icon: Scale },
     ],
   },
 ];
@@ -452,7 +715,7 @@ interface FinancialWealthSectionProps {
   FolderTile?: any;
 }
 
-export type FinancialCategoryTab = "all" | "spectrum";
+export type FinancialCategoryTab = "all" | "spectrum" | "sharia";
 
 const FinancialFlipCard = ({
   app,
@@ -626,17 +889,25 @@ export function FinancialWealthSection({
   const [activeTab, setActiveTab] = useState<FinancialCategoryTab>("all");
   const [selectedPillar, setSelectedPillar] = useState<string | null>(null);
 
+  const countAll = STANDALONE_FINANCIAL_APPS.length;
+  const countSpectrum = STANDALONE_FINANCIAL_APPS.filter((a) => a.category !== "sharia").length;
+  const countSharia = STANDALONE_FINANCIAL_APPS.filter((a) => a.category === "sharia").length;
+
   const filteredApps = useMemo(() => {
     if (activeTab === "all" && !selectedPillar) {
       return STANDALONE_FINANCIAL_APPS;
+    }
+    if (activeTab === "sharia" || selectedPillar === "sharia") {
+      return STANDALONE_FINANCIAL_APPS.filter((app) => app.category === "sharia");
+    }
+    if (activeTab === "spectrum" && !selectedPillar) {
+      return STANDALONE_FINANCIAL_APPS.filter((app) => app.category !== "sharia");
     }
     if (selectedPillar) {
       return STANDALONE_FINANCIAL_APPS.filter((app) => app.category === selectedPillar);
     }
     return STANDALONE_FINANCIAL_APPS;
   }, [activeTab, selectedPillar]);
-
-  const countAll = STANDALONE_FINANCIAL_APPS.length;
 
   return (
     <div className="w-full flex flex-col items-center">
@@ -646,11 +917,11 @@ export function FinancialWealthSection({
           <span>Financial Planning <span className="font-normal">&</span> Wealth Management</span>
         </h3>
         <p className="text-xs sm:text-sm text-muted-foreground mt-1.5 max-w-2xl mx-auto">
-          25 Standalone Apps Terintegrasi — Arsitektur 5 Pilar: Surety (Kepastian), Flow (Arus Kas), Build (Akumulasi), Grow (Pertumbuhan), dan Legacy (Warisan).
+          {countAll} Standalone Apps Terintegrasi — Arsitektur Wealth Spectrum ({countSpectrum} Apps) & Kategori Khusus Sharia Principles ({countSharia} Akad).
         </p>
       </div>
 
-      {/* Main Filter Tabs: Semua App & Wealth Spectrum */}
+      {/* Main Filter Tabs: Semua App, Wealth Spectrum, Sharia Principles */}
       <div className="flex flex-wrap items-center justify-center gap-2.5 w-full mb-6">
         <button
           onClick={() => {
@@ -679,28 +950,89 @@ export function FinancialWealthSection({
         <button
           onClick={() => {
             setActiveTab("spectrum");
+            if (selectedPillar === "sharia") {
+              setSelectedPillar(null);
+            }
           }}
           className={`shrink-0 px-5 py-2.5 rounded-full text-xs sm:text-sm font-semibold transition-all duration-200 cursor-pointer flex items-center gap-2 ${
-            activeTab === "spectrum" || selectedPillar
+            activeTab === "spectrum" || (selectedPillar && selectedPillar !== "sharia")
               ? "bg-primary text-primary-foreground shadow-md scale-105 font-bold"
               : "bg-muted/80 text-muted-foreground hover:bg-muted hover:text-foreground hover:scale-105"
           }`}
         >
           <ShieldCheck className="size-4 shrink-0 text-emerald-500" />
           <span>Wealth Spectrum</span>
+          <span
+            className={`text-[10px] px-2 py-0.5 rounded-full font-bold ${
+              activeTab === "spectrum" || (selectedPillar && selectedPillar !== "sharia")
+                ? "bg-primary-foreground/20 text-primary-foreground"
+                : "bg-background/80 text-muted-foreground"
+            }`}
+          >
+            {countSpectrum}
+          </span>
+        </button>
+
+        <button
+          onClick={() => {
+            setActiveTab("sharia");
+            setSelectedPillar("sharia");
+          }}
+          className={`shrink-0 px-5 py-2.5 rounded-full text-xs sm:text-sm font-semibold transition-all duration-200 cursor-pointer flex items-center gap-2 ${
+            activeTab === "sharia" || selectedPillar === "sharia"
+              ? "bg-primary text-primary-foreground shadow-md scale-105 font-bold"
+              : "bg-muted/80 text-muted-foreground hover:bg-muted hover:text-foreground hover:scale-105"
+          }`}
+        >
+          <Handshake className="size-4 shrink-0 text-amber-500" />
+          <span>Sharia Principles</span>
+          <span
+            className={`text-[10px] px-2 py-0.5 rounded-full font-bold ${
+              activeTab === "sharia" || selectedPillar === "sharia"
+                ? "bg-primary-foreground/20 text-primary-foreground"
+                : "bg-background/80 text-muted-foreground"
+            }`}
+          >
+            {countSharia}
+          </span>
         </button>
       </div>
 
-      {/* Kotak-kotak 5 Tahapan Deskripsi (Surety, Flow, Build, Grow, Legacy) Tetap Dimunculkan */}
-      <WealthSpectrumPillView
-        selectedFilter={selectedPillar || undefined}
-        onSelectFilter={(cat) => {
-          setSelectedPillar(cat);
-          if (cat) {
-            setActiveTab("spectrum");
-          }
-        }}
-      />
+      {/* Tampilan Pengontrol / Deskripsi Kategori */}
+      {activeTab === "sharia" || selectedPillar === "sharia" ? (
+        <div className="w-full mb-6 p-4 rounded-2xl bg-card border border-primary/20 shadow-xs flex flex-col sm:flex-row items-center justify-between gap-3 text-center sm:text-left">
+          <div className="flex items-center gap-3">
+            <div className="size-10 rounded-xl bg-primary/10 text-primary flex items-center justify-center shrink-0">
+              <Handshake className="size-5" />
+            </div>
+            <div>
+              <h4 className="text-sm font-bold text-foreground">
+                Kategori Khusus: Sharia Principles
+              </h4>
+              <p className="text-xs text-muted-foreground">
+                Ekosistem Lengkap: 11 Akad Muamalah, 4 Modul Zakat & Filantropi, serta 3 Audit Bebas Riba, Gharar & Maysir
+              </p>
+            </div>
+          </div>
+          <Link
+            to="/syariah/akad"
+            className="text-xs font-semibold text-primary hover:underline flex items-center gap-1 shrink-0"
+          >
+            <span>Panduan Rukun & Fatwa DSN-MUI</span>
+            <ArrowRight className="size-3" />
+          </Link>
+        </div>
+      ) : (
+        <WealthSpectrumPillView
+          selectedFilter={selectedPillar && selectedPillar !== "sharia" ? selectedPillar : undefined}
+          onSelectFilter={(cat) => {
+            setSelectedPillar(cat);
+            if (cat) {
+              setActiveTab("spectrum");
+            }
+          }}
+        />
+      )}
 
       {/* Standalone Apps Cards Grid */}
       <div className="w-full grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">

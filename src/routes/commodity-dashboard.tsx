@@ -1,13 +1,16 @@
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useEffect } from 'react';
 import { 
   Search, Download, TrendingUp, TrendingDown, 
   ShieldAlert, Database, Copy, Eye, X, Info, 
   Building2, CheckCircle2, Table as TableIcon, LayoutGrid,
-  ArrowUpRight, Users, Briefcase, Wallet, CalendarClock, Package, Calendar,
-  Filter, Layers, ExternalLink
+  ArrowUpRight, ArrowDownRight, Users, Briefcase, Wallet, CalendarClock, Package, Calendar,
+  Filter, Layers, ExternalLink, Coins
 } from 'lucide-react';
 import { AppShell } from '@/app/app-shell';
 import { Panel, Pill, Kosong } from '@/app/ui-bits';
+import { cn } from '@/lib/utils';
+import { MOCK_COMMODITIES, INDICES_DATA, IndexKey } from '@/features/syariah/lib/data';
+import { Commodity } from '@/features/syariah/types';
 import { 
   COMMODITY_DATA, 
   COMMODITY_SOURCES, 
@@ -58,6 +61,120 @@ export function CommodityDashboardSection({ isEmbedded = false }: { isEmbedded?:
   const [selectedItem, setSelectedItem] = useState<CommodityItem | null>(null);
   const [showJsonSchemaModal, setShowJsonSchemaModal] = useState(false);
   const [copiedNotification, setCopiedNotification] = useState<string | null>(null);
+
+  // Kutipan Harga Real-Time (Logam Mulia & Indeks Global)
+  const [quoteCommodities, setQuoteCommodities] = useState<Commodity[]>([]);
+  const [quoteCurrency, setQuoteCurrency] = useState<'IDR' | 'USD'>('IDR');
+  const [weightUnit, setWeightUnit] = useState<'GRAM' | 'OZ'>('GRAM');
+  const [exchangeRate, setExchangeRate] = useState<number>(15850);
+
+  // Saham Indeks Syariah BEI (JII / JII70 / ISSI)
+  const [selectedStockIndex, setSelectedStockIndex] = useState<IndexKey>('JII');
+  const [stockSearchQuery, setStockSearchQuery] = useState('');
+  const currentStockIndexData = INDICES_DATA[selectedStockIndex];
+  const filteredStockCompanies = useMemo(() => {
+    const q = stockSearchQuery.toLowerCase().trim();
+    return currentStockIndexData.companies.filter(
+      (c) =>
+        !q ||
+        c.ticker.toLowerCase().includes(q) ||
+        c.name.toLowerCase().includes(q) ||
+        c.sector.toLowerCase().includes(q),
+    );
+  }, [currentStockIndexData, stockSearchQuery]);
+
+  useEffect(() => {
+    const fetchLiveQuotes = () => {
+      setQuoteCommodities(
+        MOCK_COMMODITIES.map((c) => {
+          const noise = 1 + (Math.random() * 0.01 - 0.005);
+          return {
+            ...c,
+            currentPrice: c.currentPrice * noise,
+          };
+        }),
+      );
+    };
+
+    fetchLiveQuotes();
+    const interval = setInterval(fetchLiveQuotes, 60000);
+    return () => clearInterval(interval);
+  }, []);
+
+  const formatQuoteCurrency = (val: number, isIndex: boolean = false, curr: 'IDR' | 'USD' = 'IDR') => {
+    if (isIndex) {
+      return new Intl.NumberFormat('id-ID', {
+        minimumFractionDigits: 2,
+        maximumFractionDigits: 2,
+      }).format(val);
+    }
+    return new Intl.NumberFormat('en-US', {
+      style: 'currency',
+      currency: curr,
+      minimumFractionDigits: curr === 'USD' ? 2 : 0,
+      maximumFractionDigits: curr === 'USD' ? 2 : 0,
+    }).format(val);
+  };
+
+  const renderCommodityQuoteCard = (item: Commodity) => {
+    const isUp = item.changePercent24h >= 0;
+    const TROY_OUNCE_TO_GRAM = 31.1034768;
+
+    let displayPrice = item.currentPrice;
+    const displaySymbol = item.symbol;
+    let displayWeightInfo = '';
+
+    if (!item.isIndex) {
+      if (quoteCurrency === 'IDR') {
+        displayPrice = item.currentPrice * exchangeRate;
+      }
+      if (weightUnit === 'GRAM') {
+        displayPrice = displayPrice / TROY_OUNCE_TO_GRAM;
+        if (quoteCurrency === 'IDR') {
+          displayWeightInfo = '• 1 g';
+        }
+      }
+    }
+
+    return (
+      <div
+        key={item.id}
+        className="bg-card p-4 sm:p-5 rounded-2xl shadow-2xs border border-border/70 flex flex-col justify-between h-32 transition-all hover:shadow-md hover:border-border"
+      >
+        <div className="flex justify-between items-start w-full">
+          <div>
+            <h4 className="font-semibold text-foreground text-sm sm:text-base">{item.name}</h4>
+            <span className="text-xs text-muted-foreground font-medium mt-0.5 block truncate max-w-[150px]">
+              {displaySymbol} {displayWeightInfo}
+            </span>
+          </div>
+          <div
+            className={cn(
+              'p-1.5 rounded-lg shrink-0',
+              isUp ? 'bg-primary/10 text-primary' : 'bg-rose-50 text-rose-600 dark:bg-rose-950/40 dark:text-rose-400',
+            )}
+          >
+            {isUp ? <ArrowUpRight size={16} /> : <ArrowDownRight size={16} />}
+          </div>
+        </div>
+        <div className="mt-3">
+          <div className="text-base sm:text-lg font-bold text-foreground">
+            {formatQuoteCurrency(displayPrice, item.isIndex, item.isIndex ? 'USD' : quoteCurrency)}
+          </div>
+          <div
+            className={cn(
+              'text-[11px] font-semibold flex items-center mt-0.5',
+              isUp ? 'text-primary' : 'text-rose-600 dark:text-rose-400',
+            )}
+          >
+            {isUp ? '+' : ''}
+            {item.changePercent24h.toFixed(2)}%
+            <span className="text-muted-foreground ml-1.5 font-medium">1 Hari</span>
+          </div>
+        </div>
+      </div>
+    );
+  };
 
   const categories = useMemo(() => {
     const list = Array.from(new Set(COMMODITY_DATA.map((item) => item.kategori)));
@@ -230,6 +347,201 @@ export function CommodityDashboardSection({ isEmbedded = false }: { isEmbedded?:
           nilai={`${COMMODITY_SOURCES.length}`}
           catatan="Kanal data instansi resmi"
         />
+      </div>
+
+      {/* Kutipan Harga Real-Time: Logam Mulia & Indeks Global */}
+      <div className="rounded-2xl border border-border bg-card p-5 sm:p-6 shadow-2xs space-y-6">
+        <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 pb-4 border-b border-border/60">
+          <div>
+            <div className="flex items-center gap-2">
+              <span className="p-1.5 rounded-lg bg-amber-400/10 text-amber-500">
+                <Coins className="size-4" />
+              </span>
+              <h3 className="text-lg font-bold text-foreground">
+                Kutipan Harga Pasar Real-Time
+              </h3>
+            </div>
+            <p className="text-xs text-muted-foreground mt-0.5">
+              Pantauan pergerakan spot Logam Mulia dan Indeks Pasar Global secara terpisah.
+            </p>
+          </div>
+
+          <div className="flex items-center gap-2 bg-muted/60 p-1 rounded-xl border border-border/60 shadow-2xs">
+            <div className="flex items-center gap-1 p-1 bg-background rounded-lg shadow-2xs">
+              <button
+                type="button"
+                onClick={() => setQuoteCurrency("IDR")}
+                className={cn(
+                  "px-2.5 py-1 text-xs font-semibold rounded-md transition-all cursor-pointer",
+                  quoteCurrency === "IDR"
+                    ? "bg-primary text-primary-foreground shadow-2xs font-bold"
+                    : "text-muted-foreground hover:text-foreground",
+                )}
+              >
+                IDR
+              </button>
+              <button
+                type="button"
+                onClick={() => setQuoteCurrency("USD")}
+                className={cn(
+                  "px-2.5 py-1 text-xs font-semibold rounded-md transition-all cursor-pointer",
+                  quoteCurrency === "USD"
+                    ? "bg-primary text-primary-foreground shadow-2xs font-bold"
+                    : "text-muted-foreground hover:text-foreground",
+                )}
+              >
+                USD
+              </button>
+            </div>
+            <div className="w-px h-5 bg-border"></div>
+            <div className="flex items-center gap-1 p-1 bg-background rounded-lg shadow-2xs">
+              <button
+                type="button"
+                onClick={() => setWeightUnit("GRAM")}
+                className={cn(
+                  "px-2.5 py-1 text-xs font-semibold rounded-md transition-all cursor-pointer",
+                  weightUnit === "GRAM"
+                    ? "bg-primary text-primary-foreground shadow-2xs font-bold"
+                    : "text-muted-foreground hover:text-foreground",
+                )}
+              >
+                GRAM
+              </button>
+              <button
+                type="button"
+                onClick={() => setWeightUnit("OZ")}
+                className={cn(
+                  "px-2.5 py-1 text-xs font-semibold rounded-md transition-all cursor-pointer",
+                  weightUnit === "OZ"
+                    ? "bg-primary text-primary-foreground shadow-2xs font-bold"
+                    : "text-muted-foreground hover:text-foreground",
+                )}
+              >
+                OZ
+              </button>
+            </div>
+          </div>
+        </div>
+
+        {/* 1. KATEGORI: LOGAM MULIA */}
+        <div>
+          <div className="flex items-center justify-between mb-3">
+            <h3 className="font-semibold text-foreground flex items-center gap-2 text-sm sm:text-base">
+              <div className="w-2.5 h-2.5 rounded-full bg-amber-400"></div>
+              <span>Logam Mulia</span>
+              <span className="text-[10px] px-2 py-0.5 rounded-full bg-amber-400/10 text-amber-600 dark:text-amber-400 font-bold">
+                Physical Commodities & Precious Metals
+              </span>
+            </h3>
+          </div>
+          <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-4 items-start">
+            {quoteCommodities.filter((item) => !item.isIndex).map(renderCommodityQuoteCard)}
+          </div>
+        </div>
+
+        {/* 2. KATEGORI: INDEKS GLOBAL */}
+        <div className="pt-4 border-t border-border/40">
+          <div className="flex items-center justify-between mb-3">
+            <h3 className="font-semibold text-foreground flex items-center gap-2 text-sm sm:text-base">
+              <div className="w-2.5 h-2.5 rounded-full bg-blue-500"></div>
+              <span>Indeks Global</span>
+              <span className="text-[10px] px-2 py-0.5 rounded-full bg-blue-500/10 text-blue-600 dark:text-blue-400 font-bold">
+                Market Indices & Benchmarks
+              </span>
+            </h3>
+          </div>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 items-start">
+            {quoteCommodities.filter((item) => item.isIndex).map(renderCommodityQuoteCard)}
+          </div>
+        </div>
+
+        {/* 3. KATEGORI: DAFTAR SAHAM INDEKS SYARIAH (JII / JII70 / ISSI) */}
+        <div className="pt-5 border-t border-border/40 space-y-3">
+          <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3">
+            <h3 className="font-semibold text-foreground flex items-center gap-2 text-sm sm:text-base">
+              <div className="w-2.5 h-2.5 rounded-full bg-emerald-500"></div>
+              <span>Saham Indeks Syariah (BEI / IDX)</span>
+              <span className="text-[10px] px-2 py-0.5 rounded-full bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 font-bold">
+                Konstituen Saham Syariah Terpilih
+              </span>
+            </h3>
+
+            {/* Category tabs: JII, JII70, ISSI */}
+            <div className="flex items-center gap-1.5 p-1 bg-muted/60 rounded-xl border border-border/60">
+              {(Object.keys(INDICES_DATA) as IndexKey[]).map((key) => (
+                <button
+                  key={key}
+                  type="button"
+                  onClick={() => setSelectedStockIndex(key)}
+                  className={cn(
+                    "px-3 py-1 text-xs font-semibold rounded-lg transition-all cursor-pointer",
+                    selectedStockIndex === key
+                      ? "bg-primary text-primary-foreground shadow-2xs font-bold"
+                      : "text-muted-foreground hover:text-foreground",
+                  )}
+                >
+                  {key}
+                </button>
+              ))}
+            </div>
+          </div>
+
+          <p className="text-xs text-muted-foreground">{currentStockIndexData.description}</p>
+
+          <div className="flex items-center justify-between gap-3 flex-wrap">
+            <div className="relative max-w-sm w-full">
+              <Search className="absolute left-3 top-1/2 -translate-y-1/2 size-3.5 text-muted-foreground" />
+              <input
+                type="text"
+                placeholder={`Cari kode, nama emiten, atau sektor ${selectedStockIndex}...`}
+                value={stockSearchQuery}
+                onChange={(e) => setStockSearchQuery(e.target.value)}
+                className="w-full pl-9 pr-3 py-1.5 bg-background border border-border rounded-xl text-xs text-foreground focus:outline-none focus:border-primary transition-colors"
+              />
+            </div>
+            <span className="text-[11px] text-muted-foreground">
+              Menampilkan <strong>{filteredStockCompanies.length}</strong> konstituen {selectedStockIndex}
+            </span>
+          </div>
+
+          <div className="overflow-x-auto max-h-[300px] border border-border/60 rounded-xl bg-background/50">
+            <table className="w-full text-left border-collapse text-xs">
+              <thead className="sticky top-0 bg-muted/90 backdrop-blur-xs z-10 border-b border-border/60">
+                <tr>
+                  <th className="py-2.5 px-3.5 font-bold uppercase tracking-wider text-[10px] text-muted-foreground">Kode</th>
+                  <th className="py-2.5 px-3.5 font-bold uppercase tracking-wider text-[10px] text-muted-foreground">Nama Perusahaan</th>
+                  <th className="py-2.5 px-3.5 font-bold uppercase tracking-wider text-[10px] text-muted-foreground">Sektor</th>
+                </tr>
+              </thead>
+              <tbody className="divide-y divide-border/40">
+                {filteredStockCompanies.length > 0 ? (
+                  filteredStockCompanies.map((c) => (
+                    <tr key={c.ticker} className="hover:bg-muted/40 transition-colors">
+                      <td className="py-2 px-3.5 font-mono font-bold text-primary">{c.ticker}</td>
+                      <td className="py-2 px-3.5 font-medium text-foreground">{c.name}</td>
+                      <td className="py-2 px-3.5 text-muted-foreground">
+                        <span className="px-2 py-0.5 rounded-md bg-muted text-[10px] font-semibold text-foreground/80">
+                          {c.sector}
+                        </span>
+                      </td>
+                    </tr>
+                  ))
+                ) : (
+                  <tr>
+                    <td colSpan={3} className="py-6 text-center text-muted-foreground">
+                      Tidak ada saham ditemukan untuk pencarian "{stockSearchQuery}"
+                    </td>
+                  </tr>
+                )}
+              </tbody>
+            </table>
+          </div>
+          <p className="text-[10px] text-muted-foreground italic text-right">
+            {selectedStockIndex === "JII"
+              ? "* Daftar 30 konstituen JII adalah data evaluasi berkala BEI"
+              : "* Menampilkan emiten syariah unggulan konstituen BEI"}
+          </p>
+        </div>
       </div>
 
       {/* Kategori Tabs Interaktif */}

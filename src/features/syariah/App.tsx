@@ -13,7 +13,6 @@ import {
   X,
 } from "lucide-react";
 import { MOCK_COMMODITIES } from "./lib/data";
-import LocalShariaIndices from "./components/LocalShariaIndices";
 import { Commodity } from "./types";
 import { cn } from "./lib/utils";
 import ProhibitedTransactions from "./components/ProhibitedTransactions";
@@ -122,7 +121,6 @@ export default function App({ onBack }: { onBack?: () => void } = {}) {
 
   const TABS = [
     { id: "dashboard", label: "Dashboard Pasar", icon: LayoutDashboard },
-    { id: "indices", label: "Indeks Sharia", icon: LineChart },
     { id: "prohibited", label: "Transaksi Terlarang", icon: AlertTriangle },
     { id: "contracts", label: "Akad Syariah", icon: FileText },
     { id: "insurance", label: "Asuransi Syariah", icon: Shield },
@@ -306,12 +304,6 @@ export default function App({ onBack }: { onBack?: () => void } = {}) {
                     {commodities.filter((item) => item.isIndex).map(renderCommodityCard)}
                   </div>
                 </div>
-              </div>
-            )}
-
-            {activeTab === "indices" && (
-              <div className="animate-in fade-in duration-300">
-                <LocalShariaIndices />
               </div>
             )}
 
