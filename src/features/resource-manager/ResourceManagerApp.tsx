@@ -1,4 +1,5 @@
 import { ShellHeader } from "@/app/shell-header";
+import { ShellSidebar } from "@/app/shell-sidebar";
 import React, { useState, useMemo } from "react";
 import {
   Layers,
@@ -236,110 +237,194 @@ export function ResourceManagerApp() {
         </div>
       )}
 
-      {/* Header */}
+      {/* LEFT SIDEBAR: Navigasi Menu & Tab Fitur Resource Manager */}
+      <ShellSidebar>
+        {/* Header Modul Resource Manager */}
+        <div className="p-3.5 border-b border-border/80 flex items-center justify-between">
+          <div className="flex items-center gap-2.5">
+            <div className="w-8 h-8 rounded-xl bg-gradient-to-tr from-amber-500 to-orange-600 shadow-md shadow-amber-500/25 flex items-center justify-center text-white shrink-0">
+              <Layers className="w-4 h-4" />
+            </div>
+            <div>
+              <div className="flex items-center gap-1.5">
+                <h2 className="text-xs font-bold text-foreground tracking-tight">Resource Manager</h2>
+                <span className="text-[9px] px-1.5 py-0.2 rounded bg-amber-500/15 text-amber-600 dark:text-amber-300 font-semibold border border-amber-500/30">
+                  #34
+                </span>
+              </div>
+              <p className="text-[10px] text-muted-foreground">Kapasitas & Alokasi</p>
+            </div>
+          </div>
+        </div>
+
+        {/* Menu Tab Fitur Utama */}
+        <div className="p-2 space-y-1">
+          <div className="px-2.5 py-1 text-[10px] font-bold uppercase tracking-wider text-muted-foreground/80">
+            Menu Navigasi Fitur
+          </div>
+
+          <button
+            onClick={() => setActiveTab("capacity_overview")}
+            className={`w-full flex items-center justify-between px-3 py-2 rounded-xl text-xs font-medium transition-colors cursor-pointer ${
+              activeTab === "capacity_overview"
+                ? "bg-amber-600 text-white font-semibold shadow-xs"
+                : "text-foreground/80 hover:text-foreground hover:bg-accent"
+            }`}
+          >
+            <div className="flex items-center gap-2.5">
+              <BarChart3 className="w-4 h-4 shrink-0" />
+              <span>Ringkasan Kapasitas</span>
+            </div>
+          </button>
+
+          <button
+            onClick={() => setActiveTab("list")}
+            className={`w-full flex items-center justify-between px-3 py-2 rounded-xl text-xs font-medium transition-colors cursor-pointer ${
+              activeTab === "list"
+                ? "bg-amber-600 text-white font-semibold shadow-xs"
+                : "text-foreground/80 hover:text-foreground hover:bg-accent"
+            }`}
+          >
+            <div className="flex items-center gap-2.5">
+              <Layers className="w-4 h-4 text-cyan-400 shrink-0" />
+              <span>Daftar Resource</span>
+            </div>
+            <span
+              className={`text-[10px] px-1.5 py-0.5 rounded-full font-mono ${
+                activeTab === "list"
+                  ? "bg-white/20 text-white"
+                  : "bg-muted text-muted-foreground"
+              }`}
+            >
+              {resources.length}
+            </span>
+          </button>
+
+          <button
+            onClick={() => setActiveTab("conflicts")}
+            className={`w-full flex items-center justify-between px-3 py-2 rounded-xl text-xs font-medium transition-colors cursor-pointer ${
+              activeTab === "conflicts"
+                ? "bg-rose-600 text-white font-semibold shadow-xs"
+                : "text-foreground/80 hover:text-rose-500 hover:bg-rose-500/10"
+            }`}
+          >
+            <div className="flex items-center gap-2.5">
+              <AlertTriangle className={`w-4 h-4 shrink-0 ${activeTab === "conflicts" ? "text-white" : "text-rose-500"}`} />
+              <span>Konflik Alokasi</span>
+            </div>
+            {conflicts.filter((c) => !c.resolved).length > 0 && (
+              <span
+                className={`text-[10px] px-1.5 py-0.5 rounded-full font-semibold ${
+                  activeTab === "conflicts"
+                    ? "bg-white/25 text-white"
+                    : "bg-rose-500/15 text-rose-600 dark:text-rose-400"
+                }`}
+              >
+                {conflicts.filter((c) => !c.resolved).length}
+              </span>
+            )}
+          </button>
+
+          <button
+            onClick={() => setActiveTab("allocation_calendar")}
+            className={`w-full flex items-center justify-between px-3 py-2 rounded-xl text-xs font-medium transition-colors cursor-pointer ${
+              activeTab === "allocation_calendar"
+                ? "bg-amber-600 text-white font-semibold shadow-xs"
+                : "text-foreground/80 hover:text-foreground hover:bg-accent"
+            }`}
+          >
+            <div className="flex items-center gap-2.5">
+              <Calendar className="w-4 h-4 text-purple-400 shrink-0" />
+              <span>Jadwal Alokasi</span>
+            </div>
+            <span
+              className={`text-[10px] px-1.5 py-0.5 rounded-full font-mono ${
+                activeTab === "allocation_calendar"
+                  ? "bg-white/20 text-white"
+                  : "bg-muted text-muted-foreground"
+              }`}
+            >
+              {allocations.length}
+            </span>
+          </button>
+
+          <button
+            onClick={() => setActiveTab("stats")}
+            className={`w-full flex items-center justify-between px-3 py-2 rounded-xl text-xs font-medium transition-colors cursor-pointer ${
+              activeTab === "stats"
+                ? "bg-amber-600 text-white font-semibold shadow-xs"
+                : "text-foreground/80 hover:text-foreground hover:bg-accent"
+            }`}
+          >
+            <div className="flex items-center gap-2.5">
+              <TrendingUp className="w-4 h-4 text-emerald-400 shrink-0" />
+              <span>Statistik & Utilisasi</span>
+            </div>
+          </button>
+        </div>
+      </ShellSidebar>
+
+      {/* Header Actions in Floating Pill */}
       <ShellHeader>
-        <div>
-          <div className="flex items-center gap-3">
-            <div className="p-2.5 bg-gradient-to-tr from-amber-500 to-orange-600 rounded-xl shadow-lg shadow-amber-500/20">
+        <div className="flex items-center gap-1.5 shrink-0">
+          <button
+            onClick={() => setIsNewAllocOpen(true)}
+            className="flex items-center gap-1.5 px-3 py-1.5 bg-card hover:bg-accent text-foreground border border-border/80 rounded-full text-xs font-semibold shadow-2xs transition-colors cursor-pointer"
+          >
+            <Clock className="w-3.5 h-3.5 text-amber-500" />
+            <span>Alokasikan</span>
+          </button>
+
+          <button
+            onClick={() => setIsNewResOpen(true)}
+            className="flex items-center gap-1.5 px-3.5 py-1.5 bg-gradient-to-r from-amber-600 to-orange-600 hover:from-amber-500 hover:to-orange-500 text-white rounded-full text-xs font-semibold shadow-xs transition-colors cursor-pointer"
+          >
+            <Plus className="w-3.5 h-3.5" />
+            <span>Tambah Sumber Daya</span>
+          </button>
+        </div>
+      </ShellHeader>
+
+      {/* Page Header Banner */}
+      <div className="px-6 py-4 border-b border-border bg-card/40 backdrop-blur-sm">
+        <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 max-w-7xl">
+          <div className="flex items-center gap-3.5">
+            <div className="p-2.5 bg-gradient-to-tr from-amber-500 to-orange-600 rounded-xl shadow-lg shadow-amber-500/20 shrink-0">
               <Layers className="w-6 h-6 text-white" />
             </div>
             <div>
-              <div className="flex items-center gap-2">
-                <h1 className="text-2xl font-bold tracking-tight text-white">Resource Manager</h1>
-                <span className="px-2.5 py-0.5 text-xs font-semibold rounded-full bg-amber-500/20 text-amber-300 border border-amber-500/30">
+              <div className="flex items-center gap-2 flex-wrap">
+                <h1 className="text-xl sm:text-2xl font-bold tracking-tight text-foreground">Resource Manager</h1>
+                <span className="px-2.5 py-0.5 text-xs font-semibold rounded-full bg-amber-500/20 text-amber-600 dark:text-amber-300 border border-amber-500/30">
                   App #34
                 </span>
                 <span className="text-xs text-muted-foreground">
                   Source of Truth Kapasitas & Alokasi Lintas-Proyek
                 </span>
               </div>
-              <p className="text-xs md:text-sm text-muted-foreground">
+              <p className="text-xs md:text-sm text-muted-foreground mt-0.5">
                 Menjawab "apa yang dipakai, seberapa banyak, dan apakah cukup" (orang, alat, ruang meeting, budget, kendaraan, lisensi).
               </p>
             </div>
           </div>
+
+          {/* Quick Active Tab Chip */}
+          <div className="flex items-center gap-2 self-start md:self-auto">
+            <span className="text-xs text-muted-foreground">Menu Tab:</span>
+            <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-amber-500/10 text-amber-600 dark:text-amber-400 border border-amber-500/20 text-xs font-semibold">
+              {activeTab === "capacity_overview" && <BarChart3 className="w-3.5 h-3.5" />}
+              {activeTab === "list" && <Layers className="w-3.5 h-3.5" />}
+              {activeTab === "conflicts" && <AlertTriangle className="w-3.5 h-3.5" />}
+              {activeTab === "allocation_calendar" && <Calendar className="w-3.5 h-3.5" />}
+              {activeTab === "stats" && <TrendingUp className="w-3.5 h-3.5" />}
+              {activeTab === "capacity_overview" && "Ringkasan Kapasitas"}
+              {activeTab === "list" && "Daftar Resource"}
+              {activeTab === "conflicts" && "Konflik Alokasi"}
+              {activeTab === "allocation_calendar" && "Jadwal Alokasi"}
+              {activeTab === "stats" && "Statistik & Utilisasi"}
+            </span>
+          </div>
         </div>
-
-        <div className="flex items-center flex-wrap gap-2.5">
-          <button
-            onClick={() => setIsNewAllocOpen(true)}
-            className="flex items-center gap-1.5 px-3 py-2 bg-card hover:bg-card text-foreground border border-border rounded-lg text-xs font-semibold transition"
-          >
-            <Clock className="w-3.5 h-3.5 text-amber-400" />
-            <span>Alokasikan Resource</span>
-          </button>
-
-          <button
-            onClick={() => setIsNewResOpen(true)}
-            className="flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-amber-600 to-orange-600 hover:from-amber-500 hover:to-orange-500 text-white rounded-lg text-sm font-semibold shadow-md shadow-amber-500/25 transition"
-          >
-            <Plus className="w-4 h-4" />
-            <span>Tambah Sumber Daya</span>
-          </button>
-        </div>
-      </ShellHeader>
-
-      {/* Tabs */}
-      <div className="flex items-center gap-2 overflow-x-auto py-3 border-b border-border/80 scrollbar-none">
-        <button
-          onClick={() => setActiveTab("capacity_overview")}
-          className={`flex items-center gap-2 px-3.5 py-1.5 rounded-lg text-sm font-medium transition shrink-0 ${
-            activeTab === "capacity_overview"
-              ? "bg-amber-600 text-white shadow-sm"
-              : "text-muted-foreground hover:text-foreground hover:bg-card"
-          }`}
-        >
-          <BarChart3 className="w-4 h-4" />
-          <span>Ringkasan Kapasitas & Utilisasi</span>
-        </button>
-
-        <button
-          onClick={() => setActiveTab("list")}
-          className={`flex items-center gap-2 px-3.5 py-1.5 rounded-lg text-sm font-medium transition shrink-0 ${
-            activeTab === "list"
-              ? "bg-amber-600 text-white shadow-sm"
-              : "text-muted-foreground hover:text-foreground hover:bg-card"
-          }`}
-        >
-          <Layers className="w-4 h-4 text-cyan-400" />
-          <span>Daftar Resource ({resources.length})</span>
-        </button>
-
-        <button
-          onClick={() => setActiveTab("conflicts")}
-          className={`flex items-center gap-2 px-3.5 py-1.5 rounded-lg text-sm font-medium transition shrink-0 ${
-            activeTab === "conflicts"
-              ? "bg-amber-600 text-white shadow-sm"
-              : "text-muted-foreground hover:text-foreground hover:bg-card"
-          }`}
-        >
-          <AlertTriangle className="w-4 h-4 text-rose-400" />
-          <span>Konflik Alokasi ({conflicts.filter((c) => !c.resolved).length})</span>
-        </button>
-
-        <button
-          onClick={() => setActiveTab("allocation_calendar")}
-          className={`flex items-center gap-2 px-3.5 py-1.5 rounded-lg text-sm font-medium transition shrink-0 ${
-            activeTab === "allocation_calendar"
-              ? "bg-amber-600 text-white shadow-sm"
-              : "text-muted-foreground hover:text-foreground hover:bg-card"
-          }`}
-        >
-          <Calendar className="w-4 h-4 text-purple-400" />
-          <span>Jadwal Alokasi Aktif ({allocations.length})</span>
-        </button>
-
-        <button
-          onClick={() => setActiveTab("stats")}
-          className={`flex items-center gap-2 px-3.5 py-1.5 rounded-lg text-sm font-medium transition shrink-0 ${
-            activeTab === "stats"
-              ? "bg-amber-600 text-white shadow-sm"
-              : "text-muted-foreground hover:text-foreground hover:bg-card"
-          }`}
-        >
-          <TrendingUp className="w-4 h-4 text-emerald-400" />
-          <span>Statistik & Utilisasi</span>
-        </button>
       </div>
 
       {/* Main Content Area */}

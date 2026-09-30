@@ -507,6 +507,18 @@ export function AppShell({
     }
   }, [pathname]);
 
+  // Listen to open-left-sidebar custom events
+  useEffect(() => {
+    const handleOpenLeft = (e: any) => {
+      setOpenDrawer("left");
+      if (e?.detail?.tab) {
+        setSidebarView(e.detail.tab);
+      }
+    };
+    window.addEventListener("open-left-sidebar", handleOpenLeft);
+    return () => window.removeEventListener("open-left-sidebar", handleOpenLeft);
+  }, []);
+
   const [rightSidebarTab, setRightSidebarTab] = useState<"control" | "favorites">("control");
 
   // Both sidebars are off-canvas overlay drawers that float on top of the content
@@ -572,11 +584,6 @@ export function AppShell({
     ro?.observe(el);
     return () => ro?.disconnect();
   }, [hasAppHeader, pathname, isTopPanelOpen]);
-
-  const primaryItems = [
-    { to: "/", label: "Launcher", icon: LayoutDashboard },
-    { to: "/terminal", label: "Terminal", icon: Terminal },
-  ].filter((it) => enabledMenus[it.to] !== false);
 
   const [collapsedNavGroups, setCollapsedNavGroups] = useState<Record<string, boolean>>({});
   const [currentMode, setCurrentMode] = useState<AppModeId>(() => {
@@ -909,6 +916,11 @@ export function AppShell({
             >
               <Menu className="h-3.5 w-3.5 shrink-0" />
               <span className="truncate">Menu</span>
+              {hasAppSidebar && (
+                <span className="text-[9px] px-1.5 py-0.2 rounded-full bg-white text-primary font-bold shrink-0 shadow-2xs">
+                  Fitur
+                </span>
+              )}
             </button>
           </div>
         )}
@@ -999,111 +1011,65 @@ export function AppShell({
                   );
                 })}
               </div>
-
-              {/* Pintasan Utama */}
-              <div className={`flex flex-col gap-1.5 pt-2 border-t ${isLeftSidebar75 ? "border-white/20" : "border-white/15 dark:border-white/10"}`}>
-                {!isLeftSidebar75 && (
-                  <p className="px-1 text-[11px] font-semibold uppercase tracking-wider text-muted-foreground">
-                    Pintasan Cepat
-                  </p>
-                )}
-                {primaryItems.map((item) => {
-                  const isActive = pathname === item.to;
-                  const Icon = item.icon;
-                  return (
-                    <Link
-                      key={item.to}
-                      to={item.to}
-                      onClick={() => setOpenDrawer(null)}
-                      title={item.label}
-                      className={`flex items-center ${
-                        isLeftSidebar75
-                          ? `justify-center p-2.5 rounded-xl border transition-all hover:scale-105 active:scale-95 ${
-                              isActive
-                                ? "bg-white text-primary border-white font-bold shadow-md ring-2 ring-white/40"
-                                : "bg-white/10 hover:bg-white/20 border-white/20 text-white/90 hover:text-white"
-                            }`
-                          : `gap-2.5 px-3 py-2 rounded-xl text-xs transition-all border ${
-                              isActive
-                                ? "bg-primary/15 border-primary/40 text-primary font-semibold shadow-2xs"
-                                : "bg-white/10 dark:bg-white/5 border-white/15 dark:border-white/10 text-foreground hover:bg-white/20 dark:hover:bg-white/10"
-                            }`
-                      }`}
-                    >
-                      <Icon
-                        className={`size-4 shrink-0 ${
-                          isLeftSidebar75
-                            ? isActive
-                              ? "text-primary"
-                              : "text-white/85"
-                            : "text-muted-foreground"
-                        }`}
-                      />
-                      {!isLeftSidebar75 && <span className="truncate">{item.label}</span>}
-                    </Link>
-                  );
-                })}
-              </div>
             </div>
           ) : (
             <div className="flex flex-col gap-2">
-              {!isLeftSidebar75 && (
-                <p className="px-1 text-[11px] font-semibold uppercase tracking-wider text-muted-foreground">
-                  Pilih Mode Workspace
-                </p>
-              )}
-              {APP_MODES.map((mode) => {
-                const isSelected = currentMode === mode.id;
-                const Icon = mode.icon;
-                return (
-                  <button
-                    key={mode.id}
-                    type="button"
-                    title={`${mode.label}: ${mode.desc}`}
-                    onClick={() => {
-                      setCurrentMode(mode.id);
-                      try {
-                        localStorage.setItem("aio_active_mode", mode.id);
-                        localStorage.setItem("client_os_active_mode", mode.id);
-                        window.dispatchEvent(new Event("aio_mode_changed"));
-                      } catch {}
-                    }}
-                    className={`flex items-center ${
-                      isLeftSidebar75
-                        ? `justify-center p-2 rounded-xl border transition-all hover:scale-105 active:scale-95 cursor-pointer ${
-                            isSelected
-                              ? "bg-white text-primary border-white font-bold shadow-md ring-2 ring-white/40"
-                              : "bg-white/10 hover:bg-white/20 border-white/20 text-white/90 hover:text-white"
-                          }`
-                        : `gap-3 p-2.5 w-full rounded-xl border text-left transition-all cursor-pointer ${
-                            isSelected
-                              ? "border-primary/40 bg-white/30 dark:bg-white/15 text-foreground font-semibold shadow-2xs"
-                              : "border-white/15 dark:border-white/10 bg-white/10 dark:bg-white/5 text-muted-foreground hover:bg-white/20 hover:text-foreground"
-                          }`
-                    }`}
-                  >
-                    <span
-                      className={`grid size-8 place-items-center rounded-lg shrink-0 ${
-                        isLeftSidebar75
-                          ? isSelected
-                            ? "bg-primary text-white"
-                            : "bg-white/20 text-white"
-                          : isSelected
-                            ? "bg-primary text-primary-foreground"
-                            : "bg-white/15 dark:bg-white/10 text-muted-foreground"
-                      }`}
-                    >
-                      <Icon className="size-4" />
+              {/* TAB 2: MENU FITUR APLIKASI (Terpilih dari Menu Tab) */}
+              <div className="p-3 bg-white/10 dark:bg-white/5 border border-white/20 dark:border-white/10 rounded-2xl shadow-sm space-y-2.5 mb-2">
+                <div className="flex items-center justify-between pb-2 border-b border-white/15 dark:border-white/10">
+                  <div className="flex items-center gap-2 min-w-0">
+                    <div className="size-7 rounded-lg bg-cyan-500/20 text-cyan-400 flex items-center justify-center font-bold text-xs shrink-0">
+                      <Menu className="w-3.5 h-3.5" />
+                    </div>
+                    <div className="min-w-0">
+                      <p className="text-xs font-bold text-white truncate">{title || "Menu Fitur Halaman"}</p>
+                      <p className="text-[10px] text-white/70">Tab Opsi & Fitur Terpilih</p>
+                    </div>
+                  </div>
+                  {effectiveSections.length > 0 && (
+                    <span className="text-[10px] px-2 py-0.5 rounded-full bg-cyan-500/20 text-cyan-300 border border-cyan-500/30 font-semibold shrink-0">
+                      {effectiveSections.length} Opsi
                     </span>
-                    {!isLeftSidebar75 && (
-                      <div className="flex-1 min-w-0">
-                        <div className="text-xs font-semibold text-foreground truncate">{mode.label}</div>
-                        <div className="text-[10.5px] text-muted-foreground truncate">{mode.desc}</div>
-                      </div>
-                    )}
-                  </button>
-                );
-              })}
+                  )}
+                </div>
+
+                {effectiveSections.length > 0 ? (
+                  <div className="space-y-1">
+                    {effectiveSections.map((sec) => {
+                      const SecIcon = sec.icon || Layers;
+                      return (
+                        <button
+                          key={sec.id}
+                          type="button"
+                          onClick={() => {
+                            sec.onSelect();
+                            if (typeof window !== "undefined" && window.innerWidth < 768) {
+                              setOpenDrawer(null);
+                            }
+                          }}
+                          className={`w-full flex items-center justify-between px-3 py-2.5 rounded-xl text-xs font-semibold transition-all cursor-pointer ${
+                            sec.active
+                              ? "bg-white text-primary shadow-md font-bold"
+                              : "bg-white/10 hover:bg-white/20 text-white/90 hover:text-white border border-white/10"
+                          }`}
+                        >
+                          <div className="flex items-center gap-2.5">
+                            <SecIcon className="size-4 shrink-0" />
+                            <span>{sec.label}</span>
+                          </div>
+                          {sec.active && (
+                            <span className="size-2 rounded-full bg-primary shrink-0" />
+                          )}
+                        </button>
+                      );
+                    })}
+                  </div>
+                ) : (
+                  <div className="text-center py-3 text-xs text-white/70">
+                    Pilih opsi menu di halaman utama atau gunakan pintasan navigasi.
+                  </div>
+                )}
+              </div>
             </div>
           )}
         </div>
@@ -1351,7 +1317,8 @@ export function AppShell({
           {isTopPanelOpen && (
             <div
               id="top-panel-container"
-              className="pointer-events-auto w-full max-h-[85vh] liquid-glass-top-panel transition-all duration-300 relative overflow-hidden"
+              className="pointer-events-auto w-full max-h-[85vh] transition-all duration-300 relative overflow-hidden shadow-lg border-b border-white/20"
+              style={{ backgroundColor: "hsl(var(--primary))" }}
             >
               <TopPanelControlHub
                 onClose={() => setIsTopPanelOpen(false)}
@@ -1400,18 +1367,18 @@ export function AppShell({
             <div className="flex items-center gap-2">
               {/* Pill 1: Elemen Menu App & Aksi Halaman (actions & portal) */}
               <div
-                className={`pointer-events-auto flex items-center gap-1 p-1 rounded-full liquid-glass-header-pill transition-all duration-200 ${
+                className={`pointer-events-auto flex items-center gap-2 px-2.5 h-[44px] rounded-full liquid-glass-header-pill transition-all duration-200 ${
                   Boolean(actions) || hasAppHeader ? "inline-flex" : "hidden"
                 }`}
               >
                 {actions && (
-                  <div className="relative z-10 flex items-center gap-1 shrink-0 px-1">
+                  <div className="relative z-10 flex items-center gap-1.5 shrink-0">
                     {actions}
                   </div>
                 )}
                 <div
                   id="app-header-actions-portal"
-                  className="relative z-10 flex items-center gap-1 min-w-0 empty:hidden overflow-x-auto no-scrollbar py-0.5"
+                  className="relative z-10 flex items-center gap-1.5 min-w-0 empty:hidden overflow-x-auto no-scrollbar"
                 />
               </div>
 

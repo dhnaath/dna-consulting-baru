@@ -426,10 +426,285 @@
         border-color: rgba(255, 255, 255, 0.4) !important;
         color: #ffffff !important;
       }
+
+      /* ==========================================================================
+         Panel Pengaturan Atas (#top-panel-container):
+         - Background bidang belakang: BIRU menyatu sama seperti sidebar (hsl(var(--primary)))
+         - 4 Kotak di dalamnya: PUTIH SOLID bersih, kontras, dan terpisah rapi
+         ========================================================================== */
+      div#root > div > main#mainContent > header > div#top-panel-container,
+      div#root > div > main#mainContent > header > div#top-panel-container > div:nth-of-type(1),
+      div#root:nth-of-type(1) > div:nth-of-type(1) > main#mainContent:nth-of-type(1) > header:nth-of-type(1) > div#top-panel-container:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(1) {
+        background-color: hsl(var(--primary)) !important;
+        background: hsl(var(--primary)) !important;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.25) !important;
+        box-shadow: 0 4px 14px -3px rgba(0, 0, 0, 0.16) !important;
+      }
+      div#root > div > main#mainContent > header > div#top-panel-container::before,
+      div#root > div > main#mainContent > header > div#top-panel-container::after {
+        display: none !important;
+      }
+
+      /* 4 Kotak (Cards) tetap PUTIH SOLID */
+      div#root > div > main#mainContent > header > div#top-panel-container > div:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(1) > div,
+      div#root > div > main#mainContent > header > div#top-panel-container .liquid-glass-card {
+        background-color: #ffffff !important;
+        background: #ffffff !important;
+        border-radius: 1rem !important;
+        border: 1px solid rgba(0, 0, 0, 0.08) !important;
+        box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.18), 0 4px 6px -2px rgba(0, 0, 0, 0.06) !important;
+        color: #0f172a !important;
+      }
+
+      div#root > div > main#mainContent > header > div#top-panel-container .liquid-glass-card::before,
+      div#root > div > main#mainContent > header > div#top-panel-container .liquid-glass-card::after {
+        display: none !important;
+      }
+
+      /* 4 Kotak Card Content */
+      div#root > div > main#mainContent > header > div#top-panel-container > div:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(1) > div > div:nth-of-type(1),
+      div#root:nth-of-type(1) > div:nth-of-type(1) > main#mainContent:nth-of-type(1) > header:nth-of-type(1) > div#top-panel-container:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(1),
+      div#root:nth-of-type(1) > div:nth-of-type(1) > main#mainContent:nth-of-type(1) > header:nth-of-type(1) > div#top-panel-container:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(2) > div:nth-of-type(1),
+      div#root:nth-of-type(1) > div:nth-of-type(1) > main#mainContent:nth-of-type(1) > header:nth-of-type(1) > div#top-panel-container:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(3) > div:nth-of-type(1),
+      div#root:nth-of-type(1) > div:nth-of-type(1) > main#mainContent:nth-of-type(1) > header:nth-of-type(1) > div#top-panel-container:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(4) > div:nth-of-type(1) {
+        background-color: transparent !important;
+        background: transparent !important;
+        color: #0f172a !important;
+        text-shadow: none !important;
+      }
+
+      /* Teks & Komponen di dalam 4 Kotak Putih */
+      div#root > div > main#mainContent > header > div#top-panel-container .user-name,
+      div#root > div > main#mainContent > header > div#top-panel-container .card-title {
+        color: #0f172a !important;
+        text-shadow: none !important;
+      }
+
+      div#root > div > main#mainContent > header > div#top-panel-container .user-role,
+      div#root > div > main#mainContent > header > div#top-panel-container .card-description,
+      div#root > div > main#mainContent > header > div#top-panel-container label {
+        color: #475569 !important;
+        text-shadow: none !important;
+      }
+
+      div#root > div > main#mainContent > header > div#top-panel-container .glass-button {
+        background-color: #f1f5f9 !important;
+        background: #f1f5f9 !important;
+        color: #1e293b !important;
+        border: 1px solid #cbd5e1 !important;
+        box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05) !important;
+      }
+      div#root > div > main#mainContent > header > div#top-panel-container .glass-button:hover {
+        background-color: #e2e8f0 !important;
+        color: #0f172a !important;
+        border-color: #94a3b8 !important;
+      }
+
+      div#root > div > main#mainContent > header > div#top-panel-container select,
+      div#root > div > main#mainContent > header > div#top-panel-container input {
+        background-color: #f8fafc !important;
+        color: #0f172a !important;
+        border: 1px solid #cbd5e1 !important;
+      }
+      div#root > div > main#mainContent > header > div#top-panel-container select option {
+        background-color: #ffffff !important;
+        color: #0f172a !important;
+      }
+
+      /* ==========================================================================
+         Header Pill Kanan: Elemen Menu App & Aksi Halaman (CSS Selector 2)
+         - Rapi, serasi dengan floating pills lainnya (tinggi 44px, rounded-full)
+         - Efek frosted glass bersih dengan shadow halus
+         ========================================================================== */
+      div#root:nth-of-type(1) > div:nth-of-type(1) > main#mainContent:nth-of-type(1) > header:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(2) > div:nth-of-type(1),
+      div#root > div > main#mainContent > header > div:nth-of-type(1) > div:nth-of-type(2) > div:nth-of-type(1) {
+        display: inline-flex !important;
+        align-items: center !important;
+        height: 44px !important;
+        min-height: 44px !important;
+        max-height: 44px !important;
+        padding: 0 10px !important;
+        border-radius: 9999px !important;
+        background: rgba(255, 255, 255, 0.85) !important;
+        background-color: rgba(255, 255, 255, 0.85) !important;
+        backdrop-filter: blur(16px) !important;
+        -webkit-backdrop-filter: blur(16px) !important;
+        border: 1px solid rgba(255, 255, 255, 0.65) !important;
+        box-shadow: 0 4px 14px -3px rgba(0, 0, 0, 0.08), 0 1px 3px rgba(0, 0, 0, 0.04) !important;
+        gap: 8px !important;
+        transition: all 0.2s ease !important;
+      }
+
+      .dark div#root:nth-of-type(1) > div:nth-of-type(1) > main#mainContent:nth-of-type(1) > header:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(2) > div:nth-of-type(1),
+      .dark div#root > div > main#mainContent > header > div:nth-of-type(1) > div:nth-of-type(2) > div:nth-of-type(1) {
+        background: rgba(15, 23, 42, 0.82) !important;
+        background-color: rgba(15, 23, 42, 0.82) !important;
+        border: 1px solid rgba(255, 255, 255, 0.12) !important;
+        box-shadow: 0 4px 16px -3px rgba(0, 0, 0, 0.35) !important;
+      }
+
+      /* Container Portal Actions */
+      div#root > div > main#mainContent > header div#app-header-actions-portal {
+        display: inline-flex !important;
+        align-items: center !important;
+        gap: 6px !important;
+      }
+
+      /* ==========================================================================
+         Grup Kontrol / Segmented Bar di dalam Portal Actions (CSS Selector 1)
+         - Rapi, rounded-full, proporsional dan terstruktur elegan
+         ========================================================================== */
+      div#root:nth-of-type(1) > div:nth-of-type(1) > main#mainContent:nth-of-type(1) > header:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(2) > div:nth-of-type(1) > div#app-header-actions-portal:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(1),
+      div#root > div > main#mainContent > header div#app-header-actions-portal .shell-header-portal-actions > div > div {
+        display: inline-flex !important;
+        align-items: center !important;
+        border-radius: 9999px !important;
+        padding: 2.5px !important;
+        gap: 2px !important;
+        height: 32px !important;
+        background: rgba(0, 0, 0, 0.05) !important;
+        background-color: rgba(0, 0, 0, 0.05) !important;
+        border: 1px solid rgba(0, 0, 0, 0.06) !important;
+      }
+
+      .dark div#root:nth-of-type(1) > div:nth-of-type(1) > main#mainContent:nth-of-type(1) > header:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(2) > div:nth-of-type(1) > div#app-header-actions-portal:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(1),
+      .dark div#root > div > main#mainContent > header div#app-header-actions-portal .shell-header-portal-actions > div > div {
+        background: rgba(255, 255, 255, 0.08) !important;
+        background-color: rgba(255, 255, 255, 0.08) !important;
+        border: 1px solid rgba(255, 255, 255, 0.1) !important;
+      }
+
+      /* Tombol di dalam Grup Segmented Bar (CSS Selector 1) */
+      div#root:nth-of-type(1) > div:nth-of-type(1) > main#mainContent:nth-of-type(1) > header:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(2) > div:nth-of-type(1) > div#app-header-actions-portal:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(1) button,
+      div#root > div > main#mainContent > header div#app-header-actions-portal .shell-header-portal-actions > div > div button {
+        border-radius: 9999px !important;
+        height: 27px !important;
+        padding: 0 10px !important;
+        font-size: 11.5px !important;
+        font-weight: 500 !important;
+        display: inline-flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        transition: all 0.15s ease !important;
+        border: none !important;
+        cursor: pointer !important;
+      }
+
+      /* Tombol Segmented Aktif */
+      div#root:nth-of-type(1) > div:nth-of-type(1) > main#mainContent:nth-of-type(1) > header:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(2) > div:nth-of-type(1) > div#app-header-actions-portal:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(1) button.bg-background,
+      div#root:nth-of-type(1) > div:nth-of-type(1) > main#mainContent:nth-of-type(1) > header:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(2) > div:nth-of-type(1) > div#app-header-actions-portal:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(1) button.bg-primary,
+      div#root:nth-of-type(1) > div:nth-of-type(1) > main#mainContent:nth-of-type(1) > header:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(2) > div:nth-of-type(1) > div#app-header-actions-portal:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(1) button[data-state="active"] {
+        background: #ffffff !important;
+        background-color: #ffffff !important;
+        color: #0f172a !important;
+        font-weight: 600 !important;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12) !important;
+      }
+
+      .dark div#root:nth-of-type(1) > div:nth-of-type(1) > main#mainContent:nth-of-type(1) > header:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(2) > div:nth-of-type(1) > div#app-header-actions-portal:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(1) button.bg-background,
+      .dark div#root:nth-of-type(1) > div:nth-of-type(1) > main#mainContent:nth-of-type(1) > header:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(2) > div:nth-of-type(1) > div#app-header-actions-portal:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(1) button.bg-primary,
+      .dark div#root:nth-of-type(1) > div:nth-of-type(1) > main#mainContent:nth-of-type(1) > header:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(2) > div:nth-of-type(1) > div#app-header-actions-portal:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(1) button[data-state="active"] {
+        background: rgba(255, 255, 255, 0.22) !important;
+        background-color: rgba(255, 255, 255, 0.22) !important;
+        color: #ffffff !important;
+      }
+
+      /* Tombol Aksi Mandiri / Tambahan di dalam Header Portal */
+      div#root > div > main#mainContent > header div#app-header-actions-portal button:not(div > div > div button) {
+        border-radius: 9999px !important;
+        height: 32px !important;
+        padding: 0 12px !important;
+        font-size: 11.5px !important;
+        font-weight: 500 !important;
+        display: inline-flex !important;
+        align-items: center !important;
+        gap: 5px !important;
+      }
+
+      /* ==========================================================================
+         Penyesuaian Ekstra untuk Elemen Teks/Banner di dalam Header Pill (CSS Selectors 1-7)
+         ========================================================================== */
+      /* CSS Selector 7: Header Pill Container */
+      div#root:nth-of-type(1) > div:nth-of-type(1) > main#mainContent:nth-of-type(1) > header:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(2) > div:nth-of-type(1) {
+        height: 44px !important;
+        min-height: 44px !important;
+        max-height: 44px !important;
+        padding: 0 12px !important;
+        border-radius: 9999px !important;
+        display: inline-flex !important;
+        align-items: center !important;
+        overflow: hidden !important;
+      }
+
+      /* CSS Selector 6: Container pembungkus di dalam portal */
+      div#root:nth-of-type(1) > div:nth-of-type(1) > main#mainContent:nth-of-type(1) > header:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(2) > div:nth-of-type(1) > div#app-header-actions-portal:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(1) {
+        display: inline-flex !important;
+        align-items: center !important;
+        gap: 6px !important;
+        height: 100% !important;
+      }
+
+      /* CSS Selector 5: Icon box di dalam portal jika ada */
+      div#root:nth-of-type(1) > div:nth-of-type(1) > main#mainContent:nth-of-type(1) > header:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(2) > div:nth-of-type(1) > div#app-header-actions-portal:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(1) {
+        display: none !important;
+      }
+
+      /* CSS Selector 4: Container judul & badge di dalam portal */
+      div#root:nth-of-type(1) > div:nth-of-type(1) > main#mainContent:nth-of-type(1) > header:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(2) > div:nth-of-type(1) > div#app-header-actions-portal:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(2) > div:nth-of-type(1) {
+        display: inline-flex !important;
+        align-items: center !important;
+        gap: 6px !important;
+      }
+
+      /* CSS Selector 1: Judul H1 di dalam portal - dirapikan menjadi title chip ringkas */
+      div#root:nth-of-type(1) > div:nth-of-type(1) > main#mainContent:nth-of-type(1) > header:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(2) > div:nth-of-type(1) > div#app-header-actions-portal:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(2) > div:nth-of-type(1) > h1:nth-of-type(1) {
+        font-size: 13px !important;
+        font-weight: 700 !important;
+        line-height: 1 !important;
+        margin: 0 !important;
+        color: inherit !important;
+        white-space: nowrap !important;
+      }
+
+      /* CSS Selector 3: Span badge di samping judul */
+      div#root:nth-of-type(1) > div:nth-of-type(1) > main#mainContent:nth-of-type(1) > header:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(2) > div:nth-of-type(1) > div#app-header-actions-portal:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(2) > div:nth-of-type(1) > span:nth-of-type(1) {
+        font-size: 10px !important;
+        padding: 1px 6px !important;
+        border-radius: 9999px !important;
+        line-height: 1.4 !important;
+      }
+
+      /* CSS Selector 2: Paragraf deskripsi panjang di dalam portal - disembunyikan agar tidak merusak pill header */
+      div#root:nth-of-type(1) > div:nth-of-type(1) > main#mainContent:nth-of-type(1) > header:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(2) > div:nth-of-type(1) > div#app-header-actions-portal:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(2) > p:nth-of-type(1) {
+        display: none !important;
+      }
+
+      /* ==========================================================================
+         Bilah Tab Menu di Sidebar Kiri (CSS Selectors 1, 2, 3)
+         ========================================================================== */
+      /* CSS Selector 2: Tombol Tab Menu di Sidebar Kiri */
+      div#root:nth-of-type(1) > div:nth-of-type(1) > aside#sidenavLeft:nth-of-type(1) > div:nth-of-type(2) > button:nth-of-type(2) {
+        display: inline-flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        gap: 6px !important;
+        font-weight: 600 !important;
+        cursor: pointer !important;
+        position: relative !important;
+        transition: all 0.2s ease !important;
+      }
+
+      /* CSS Selector 1: Label Teks 'Menu' */
+      div#root:nth-of-type(1) > div:nth-of-type(1) > aside#sidenavLeft:nth-of-type(1) > div:nth-of-type(2) > button:nth-of-type(2) > span:nth-of-type(1) {
+        font-weight: 700 !important;
+        letter-spacing: 0.01em !important;
+      }
+
+      /* CSS Selector 3: Ikon Menu di Tab Menu */
+      div#root:nth-of-type(1) > div:nth-of-type(1) > aside#sidenavLeft:nth-of-type(1) > div:nth-of-type(2) > button:nth-of-type(2) > svg:nth-of-type(1) {
+        stroke-width: 2.2px !important;
+      }
     </style>
-  </head>
-  <body>
-    <!-- SVG Filter (Liquid Glass Distortion) -->
   </head>
   <body>
     <!-- SVG Filter (include once in your document) -->
