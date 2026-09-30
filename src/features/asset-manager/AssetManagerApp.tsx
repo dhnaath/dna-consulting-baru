@@ -1,5 +1,7 @@
 import { ShellHeader } from "@/app/shell-header";
-import React, { useState, useMemo } from "react";
+import { ShellSidebar } from "@/app/shell-sidebar";
+import { useShellSections } from "@/app/shell-sections";
+import React, { useState, useMemo, useEffect } from "react";
 import {
   HardDrive,
   File,
@@ -31,6 +33,8 @@ import {
   X,
   LayoutGrid,
   List,
+  Menu,
+  ChevronDown,
 } from "lucide-react";
 import { useAssetStore } from "./store";
 import { Asset, AssetType, AssetViewMode, AssetReference } from "./types";
@@ -65,6 +69,20 @@ export function AssetManagerApp() {
   const [typeFilter, setTypeFilter] = useState<string>("all");
   const [selectedFolderId, setSelectedFolderId] = useState<string | null>(null);
   const [toastMessage, setToastMessage] = useState<string | null>(null);
+  const [isTabMenuOpen, setIsTabMenuOpen] = useState(false);
+
+  // Otomatis buka sidebar kiri pada tab menu saat halaman dimuat
+  useEffect(() => {
+    window.dispatchEvent(
+      new CustomEvent("open-left-sidebar", { detail: { tab: "menu" } })
+    );
+  }, []);
+
+  const handleOpenSidebarMenu = () => {
+    window.dispatchEvent(
+      new CustomEvent("open-left-sidebar", { detail: { tab: "menu" } })
+    );
+  };
 
   // Modals
   const [isUploadOpen, setIsUploadOpen] = useState(false);
@@ -230,6 +248,52 @@ export function AssetManagerApp() {
     return { total, totalBytes, quotaPct, orphanCount, typeBreakdown, mostReferenced };
   }, [assets, references, quota]);
 
+  // Daftarkan opsi fitur ke ShellSections agar selalu muncul di tab Menu sidebar kiri
+  useShellSections([
+    {
+      id: "all",
+      label: `Semua Asset (${assets.length})`,
+      icon: Layers,
+      active: activeTab === "all",
+      onSelect: () => setActiveTab("all"),
+    },
+    {
+      id: "folder",
+      label: `By Folder (${folders.length})`,
+      icon: FolderIcon,
+      active: activeTab === "folder",
+      onSelect: () => setActiveTab("folder"),
+    },
+    {
+      id: "gallery",
+      label: "Gallery Visual",
+      icon: ImageIcon,
+      active: activeTab === "gallery",
+      onSelect: () => setActiveTab("gallery"),
+    },
+    {
+      id: "orphans",
+      label: `Orphan Assets (${stats.orphanCount})`,
+      icon: AlertTriangle,
+      active: activeTab === "orphans",
+      onSelect: () => setActiveTab("orphans"),
+    },
+    {
+      id: "storage",
+      label: `Storage & Kuota (${stats.quotaPct}%)`,
+      icon: HardDrive,
+      active: activeTab === "storage",
+      onSelect: () => setActiveTab("storage"),
+    },
+    {
+      id: "stats",
+      label: "Statistik & Laporan",
+      icon: BarChart3,
+      active: activeTab === "stats",
+      onSelect: () => setActiveTab("stats"),
+    },
+  ]);
+
   const getFileIcon = (type: AssetType) => {
     switch (type) {
       case "image":
@@ -257,110 +321,240 @@ export function AssetManagerApp() {
         </div>
       )}
 
-      {/* Header */}
+      {/* LEFT SIDEBAR: Navigasi Menu & Tab Fitur Asset Manager */}
+      <ShellSidebar>
+        {/* Header Modul Asset Manager */}
+        <div className="p-3.5 border-b border-border/80 flex items-center justify-between">
+          <div className="flex items-center gap-2.5">
+            <div className="w-8 h-8 rounded-xl bg-gradient-to-tr from-cyan-500 to-blue-600 shadow-md shadow-blue-500/25 flex items-center justify-center text-white shrink-0">
+              <HardDrive className="w-4 h-4" />
+            </div>
+            <div>
+              <div className="flex items-center gap-1.5">
+                <h2 className="text-xs font-bold text-foreground tracking-tight">Asset Manager</h2>
+                <span className="text-[9px] px-1.5 py-0.2 rounded bg-cyan-500/15 text-cyan-600 dark:text-cyan-400 font-semibold border border-cyan-500/30">
+                  #29
+                </span>
+              </div>
+              <p className="text-[10px] text-muted-foreground">Storage & Resource Core</p>
+            </div>
+          </div>
+        </div>
+
+        {/* Menu Tab Fitur Utama (Pindahan dari Opsi Atas) */}
+        <div className="p-2 space-y-1">
+          <div className="px-2.5 py-1 text-[10px] font-bold uppercase tracking-wider text-muted-foreground/80">
+            Menu Navigasi Fitur
+          </div>
+
+          <button
+            onClick={() => setActiveTab("all")}
+            className={`w-full flex items-center justify-between px-3 py-2 rounded-xl text-xs font-medium transition-colors cursor-pointer ${
+              activeTab === "all"
+                ? "bg-primary text-primary-foreground font-semibold shadow-xs"
+                : "text-foreground/80 hover:text-foreground hover:bg-accent"
+            }`}
+          >
+            <div className="flex items-center gap-2.5">
+              <Layers className="w-4 h-4 shrink-0" />
+              <span>Semua Asset</span>
+            </div>
+            <span
+              className={`text-[10px] px-1.5 py-0.5 rounded-full font-mono ${
+                activeTab === "all"
+                  ? "bg-white/20 text-white"
+                  : "bg-muted text-muted-foreground"
+              }`}
+            >
+              {assets.length}
+            </span>
+          </button>
+
+          <button
+            onClick={() => setActiveTab("folder")}
+            className={`w-full flex items-center justify-between px-3 py-2 rounded-xl text-xs font-medium transition-colors cursor-pointer ${
+              activeTab === "folder"
+                ? "bg-primary text-primary-foreground font-semibold shadow-xs"
+                : "text-foreground/80 hover:text-foreground hover:bg-accent"
+            }`}
+          >
+            <div className="flex items-center gap-2.5">
+              <FolderIcon className="w-4 h-4 text-amber-500 shrink-0" />
+              <span>By Folder</span>
+            </div>
+            <span
+              className={`text-[10px] px-1.5 py-0.5 rounded-full font-mono ${
+                activeTab === "folder"
+                  ? "bg-white/20 text-white"
+                  : "bg-muted text-muted-foreground"
+              }`}
+            >
+              {folders.length}
+            </span>
+          </button>
+
+          <button
+            onClick={() => setActiveTab("gallery")}
+            className={`w-full flex items-center justify-between px-3 py-2 rounded-xl text-xs font-medium transition-colors cursor-pointer ${
+              activeTab === "gallery"
+                ? "bg-primary text-primary-foreground font-semibold shadow-xs"
+                : "text-foreground/80 hover:text-foreground hover:bg-accent"
+            }`}
+          >
+            <div className="flex items-center gap-2.5">
+              <ImageIcon className="w-4 h-4 text-sky-500 shrink-0" />
+              <span>Gallery Visual</span>
+            </div>
+            <span
+              className={`text-[10px] px-1.5 py-0.5 rounded-full font-mono ${
+                activeTab === "gallery"
+                  ? "bg-white/20 text-white"
+                  : "bg-muted text-muted-foreground"
+              }`}
+            >
+              {assets.filter((a) => a.type === "image").length}
+            </span>
+          </button>
+
+          <button
+            onClick={() => setActiveTab("orphans")}
+            className={`w-full flex items-center justify-between px-3 py-2 rounded-xl text-xs font-medium transition-colors cursor-pointer ${
+              activeTab === "orphans"
+                ? "bg-rose-600 text-white font-semibold shadow-xs"
+                : "text-foreground/80 hover:text-rose-600 dark:hover:text-rose-400 hover:bg-rose-500/10"
+            }`}
+          >
+            <div className="flex items-center gap-2.5">
+              <AlertTriangle className={`w-4 h-4 shrink-0 ${activeTab === "orphans" ? "text-white" : "text-rose-500"}`} />
+              <span>Orphan Assets</span>
+            </div>
+            {stats.orphanCount > 0 && (
+              <span
+                className={`text-[10px] px-1.5 py-0.5 rounded-full font-semibold ${
+                  activeTab === "orphans"
+                    ? "bg-white/25 text-white"
+                    : "bg-rose-500/15 text-rose-600 dark:text-rose-400"
+                }`}
+              >
+                {stats.orphanCount}
+              </span>
+            )}
+          </button>
+
+          <button
+            onClick={() => setActiveTab("storage")}
+            className={`w-full flex items-center justify-between px-3 py-2 rounded-xl text-xs font-medium transition-colors cursor-pointer ${
+              activeTab === "storage"
+                ? "bg-primary text-primary-foreground font-semibold shadow-xs"
+                : "text-foreground/80 hover:text-foreground hover:bg-accent"
+            }`}
+          >
+            <div className="flex items-center gap-2.5">
+              <HardDrive className="w-4 h-4 text-cyan-500 shrink-0" />
+              <span>Storage & Kuota</span>
+            </div>
+            <span
+              className={`text-[10px] px-1.5 py-0.5 rounded-full font-semibold ${
+                activeTab === "storage"
+                  ? "bg-white/20 text-white"
+                  : "bg-muted text-muted-foreground"
+              }`}
+            >
+              {stats.quotaPct}%
+            </span>
+          </button>
+
+          <button
+            onClick={() => setActiveTab("stats")}
+            className={`w-full flex items-center justify-between px-3 py-2 rounded-xl text-xs font-medium transition-colors cursor-pointer ${
+              activeTab === "stats"
+                ? "bg-primary text-primary-foreground font-semibold shadow-xs"
+                : "text-foreground/80 hover:text-foreground hover:bg-accent"
+            }`}
+          >
+            <div className="flex items-center gap-2.5">
+              <BarChart3 className="w-4 h-4 text-indigo-500 shrink-0" />
+              <span>Statistik & Laporan</span>
+            </div>
+          </button>
+        </div>
+
+        {/* Ringkasan Storage Kuota Mini di Sidebar Bawah */}
+        <div className="p-3 mt-auto border-t border-border/70">
+          <div className="p-3 rounded-xl bg-card border border-border/80 shadow-2xs space-y-2">
+            <div className="flex items-center justify-between text-xs">
+              <span className="font-semibold text-foreground flex items-center gap-1.5">
+                <HardDrive className="w-3.5 h-3.5 text-cyan-500" />
+                Kapasitas
+              </span>
+              <span className="font-bold text-cyan-600 dark:text-cyan-400 text-[11px]">
+                {stats.quotaPct}%
+              </span>
+            </div>
+            <div className="w-full h-1.5 bg-muted rounded-full overflow-hidden">
+              <div
+                className={`h-full transition-all duration-300 ${
+                  Number(stats.quotaPct) > 90
+                    ? "bg-rose-500"
+                    : Number(stats.quotaPct) > 70
+                    ? "bg-amber-500"
+                    : "bg-cyan-500"
+                }`}
+                style={{ width: `${stats.quotaPct}%` }}
+              />
+            </div>
+            <div className="flex justify-between text-[10px] text-muted-foreground font-mono">
+              <span>{formatBytes(quota.totalBytesUsed)}</span>
+              <span>{formatBytes(quota.totalBytesAllowed)}</span>
+            </div>
+          </div>
+        </div>
+      </ShellSidebar>
+
+      {/* Header Actions in Floating Pill */}
       <ShellHeader>
-        <div>
-          <div className="flex items-center gap-3">
-            <div className="p-2.5 bg-gradient-to-tr from-cyan-500 to-blue-600 rounded-xl shadow-lg shadow-blue-500/20">
+        <div className="flex items-center gap-1.5 shrink-0">
+          <button
+            onClick={() => setIsNewFolderOpen(true)}
+            className="flex items-center gap-1.5 px-3 py-1.5 bg-card hover:bg-accent text-foreground border border-border/80 rounded-full text-xs font-semibold shadow-2xs transition-colors cursor-pointer"
+          >
+            <FolderPlus className="w-3.5 h-3.5 text-amber-500" />
+            <span>Folder Baru</span>
+          </button>
+
+          <button
+            onClick={handleOpenUploadModal}
+            className="flex items-center gap-1.5 px-3.5 py-1.5 bg-primary hover:bg-primary/90 text-primary-foreground rounded-full text-xs font-semibold shadow-xs transition-colors cursor-pointer"
+          >
+            <Upload className="w-3.5 h-3.5" />
+            <span>Upload Asset</span>
+          </button>
+        </div>
+      </ShellHeader>
+
+      {/* Page Header Banner */}
+      <div className="px-6 py-4 border-b border-border bg-card/40 backdrop-blur-sm">
+        <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 max-w-7xl">
+          <div className="flex items-center gap-3.5">
+            <div className="p-2.5 bg-gradient-to-tr from-cyan-500 to-blue-600 rounded-xl shadow-lg shadow-blue-500/20 shrink-0">
               <HardDrive className="w-6 h-6 text-white" />
             </div>
             <div>
-              <div className="flex items-center gap-2">
-                <h1 className="text-2xl font-bold tracking-tight text-white">Asset Manager</h1>
-                <span className="px-2.5 py-0.5 text-xs font-semibold rounded-full bg-cyan-500/20 text-cyan-400 border border-cyan-500/30">
+              <div className="flex items-center gap-2 flex-wrap">
+                <h1 className="text-xl sm:text-2xl font-bold tracking-tight text-foreground">Asset Manager</h1>
+                <span className="px-2.5 py-0.5 text-xs font-semibold rounded-full bg-cyan-500/20 text-cyan-600 dark:text-cyan-400 border border-cyan-500/30">
                   App #29
                 </span>
                 <span className="text-xs text-muted-foreground">
                   {formatBytes(quota.totalBytesUsed)} / {formatBytes(quota.totalBytesAllowed)} ({stats.quotaPct}%)
                 </span>
               </div>
-              <p className="text-xs md:text-sm text-muted-foreground">
+              <p className="text-xs md:text-sm text-muted-foreground mt-0.5">
                 Single storage layer terpusat untuk file, riwayat versi (versioning), deteksi orphan, dan proteksi broken link.
               </p>
             </div>
           </div>
         </div>
-
-        <div className="flex items-center flex-wrap gap-2.5">
-          <button
-            onClick={() => setIsNewFolderOpen(true)}
-            className="flex items-center gap-2 px-3.5 py-2 bg-card hover:bg-card text-foreground border border-border rounded-lg text-sm font-medium transition"
-          >
-            <FolderPlus className="w-4 h-4 text-amber-400" />
-            <span>Folder Baru</span>
-          </button>
-
-          <button
-            onClick={handleOpenUploadModal}
-            className="flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-400 hover:to-blue-500 text-white rounded-lg text-sm font-semibold shadow-md shadow-blue-500/25 transition"
-          >
-            <Upload className="w-4 h-4" />
-            <span>Upload Asset</span>
-          </button>
-        </div>
-      </ShellHeader>
-
-      {/* Tabs */}
-      <div className="flex items-center gap-2 overflow-x-auto py-3 border-b border-border/80 scrollbar-none">
-        <button
-          onClick={() => setActiveTab("all")}
-          className={`flex items-center gap-2 px-3.5 py-1.5 rounded-lg text-sm font-medium transition shrink-0 ${
-            activeTab === "all" ? "bg-blue-600 text-background shadow-sm" : "text-muted-foreground hover:text-foreground hover:bg-foreground"
-          }`}
-        >
-          <Layers className="w-4 h-4" />
-          <span>Semua Asset ({assets.length})</span>
-        </button>
-
-        <button
-          onClick={() => setActiveTab("folder")}
-          className={`flex items-center gap-2 px-3.5 py-1.5 rounded-lg text-sm font-medium transition shrink-0 ${
-            activeTab === "folder" ? "bg-blue-600 text-background shadow-sm" : "text-muted-foreground hover:text-foreground hover:bg-foreground"
-          }`}
-        >
-          <FolderIcon className="w-4 h-4 text-amber-400" />
-          <span>By Folder ({folders.length})</span>
-        </button>
-
-        <button
-          onClick={() => setActiveTab("gallery")}
-          className={`flex items-center gap-2 px-3.5 py-1.5 rounded-lg text-sm font-medium transition shrink-0 ${
-            activeTab === "gallery" ? "bg-blue-600 text-background shadow-sm" : "text-muted-foreground hover:text-foreground hover:bg-foreground"
-          }`}
-        >
-          <ImageIcon className="w-4 h-4 text-sky-400" />
-          <span>Gallery Visual</span>
-        </button>
-
-        <button
-          onClick={() => setActiveTab("orphans")}
-          className={`flex items-center gap-2 px-3.5 py-1.5 rounded-lg text-sm font-medium transition shrink-0 ${
-            activeTab === "orphans" ? "bg-rose-600 text-background shadow-sm" : "text-muted-foreground hover:text-rose-400 hover:bg-foreground"
-          }`}
-        >
-          <AlertTriangle className="w-4 h-4 text-rose-400" />
-          <span>Orphan Assets ({stats.orphanCount})</span>
-        </button>
-
-        <button
-          onClick={() => setActiveTab("storage")}
-          className={`flex items-center gap-2 px-3.5 py-1.5 rounded-lg text-sm font-medium transition shrink-0 ${
-            activeTab === "storage" ? "bg-blue-600 text-background shadow-sm" : "text-muted-foreground hover:text-foreground hover:bg-foreground"
-          }`}
-        >
-          <HardDrive className="w-4 h-4 text-cyan-400" />
-          <span>Storage & Kuota</span>
-        </button>
-
-        <button
-          onClick={() => setActiveTab("stats")}
-          className={`flex items-center gap-2 px-3.5 py-1.5 rounded-lg text-sm font-medium transition shrink-0 ${
-            activeTab === "stats" ? "bg-blue-600 text-background shadow-sm" : "text-muted-foreground hover:text-foreground hover:bg-foreground"
-          }`}
-        >
-          <BarChart3 className="w-4 h-4 text-indigo-400" />
-          <span>Statistik</span>
-        </button>
       </div>
 
       {/* Main Content Area */}

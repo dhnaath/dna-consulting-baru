@@ -257,32 +257,35 @@ export function ShariaIndexApp() {
 
   return (
     <div className="flex flex-col min-h-screen bg-background text-foreground p-4 md:p-6 lg:p-8 space-y-6">
-      {/* Header */}
+      {/* Header Actions in Floating Pill */}
       <ShellHeader>
-        <div className="flex items-center gap-3">
-          <div className="p-2.5 bg-gradient-to-tr from-emerald-500 to-teal-600 rounded-xl shadow-lg shadow-emerald-500/20">
+        <div className="flex items-center gap-1.5 shrink-0">
+          <span className="text-xs text-muted-foreground flex items-center gap-1.5 bg-card/80 px-3 py-1.5 rounded-full border border-border/80">
+            <ShieldCheck className="w-3.5 h-3.5 text-emerald-500" />
+            <span className="hidden sm:inline">Standar DSN-MUI</span>
+          </span>
+        </div>
+      </ShellHeader>
+
+      {/* Page Header Banner */}
+      <div className="p-4 sm:p-6 rounded-2xl border border-border bg-card/40 backdrop-blur-sm">
+        <div className="flex items-center gap-3.5">
+          <div className="p-2.5 bg-gradient-to-tr from-emerald-500 to-teal-600 rounded-xl shadow-lg shadow-emerald-500/20 shrink-0">
             <LineChart className="w-6 h-6 text-white" />
           </div>
           <div>
-            <div className="flex items-center gap-2">
-              <h1 className="text-2xl font-bold tracking-tight text-white">Indeks Sharia & Pasar Muamalah</h1>
-              <span className="px-2.5 py-0.5 text-xs font-semibold rounded-full bg-emerald-500/20 text-emerald-300 border border-emerald-500/30">
+            <div className="flex items-center gap-2 flex-wrap">
+              <h1 className="text-xl sm:text-2xl font-bold tracking-tight text-foreground">Indeks Sharia & Pasar Muamalah</h1>
+              <span className="px-2.5 py-0.5 text-xs font-semibold rounded-full bg-emerald-500/20 text-emerald-600 dark:text-emerald-300 border border-emerald-500/30">
                 Syariah Certified
               </span>
             </div>
-            <p className="text-xs md:text-sm text-muted-foreground">
+            <p className="text-xs md:text-sm text-muted-foreground mt-0.5">
               Benchmark Indeks Saham Syariah (ISSI, JII), Screener Kepatuhan DES OJK/DSN-MUI, dan Acuan Komoditas Muamalah.
             </p>
           </div>
         </div>
-
-        <div className="flex items-center gap-2">
-          <span className="text-xs text-muted-foreground flex items-center gap-1.5 bg-card/80 px-3 py-1.5 rounded-lg border border-border">
-            <ShieldCheck className="w-4 h-4 text-emerald-400" />
-            Standar DSN-MUI & POJK No. 35/POJK.04/2017
-          </span>
-        </div>
-      </ShellHeader>
+      </div>
 
       {/* Top Index Cards */}
       <div className="grid grid-cols-2 md:grid-cols-4 gap-4">

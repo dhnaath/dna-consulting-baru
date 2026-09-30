@@ -184,40 +184,43 @@ export function ExpenseTrackerApp() {
         </div>
       )}
 
-      {/* Header */}
+      {/* Header Actions in Floating Pill */}
       <ShellHeader>
-        <div>
-          <div className="flex items-center gap-3">
-            <div className="p-2.5 bg-gradient-to-tr from-rose-500 to-pink-600 rounded-xl shadow-lg shadow-rose-500/20">
+        <div className="flex items-center gap-1.5 shrink-0">
+          <button
+            onClick={() => setIsModalOpen(true)}
+            className="flex items-center gap-1.5 px-3.5 py-1.5 bg-rose-600 hover:bg-rose-500 text-white rounded-full text-xs font-semibold shadow-xs transition-colors cursor-pointer"
+          >
+            <Plus className="w-3.5 h-3.5" />
+            <span>Catat Pengeluaran</span>
+          </button>
+        </div>
+      </ShellHeader>
+
+      {/* Page Header Banner */}
+      <div className="px-6 py-4 border-b border-border bg-card/40 backdrop-blur-sm">
+        <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 max-w-7xl">
+          <div className="flex items-center gap-3.5">
+            <div className="p-2.5 bg-gradient-to-tr from-rose-500 to-pink-600 rounded-xl shadow-lg shadow-rose-500/20 shrink-0">
               <Receipt className="w-6 h-6 text-white" />
             </div>
             <div>
-              <div className="flex items-center gap-2">
-                <h1 className="text-2xl font-bold tracking-tight text-white">Expense Tracker</h1>
-                <span className="px-2.5 py-0.5 text-xs font-semibold rounded-full bg-rose-500/20 text-rose-300 border border-rose-500/30">
+              <div className="flex items-center gap-2 flex-wrap">
+                <h1 className="text-xl sm:text-2xl font-bold tracking-tight text-foreground">Expense Tracker</h1>
+                <span className="px-2.5 py-0.5 text-xs font-semibold rounded-full bg-rose-500/20 text-rose-600 dark:text-rose-300 border border-rose-500/30">
                   App #39
                 </span>
                 <span className="text-xs text-muted-foreground">
                   Pencatatan Biaya, Akun, Merchant & Kepatuhan Bukti Struk
                 </span>
               </div>
-              <p className="text-xs md:text-sm text-muted-foreground">
+              <p className="text-xs md:text-sm text-muted-foreground mt-0.5">
                 Mencatat pengeluaran operasional berdasarkan kategori, akun kas/bank, merchant, struk bukti, dan validasi pajak.
               </p>
             </div>
           </div>
         </div>
-
-        <div className="flex items-center gap-2.5">
-          <button
-            onClick={() => setIsModalOpen(true)}
-            className="flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-rose-600 to-pink-600 hover:from-rose-500 hover:to-pink-500 text-white rounded-lg text-sm font-semibold shadow-md shadow-rose-500/25 transition"
-          >
-            <Plus className="w-4 h-4" />
-            <span>Catat Pengeluaran</span>
-          </button>
-        </div>
-      </ShellHeader>
+      </div>
 
       {/* Top Metrics Cards */}
       <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mt-6">

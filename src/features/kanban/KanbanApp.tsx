@@ -135,25 +135,18 @@ export function KanbanApp() {
 
       {/* MAIN KANBAN BOARD */}
       <main className="flex-1 flex flex-col min-w-0 overflow-hidden bg-background">
-        {/* Top Header */}
+        {/* Top Header Actions */}
         <ShellHeader>
-          <div>
-            <h1 className="text-base font-bold text-foreground tracking-tight">{activeBoard.name}</h1>
-            <p className="text-xs text-muted-foreground">
-              Visualisasi tahapan kerja dinamis dengan kendali aliran WIP limit.
-            </p>
-          </div>
-
-          <div className="flex items-center gap-2">
-            <div className="flex items-center border border-border rounded-lg p-0.5 bg-muted text-xs">
+          <div className="flex items-center gap-2 shrink-0">
+            <div className="flex items-center border border-border/80 rounded-full p-0.5 bg-muted/60 text-xs">
               {[
                 { id: "board", label: "Papan Kolom" },
-                { id: "compact", label: "Ringkas (Compact)" },
+                { id: "compact", label: "Ringkas" },
               ].map((v) => (
                 <button
                   key={v.id}
                   onClick={() => setViewMode(v.id as KanbanViewMode)}
-                  className={`px-3 py-1 rounded-md transition-colors ${
+                  className={`px-3 py-1 rounded-full text-xs transition-colors cursor-pointer ${
                     viewMode === v.id
                       ? "bg-card text-foreground font-semibold shadow-xs"
                       : "text-muted-foreground hover:text-foreground"
@@ -165,6 +158,16 @@ export function KanbanApp() {
             </div>
           </div>
         </ShellHeader>
+
+        {/* Board Subheader */}
+        <div className="px-6 py-3 border-b border-border bg-card/40 flex items-center justify-between">
+          <div>
+            <h1 className="text-base font-bold text-foreground tracking-tight">{activeBoard.name}</h1>
+            <p className="text-xs text-muted-foreground">
+              Visualisasi tahapan kerja dinamis dengan kendali aliran WIP limit.
+            </p>
+          </div>
+        </div>
 
         {/* COLUMNS AREA */}
         <div className="flex-1 overflow-x-auto p-4 flex gap-4 items-start bg-muted/40">

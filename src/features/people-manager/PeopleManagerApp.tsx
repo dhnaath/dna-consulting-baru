@@ -1,5 +1,7 @@
 import { ShellHeader } from "@/app/shell-header";
-import React, { useState, useMemo } from "react";
+import { ShellSidebar } from "@/app/shell-sidebar";
+import { useShellSections } from "@/app/shell-sections";
+import React, { useState, useMemo, useEffect } from "react";
 import { Link } from "@tanstack/react-router";
 import {
   Users,
@@ -38,6 +40,8 @@ import {
   PartyPopper,
   CalendarDays,
   Sparkles,
+  Menu,
+  ChevronDown,
 } from "lucide-react";
 import { usePeopleStore } from "./store";
 import {
@@ -77,6 +81,20 @@ export function PeopleManagerApp() {
   const [tagFilter, setTagFilter] = useState<string>("all");
   const [orgFilter, setOrgFilter] = useState<string>("all");
   const [toastMessage, setToastMessage] = useState<string | null>(null);
+  const [isTabMenuOpen, setIsTabMenuOpen] = useState(false);
+
+  // Otomatis buka sidebar kiri pada tab menu saat halaman dimuat
+  useEffect(() => {
+    window.dispatchEvent(
+      new CustomEvent("open-left-sidebar", { detail: { tab: "menu" } })
+    );
+  }, []);
+
+  const handleOpenSidebarMenu = () => {
+    window.dispatchEvent(
+      new CustomEvent("open-left-sidebar", { detail: { tab: "menu" } })
+    );
+  };
 
   // New Person Modal
   const [isNewPersonOpen, setIsNewPersonOpen] = useState(false);
@@ -197,6 +215,45 @@ export function PeopleManagerApp() {
     return { total, internal, external, archived, orgsCount, relsCount };
   }, [people, organizations, relationships]);
 
+  // Daftarkan opsi fitur ke ShellSections agar selalu muncul di tab Menu sidebar kiri
+  useShellSections([
+    {
+      id: "all",
+      label: `Semua Orang (${people.length})`,
+      icon: Users,
+      active: activeTab === "all",
+      onSelect: () => setActiveTab("all"),
+    },
+    {
+      id: "by_organization",
+      label: `Per Organisasi (${organizations.length})`,
+      icon: Building2,
+      active: activeTab === "by_organization",
+      onSelect: () => setActiveTab("by_organization"),
+    },
+    {
+      id: "relationships",
+      label: `Graf Relasi (${relationships.length})`,
+      icon: Network,
+      active: activeTab === "relationships",
+      onSelect: () => setActiveTab("relationships"),
+    },
+    {
+      id: "duplicates",
+      label: `Tinjau Duplikat (${duplicateCandidates.length})`,
+      icon: GitMerge,
+      active: activeTab === "duplicates",
+      onSelect: () => setActiveTab("duplicates"),
+    },
+    {
+      id: "stats",
+      label: "Statistik Identitas",
+      icon: BarChart3,
+      active: activeTab === "stats",
+      onSelect: () => setActiveTab("stats"),
+    },
+  ]);
+
   const handleCreatePerson = (e: React.FormEvent) => {
     e.preventDefault();
     if (!newFullName.trim()) return;
@@ -296,140 +353,243 @@ export function PeopleManagerApp() {
         </div>
       )}
 
-      {/* Header */}
+      {/* LEFT SIDEBAR: Navigasi Menu & Tab Fitur People Manager */}
+      <ShellSidebar>
+        {/* Header Modul People Manager */}
+        <div className="p-3.5 border-b border-border/80 flex items-center justify-between">
+          <div className="flex items-center gap-2.5">
+            <div className="w-8 h-8 rounded-xl bg-gradient-to-tr from-indigo-500 to-violet-600 shadow-md shadow-indigo-500/25 flex items-center justify-center text-white shrink-0">
+              <Users className="w-4 h-4" />
+            </div>
+            <div>
+              <div className="flex items-center gap-1.5">
+                <h2 className="text-xs font-bold text-foreground tracking-tight">People Manager</h2>
+                <span className="text-[9px] px-1.5 py-0.2 rounded bg-indigo-500/15 text-indigo-600 dark:text-indigo-300 font-semibold border border-indigo-500/30">
+                  #35
+                </span>
+              </div>
+              <p className="text-[10px] text-muted-foreground">Identity & Multi-Org Layer</p>
+            </div>
+          </div>
+        </div>
+
+        {/* Menu Tab Fitur Utama */}
+        <div className="p-2 space-y-1">
+          <div className="px-2.5 py-1 text-[10px] font-bold uppercase tracking-wider text-muted-foreground/80">
+            Menu Navigasi Fitur
+          </div>
+
+          <button
+            onClick={() => setActiveTab("all")}
+            className={`w-full flex items-center justify-between px-3 py-2 rounded-xl text-xs font-medium transition-colors cursor-pointer ${
+              activeTab === "all"
+                ? "bg-primary text-primary-foreground font-semibold shadow-xs"
+                : "text-foreground/80 hover:text-foreground hover:bg-accent"
+            }`}
+          >
+            <div className="flex items-center gap-2.5">
+              <Users className="w-4 h-4 shrink-0" />
+              <span>Semua Orang</span>
+            </div>
+            <span
+              className={`text-[10px] px-1.5 py-0.5 rounded-full font-mono ${
+                activeTab === "all"
+                  ? "bg-white/20 text-white"
+                  : "bg-muted text-muted-foreground"
+              }`}
+            >
+              {people.length}
+            </span>
+          </button>
+
+          <button
+            onClick={() => setActiveTab("by_organization")}
+            className={`w-full flex items-center justify-between px-3 py-2 rounded-xl text-xs font-medium transition-colors cursor-pointer ${
+              activeTab === "by_organization"
+                ? "bg-primary text-primary-foreground font-semibold shadow-xs"
+                : "text-foreground/80 hover:text-foreground hover:bg-accent"
+            }`}
+          >
+            <div className="flex items-center gap-2.5">
+              <Building2 className="w-4 h-4 text-cyan-400 shrink-0" />
+              <span>Per Organisasi</span>
+            </div>
+            <span
+              className={`text-[10px] px-1.5 py-0.5 rounded-full font-mono ${
+                activeTab === "by_organization"
+                  ? "bg-white/20 text-white"
+                  : "bg-muted text-muted-foreground"
+              }`}
+            >
+              {organizations.length}
+            </span>
+          </button>
+
+          <button
+            onClick={() => setActiveTab("relationships")}
+            className={`w-full flex items-center justify-between px-3 py-2 rounded-xl text-xs font-medium transition-colors cursor-pointer ${
+              activeTab === "relationships"
+                ? "bg-primary text-primary-foreground font-semibold shadow-xs"
+                : "text-foreground/80 hover:text-foreground hover:bg-accent"
+            }`}
+          >
+            <div className="flex items-center gap-2.5">
+              <Network className="w-4 h-4 text-purple-400 shrink-0" />
+              <span>Graf & Jaringan Relasi</span>
+            </div>
+            <span
+              className={`text-[10px] px-1.5 py-0.5 rounded-full font-mono ${
+                activeTab === "relationships"
+                  ? "bg-white/20 text-white"
+                  : "bg-muted text-muted-foreground"
+              }`}
+            >
+              {relationships.length}
+            </span>
+          </button>
+
+          <button
+            onClick={() => setActiveTab("duplicates")}
+            className={`w-full flex items-center justify-between px-3 py-2 rounded-xl text-xs font-medium transition-colors cursor-pointer ${
+              activeTab === "duplicates"
+                ? "bg-amber-600 text-white font-semibold shadow-xs"
+                : "text-foreground/80 hover:text-amber-500 hover:bg-amber-500/10"
+            }`}
+          >
+            <div className="flex items-center gap-2.5">
+              <GitMerge className="w-4 h-4 text-amber-400 shrink-0" />
+              <span>Tinjau Duplikat</span>
+            </div>
+            {duplicateCandidates.length > 0 && (
+              <span
+                className={`text-[10px] px-1.5 py-0.5 rounded-full font-semibold ${
+                  activeTab === "duplicates"
+                    ? "bg-white/25 text-white"
+                    : "bg-amber-500/15 text-amber-600 dark:text-amber-400"
+                }`}
+              >
+                {duplicateCandidates.length}
+              </span>
+            )}
+          </button>
+
+          <button
+            onClick={() => setActiveTab("stats")}
+            className={`w-full flex items-center justify-between px-3 py-2 rounded-xl text-xs font-medium transition-colors cursor-pointer ${
+              activeTab === "stats"
+                ? "bg-primary text-primary-foreground font-semibold shadow-xs"
+                : "text-foreground/80 hover:text-foreground hover:bg-accent"
+            }`}
+          >
+            <div className="flex items-center gap-2.5">
+              <BarChart3 className="w-4 h-4 text-emerald-400 shrink-0" />
+              <span>Statistik Identitas</span>
+            </div>
+          </button>
+        </div>
+
+        {/* 10 Sub-fitur Terintegrasi (Dipindahkan ke Sidebar Kiri) */}
+        <div className="p-2 border-t border-border/70 space-y-1">
+          <div className="px-2.5 py-1 text-[10px] font-bold uppercase tracking-wider text-muted-foreground/80 flex items-center gap-1.5">
+            <Sparkles className="size-3 text-indigo-500" />
+            <span>10 Fitur Terintegrasi</span>
+          </div>
+          <div className="grid grid-cols-2 gap-1 px-1">
+            {[
+              { label: "Family Tree", to: "/lainnya?app=family-tree", icon: GitFork },
+              { label: "House Rules", to: "/lainnya?app=family-rules", icon: Scale },
+              { label: "Family Archive", to: "/lainnya?app=family-archive", icon: Archive },
+              { label: "Medical Profile", to: "/lainnya?app=medical-family", icon: HeartHandshake },
+              { label: "Relation Circles", to: "/lainnya?app=circle-groups", icon: Network },
+              { label: "Catchup", to: "/lainnya?app=catchup-cadence", icon: PhoneCall },
+              { label: "Borrow Log", to: "/lainnya?app=borrowed-items", icon: ArrowRightLeft },
+              { label: "Gift Tracker", to: "/lainnya?app=gift-tracker", icon: Gift },
+              { label: "Reunion", to: "/lainnya?app=reunion-planner", icon: PartyPopper },
+              { label: "Anniversary", to: "/lainnya?app=family-anniversary", icon: CalendarDays },
+            ].map((feat, i) => {
+              const Icon = feat.icon;
+              const featPath = feat.to.split("?")[0];
+              const featSearch = feat.to.includes("?")
+                ? Object.fromEntries(new URLSearchParams(feat.to.split("?")[1]))
+                : undefined;
+
+              return (
+                <Link
+                  key={i}
+                  to={featPath}
+                  search={featSearch as any}
+                  className="inline-flex items-center gap-1.5 px-2 py-1.5 rounded-lg bg-card/60 hover:bg-card border border-border/60 hover:border-indigo-500/40 text-[10.5px] font-medium text-muted-foreground hover:text-foreground transition truncate"
+                >
+                  <Icon size={11} className="text-indigo-500 shrink-0" />
+                  <span className="truncate">{feat.label}</span>
+                </Link>
+              );
+            })}
+          </div>
+        </div>
+
+        {/* Ringkasan Jumlah di Bawah Sidebar */}
+        <div className="p-3 mt-auto border-t border-border/70">
+          <div className="p-2.5 rounded-xl bg-card border border-border/80 shadow-2xs space-y-1.5 text-xs">
+            <div className="flex items-center justify-between font-semibold text-foreground">
+              <span className="flex items-center gap-1.5">
+                <Users className="w-3.5 h-3.5 text-indigo-500" />
+                Total Individu
+              </span>
+              <span className="font-bold text-indigo-500">{stats.total}</span>
+            </div>
+            <div className="flex justify-between text-[10px] text-muted-foreground">
+              <span>Internal: {stats.internal}</span>
+              <span>Eksternal: {stats.external}</span>
+            </div>
+          </div>
+        </div>
+      </ShellSidebar>
+
+      {/* Header Actions in Floating Pill */}
       <ShellHeader>
-        <div>
-          <div className="flex items-center gap-3">
-            <div className="p-2.5 bg-gradient-to-tr from-indigo-500 to-violet-600 rounded-xl shadow-lg shadow-indigo-500/20">
+        <div className="flex items-center gap-1.5 shrink-0">
+          <button
+            onClick={() => setIsNewOrgOpen(true)}
+            className="flex items-center gap-1.5 px-3 py-1.5 bg-card hover:bg-accent text-foreground border border-border/80 rounded-full text-xs font-semibold shadow-2xs transition-colors cursor-pointer"
+          >
+            <Building2 className="w-3.5 h-3.5 text-muted-foreground" />
+            <span>+ Organisasi</span>
+          </button>
+
+          <button
+            onClick={() => setIsNewPersonOpen(true)}
+            className="flex items-center gap-1.5 px-3.5 py-1.5 bg-gradient-to-r from-indigo-600 to-violet-600 hover:from-indigo-500 hover:to-violet-500 text-white rounded-full text-xs font-semibold shadow-xs transition-colors cursor-pointer"
+          >
+            <UserPlus className="w-3.5 h-3.5" />
+            <span>Tambah Orang</span>
+          </button>
+        </div>
+      </ShellHeader>
+
+      {/* Page Header Banner (Clean, all options moved to Left Sidebar) */}
+      <div className="px-6 py-4 border-b border-border bg-card/40 backdrop-blur-sm">
+        <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 max-w-7xl">
+          <div className="flex items-center gap-3.5">
+            <div className="p-2.5 bg-gradient-to-tr from-indigo-500 to-violet-600 rounded-xl shadow-lg shadow-indigo-500/20 shrink-0">
               <Users className="w-6 h-6 text-white" />
             </div>
             <div>
-              <div className="flex items-center gap-2">
-                <h1 className="text-2xl font-bold tracking-tight text-white">People Manager</h1>
-                <span className="px-2.5 py-0.5 text-xs font-semibold rounded-full bg-indigo-500/20 text-indigo-300 border border-indigo-500/30">
+              <div className="flex items-center gap-2 flex-wrap">
+                <h1 className="text-xl sm:text-2xl font-bold tracking-tight text-foreground">People Manager</h1>
+                <span className="px-2.5 py-0.5 text-xs font-semibold rounded-full bg-indigo-500/20 text-indigo-600 dark:text-indigo-300 border border-indigo-500/30">
                   App #35
                 </span>
                 <span className="text-xs text-muted-foreground">
                   Identity Layer • Rujukan Identitas Tunggal Seluruh Ekosistem
                 </span>
               </div>
-              <p className="text-xs md:text-sm text-muted-foreground">
+              <p className="text-xs md:text-sm text-muted-foreground mt-0.5">
                 Penyimpanan terpusat profil individu (Internal/External), organisasi, metode kontak, relasi multi-arah, dan deduplikasi.
               </p>
             </div>
           </div>
         </div>
-
-        <div className="flex items-center flex-wrap gap-2.5">
-          <button
-            onClick={() => setIsNewOrgOpen(true)}
-            className="flex items-center gap-1.5 px-3 py-2 bg-card hover:bg-card text-foreground border border-border rounded-lg text-xs font-semibold transition"
-          >
-            <Building2 className="w-3.5 h-3.5 text-muted-foreground" />
-            <span>Tambah Organisasi</span>
-          </button>
-
-          <button
-            onClick={() => setIsNewPersonOpen(true)}
-            className="flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-indigo-600 to-violet-600 hover:from-indigo-500 hover:to-violet-500 text-white rounded-lg text-sm font-semibold shadow-md shadow-indigo-500/25 transition"
-          >
-            <UserPlus className="w-4 h-4" />
-            <span>Tambah Orang Baru</span>
-          </button>
-        </div>
-      </ShellHeader>
-
-      {/* 10 Integrated Sub-features Navigation Banner */}
-      <div className="rounded-xl border border-border/80 bg-muted/30 p-3.5 mb-2">
-        <div className="text-[11px] font-bold uppercase tracking-wider text-muted-foreground mb-2.5 flex items-center gap-1.5">
-          <Sparkles className="size-3.5 text-indigo-500" />
-          <span>10 Fitur Terintegrasi People Manager:</span>
-        </div>
-        <div className="flex flex-wrap gap-1.5">
-          {[
-            { label: "Family Tree", to: "/lainnya?app=family-tree", icon: GitFork },
-            { label: "House Rules", to: "/lainnya?app=family-rules", icon: Scale },
-            { label: "Family Archive", to: "/lainnya?app=family-archive", icon: Archive },
-            { label: "Medical Profile", to: "/lainnya?app=medical-family", icon: HeartHandshake },
-            { label: "Relation Circles", to: "/lainnya?app=circle-groups", icon: Network },
-            { label: "Catchup Reminder", to: "/lainnya?app=catchup-cadence", icon: PhoneCall },
-            { label: "Borrow Log", to: "/lainnya?app=borrowed-items", icon: ArrowRightLeft },
-            { label: "Gift Tracker", to: "/lainnya?app=gift-tracker", icon: Gift },
-            { label: "Reunion Planner", to: "/lainnya?app=reunion-planner", icon: PartyPopper },
-            { label: "Anniversary Tracker", to: "/lainnya?app=family-anniversary", icon: CalendarDays },
-          ].map((feat, i) => {
-            const Icon = feat.icon;
-            const featPath = feat.to.split("?")[0];
-            const featSearch = feat.to.includes("?")
-              ? Object.fromEntries(new URLSearchParams(feat.to.split("?")[1]))
-              : undefined;
-
-            return (
-              <Link
-                key={i}
-                to={featPath}
-                search={featSearch as any}
-                className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-background border border-border hover:border-indigo-500/50 hover:text-indigo-400 text-xs font-medium text-muted-foreground transition cursor-pointer shadow-2xs"
-              >
-                <Icon size={12} className="text-indigo-500 shrink-0" />
-                <span>{feat.label}</span>
-              </Link>
-            );
-          })}
-        </div>
-      </div>
-
-      {/* Tabs */}
-      <div className="flex items-center gap-2 overflow-x-auto py-3 border-b border-border/80 scrollbar-none">
-        <button
-          onClick={() => setActiveTab("all")}
-          className={`flex items-center gap-2 px-3.5 py-1.5 rounded-lg text-sm font-medium transition shrink-0 ${
-            activeTab === "all" ? "bg-indigo-600 text-background shadow-sm" : "text-muted-foreground hover:text-foreground hover:bg-foreground"
-          }`}
-        >
-          <Users className="w-4 h-4" />
-          <span>Semua Orang ({people.length})</span>
-        </button>
-
-        <button
-          onClick={() => setActiveTab("by_organization")}
-          className={`flex items-center gap-2 px-3.5 py-1.5 rounded-lg text-sm font-medium transition shrink-0 ${
-            activeTab === "by_organization" ? "bg-indigo-600 text-background shadow-sm" : "text-muted-foreground hover:text-foreground hover:bg-foreground"
-          }`}
-        >
-          <Building2 className="w-4 h-4 text-cyan-400" />
-          <span>Per Organisasi ({organizations.length})</span>
-        </button>
-
-        <button
-          onClick={() => setActiveTab("relationships")}
-          className={`flex items-center gap-2 px-3.5 py-1.5 rounded-lg text-sm font-medium transition shrink-0 ${
-            activeTab === "relationships" ? "bg-indigo-600 text-background shadow-sm" : "text-muted-foreground hover:text-foreground hover:bg-foreground"
-          }`}
-        >
-          <Network className="w-4 h-4 text-purple-400" />
-          <span>Graf & Jaringan Relasi ({relationships.length})</span>
-        </button>
-
-        <button
-          onClick={() => setActiveTab("duplicates")}
-          className={`flex items-center gap-2 px-3.5 py-1.5 rounded-lg text-sm font-medium transition shrink-0 ${
-            activeTab === "duplicates" ? "bg-indigo-600 text-background shadow-sm" : "text-muted-foreground hover:text-foreground hover:bg-foreground"
-          }`}
-        >
-          <GitMerge className="w-4 h-4 text-amber-400" />
-          <span>Tinjau Duplikat ({duplicateCandidates.length})</span>
-        </button>
-
-        <button
-          onClick={() => setActiveTab("stats")}
-          className={`flex items-center gap-2 px-3.5 py-1.5 rounded-lg text-sm font-medium transition shrink-0 ${
-            activeTab === "stats" ? "bg-indigo-600 text-background shadow-sm" : "text-muted-foreground hover:text-foreground hover:bg-foreground"
-          }`}
-        >
-          <BarChart3 className="w-4 h-4 text-emerald-400" />
-          <span>Statistik Identitas</span>
-        </button>
       </div>
 
       {/* Main Content Area */}

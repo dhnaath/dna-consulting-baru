@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   Home,
   Users,
@@ -15,9 +15,14 @@ import {
   CheckCircle2,
   Clock,
   Sparkles,
+  Menu,
+  ChevronDown,
+  LucideIcon,
 } from "lucide-react";
 import { Link, useRouterState } from "@tanstack/react-router";
 import { StandaloneAppView } from "@/features/standalone/StandaloneAppView";
+import { ShellSidebar } from "@/app/shell-sidebar";
+import { useShellSections } from "@/app/shell-sections";
 
 export type KomunitasTab =
   | "rt-rw-directory"
@@ -34,7 +39,7 @@ interface SubFeatureDef {
   title: string;
   shortLabel: string;
   subtitle: string;
-  icon: React.ComponentType<{ className?: string }>;
+  icon: LucideIcon;
   badge: string;
 }
 
@@ -114,12 +119,113 @@ export function KomunitasWargaApp() {
       : "rt-rw-directory";
 
   const [activeTab, setActiveTab] = useState<KomunitasTab>(initialTab);
+  const [isTabMenuOpen, setIsTabMenuOpen] = useState(false);
+
+  // Otomatis buka sidebar kiri pada tab menu saat halaman dimuat
+  useEffect(() => {
+    window.dispatchEvent(
+      new CustomEvent("open-left-sidebar", { detail: { tab: "menu" } })
+    );
+  }, []);
+
+  const handleOpenSidebarMenu = () => {
+    window.dispatchEvent(
+      new CustomEvent("open-left-sidebar", { detail: { tab: "menu" } })
+    );
+  };
+
+  // Daftarkan ke ShellSections agar selalu muncul di tab Menu sidebar kiri
+  useShellSections(
+    KOMUNITAS_FEATURES.map((feat) => ({
+      id: feat.id,
+      label: feat.shortLabel,
+      icon: feat.icon,
+      active: activeTab === feat.id,
+      onSelect: () => setActiveTab(feat.id),
+    }))
+  );
 
   const currentFeature =
     KOMUNITAS_FEATURES.find((f) => f.id === activeTab) || KOMUNITAS_FEATURES[0];
 
   return (
     <div className="w-full flex flex-col gap-6 max-w-7xl mx-auto py-2 px-1">
+      {/* LEFT SIDEBAR: Navigasi Menu & Tab Fitur Komunitas Warga */}
+      <ShellSidebar>
+        {/* Header Modul Komunitas Warga */}
+        <div className="p-3.5 border-b border-border/80 flex items-center justify-between">
+          <div className="flex items-center gap-2.5">
+            <div className="w-8 h-8 rounded-xl bg-gradient-to-tr from-blue-600 to-indigo-700 shadow-md shadow-blue-500/25 flex items-center justify-center text-white shrink-0">
+              <Home className="w-4 h-4" />
+            </div>
+            <div>
+              <div className="flex items-center gap-1.5">
+                <h2 className="text-xs font-bold text-foreground tracking-tight">Komunitas Warga</h2>
+                <span className="text-[9px] px-1.5 py-0.2 rounded bg-blue-500/15 text-blue-600 dark:text-blue-400 font-semibold border border-blue-500/30">
+                  RT/RW
+                </span>
+              </div>
+              <p className="text-[10px] text-muted-foreground">Pusat Kendali Lingkungan</p>
+            </div>
+          </div>
+        </div>
+
+        {/* Menu Tab Fitur Utama (8 Modul) */}
+        <div className="p-2 space-y-1">
+          <div className="px-2.5 py-1 text-[10px] font-bold uppercase tracking-wider text-muted-foreground/80">
+            8 Modul Terintegrasi
+          </div>
+
+          {KOMUNITAS_FEATURES.map((feat) => {
+            const Icon = feat.icon;
+            const isCurrent = activeTab === feat.id;
+
+            return (
+              <button
+                key={feat.id}
+                onClick={() => setActiveTab(feat.id)}
+                className={`w-full flex items-center justify-between px-3 py-2 rounded-xl text-xs font-medium transition-colors cursor-pointer ${
+                  isCurrent
+                    ? "bg-primary text-primary-foreground font-semibold shadow-xs"
+                    : "text-foreground/80 hover:text-foreground hover:bg-accent"
+                }`}
+              >
+                <div className="flex items-center gap-2.5">
+                  <Icon className={`w-4 h-4 shrink-0 ${isCurrent ? "text-primary-foreground" : "text-blue-500"}`} />
+                  <span className="truncate">{feat.shortLabel}</span>
+                </div>
+                <span
+                  className={`text-[9px] px-1.5 py-0.5 rounded font-mono ${
+                    isCurrent
+                      ? "bg-white/20 text-white"
+                      : "bg-muted text-muted-foreground"
+                  }`}
+                >
+                  {feat.badge}
+                </span>
+              </button>
+            );
+          })}
+        </div>
+
+        {/* Ringkasan Status Lingkungan di Bawah Sidebar */}
+        <div className="p-3 mt-auto border-t border-border/70 space-y-2">
+          <div className="p-2.5 rounded-xl bg-card border border-border/80 shadow-2xs space-y-1.5 text-xs">
+            <div className="flex items-center justify-between font-semibold text-foreground">
+              <span className="flex items-center gap-1.5">
+                <Users className="w-3.5 h-3.5 text-blue-500" />
+                Data Penduduk
+              </span>
+              <span className="font-bold text-blue-500 text-[11px]">42 KK / 184 Jiwa</span>
+            </div>
+            <div className="flex justify-between text-[10px] text-muted-foreground">
+              <span>Iuran RT: 88%</span>
+              <span className="text-emerald-500 font-medium">Satpam: 24 Jam</span>
+            </div>
+          </div>
+        </div>
+      </ShellSidebar>
+
       {/* Overview Top Stats Banner */}
       <div className="rounded-2xl border border-border bg-gradient-to-r from-blue-950/40 via-card to-cyan-950/30 p-5 sm:p-6 shadow-xs">
         <div className="flex flex-col lg:flex-row items-start lg:items-center justify-between gap-4">
@@ -167,36 +273,6 @@ export function KomunitasWargaApp() {
               </span>
               <span className="text-sm font-bold text-amber-500">Siaga 24 Jam</span>
             </div>
-          </div>
-        </div>
-
-        {/* Sub-Feature Switcher Tabs */}
-        <div className="mt-6 pt-5 border-t border-border/60">
-          <div className="text-[11px] font-bold uppercase tracking-wider text-muted-foreground mb-3 flex items-center gap-1.5">
-            <Sparkles className="size-3.5 text-blue-500" />
-            <span>Pilih 8 Sub-Modul Terintegrasi:</span>
-          </div>
-
-          <div className="flex flex-wrap gap-2">
-            {KOMUNITAS_FEATURES.map((feat) => {
-              const Icon = feat.icon;
-              const isActive = activeTab === feat.id;
-
-              return (
-                <button
-                  key={feat.id}
-                  onClick={() => setActiveTab(feat.id)}
-                  className={`inline-flex items-center gap-2 px-3.5 py-2 rounded-xl text-xs font-semibold transition-all duration-200 cursor-pointer border ${
-                    isActive
-                      ? "bg-primary text-primary-foreground border-primary shadow-sm scale-102 font-bold"
-                      : "bg-muted/60 hover:bg-muted text-muted-foreground hover:text-foreground border-border/60 hover:scale-102"
-                  }`}
-                >
-                  <Icon className={`size-3.5 ${isActive ? "text-primary-foreground" : "text-primary"}`} />
-                  <span>{feat.shortLabel}</span>
-                </button>
-              );
-            })}
           </div>
         </div>
       </div>

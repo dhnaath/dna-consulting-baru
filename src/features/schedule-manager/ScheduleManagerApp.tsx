@@ -1,4 +1,5 @@
 import { ShellHeader } from "@/app/shell-header";
+import { ShellSidebar } from "@/app/shell-sidebar";
 import React, { useState, useMemo } from "react";
 import {
   CalendarDays,
@@ -213,100 +214,194 @@ export function ScheduleManagerApp() {
         </div>
       )}
 
-      {/* Header */}
+      {/* LEFT SIDEBAR: Navigasi Menu & Tab Fitur Schedule Manager */}
+      <ShellSidebar>
+        {/* Header Modul Schedule Manager */}
+        <div className="p-3.5 border-b border-border/80 flex items-center justify-between">
+          <div className="flex items-center gap-2.5">
+            <div className="w-8 h-8 rounded-xl bg-gradient-to-tr from-teal-500 to-emerald-600 shadow-md shadow-teal-500/25 flex items-center justify-center text-white shrink-0">
+              <CalendarDays className="w-4 h-4" />
+            </div>
+            <div>
+              <div className="flex items-center gap-1.5">
+                <h2 className="text-xs font-bold text-foreground tracking-tight">Schedule Manager</h2>
+                <span className="text-[9px] px-1.5 py-0.2 rounded bg-teal-500/15 text-teal-600 dark:text-teal-300 font-semibold border border-teal-500/30">
+                  #37
+                </span>
+              </div>
+              <p className="text-[10px] text-muted-foreground">WorkSchedule & Shift</p>
+            </div>
+          </div>
+        </div>
+
+        {/* Menu Tab Fitur Utama */}
+        <div className="p-2 space-y-1">
+          <div className="px-2.5 py-1 text-[10px] font-bold uppercase tracking-wider text-muted-foreground/80">
+            Menu Navigasi Fitur
+          </div>
+
+          <button
+            onClick={() => setActiveTab("team_schedule")}
+            className={`w-full flex items-center justify-between px-3 py-2 rounded-xl text-xs font-medium transition-colors cursor-pointer ${
+              activeTab === "team_schedule"
+                ? "bg-teal-600 text-white font-semibold shadow-xs"
+                : "text-foreground/80 hover:text-foreground hover:bg-accent"
+            }`}
+          >
+            <div className="flex items-center gap-2.5">
+              <Users className="w-4 h-4 shrink-0" />
+              <span>Jadwal Tim</span>
+            </div>
+          </button>
+
+          <button
+            onClick={() => setActiveTab("shift_roster")}
+            className={`w-full flex items-center justify-between px-3 py-2 rounded-xl text-xs font-medium transition-colors cursor-pointer ${
+              activeTab === "shift_roster"
+                ? "bg-teal-600 text-white font-semibold shadow-xs"
+                : "text-foreground/80 hover:text-foreground hover:bg-accent"
+            }`}
+          >
+            <div className="flex items-center gap-2.5">
+              <Layers className="w-4 h-4 text-cyan-400 shrink-0" />
+              <span>Shift Roster</span>
+            </div>
+            <span
+              className={`text-[10px] px-1.5 py-0.5 rounded-full font-mono ${
+                activeTab === "shift_roster"
+                  ? "bg-white/20 text-white"
+                  : "bg-muted text-muted-foreground"
+              }`}
+            >
+              {shiftAssignments.length}
+            </span>
+          </button>
+
+          <button
+            onClick={() => setActiveTab("exceptions")}
+            className={`w-full flex items-center justify-between px-3 py-2 rounded-xl text-xs font-medium transition-colors cursor-pointer ${
+              activeTab === "exceptions"
+                ? "bg-teal-600 text-white font-semibold shadow-xs"
+                : "text-foreground/80 hover:text-foreground hover:bg-accent"
+            }`}
+          >
+            <div className="flex items-center gap-2.5">
+              <FileCheck2 className="w-4 h-4 text-amber-400 shrink-0" />
+              <span>Cuti & WFH</span>
+            </div>
+            {exceptions.filter((e) => e.status === "pending").length > 0 && (
+              <span
+                className={`text-[10px] px-1.5 py-0.5 rounded-full font-semibold ${
+                  activeTab === "exceptions"
+                    ? "bg-white/25 text-white"
+                    : "bg-amber-500/15 text-amber-600 dark:text-amber-400"
+                }`}
+              >
+                {exceptions.filter((e) => e.status === "pending").length}
+              </span>
+            )}
+          </button>
+
+          <button
+            onClick={() => setActiveTab("holidays")}
+            className={`w-full flex items-center justify-between px-3 py-2 rounded-xl text-xs font-medium transition-colors cursor-pointer ${
+              activeTab === "holidays"
+                ? "bg-teal-600 text-white font-semibold shadow-xs"
+                : "text-foreground/80 hover:text-foreground hover:bg-accent"
+            }`}
+          >
+            <div className="flex items-center gap-2.5">
+              <Calendar className="w-4 h-4 text-purple-400 shrink-0" />
+              <span>Kalender Libur</span>
+            </div>
+            <span
+              className={`text-[10px] px-1.5 py-0.5 rounded-full font-mono ${
+                activeTab === "holidays"
+                  ? "bg-white/20 text-white"
+                  : "bg-muted text-muted-foreground"
+              }`}
+            >
+              {holidays.length}
+            </span>
+          </button>
+
+          <button
+            onClick={() => setActiveTab("stats")}
+            className={`w-full flex items-center justify-between px-3 py-2 rounded-xl text-xs font-medium transition-colors cursor-pointer ${
+              activeTab === "stats"
+                ? "bg-teal-600 text-white font-semibold shadow-xs"
+                : "text-foreground/80 hover:text-foreground hover:bg-accent"
+            }`}
+          >
+            <div className="flex items-center gap-2.5">
+              <BarChart3 className="w-4 h-4 text-emerald-400 shrink-0" />
+              <span>Kapasitas & Statistik</span>
+            </div>
+          </button>
+        </div>
+      </ShellSidebar>
+
+      {/* Header Actions in Floating Pill */}
       <ShellHeader>
-        <div>
-          <div className="flex items-center gap-3">
-            <div className="p-2.5 bg-gradient-to-tr from-teal-500 to-emerald-600 rounded-xl shadow-lg shadow-teal-500/20">
+        <div className="flex items-center gap-1.5 shrink-0">
+          <button
+            onClick={() => setIsShiftAssignOpen(true)}
+            className="flex items-center gap-1.5 px-3 py-1.5 bg-card hover:bg-accent text-foreground border border-border/80 rounded-full text-xs font-semibold shadow-2xs transition-colors cursor-pointer"
+          >
+            <Clock className="w-3.5 h-3.5 text-teal-500" />
+            <span>Tetapkan Shift</span>
+          </button>
+
+          <button
+            onClick={() => setIsExcModalOpen(true)}
+            className="flex items-center gap-1.5 px-3.5 py-1.5 bg-gradient-to-r from-teal-600 to-emerald-600 hover:from-teal-500 hover:to-emerald-500 text-white rounded-full text-xs font-semibold shadow-xs transition-colors cursor-pointer"
+          >
+            <Plus className="w-3.5 h-3.5" />
+            <span>Ajukan Cuti / WFH</span>
+          </button>
+        </div>
+      </ShellHeader>
+
+      {/* Page Header Banner */}
+      <div className="px-6 py-4 border-b border-border bg-card/40 backdrop-blur-sm">
+        <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 max-w-7xl">
+          <div className="flex items-center gap-3.5">
+            <div className="p-2.5 bg-gradient-to-tr from-teal-500 to-emerald-600 rounded-xl shadow-lg shadow-teal-500/20 shrink-0">
               <CalendarDays className="w-6 h-6 text-white" />
             </div>
             <div>
-              <div className="flex items-center gap-2">
-                <h1 className="text-2xl font-bold tracking-tight text-white">Schedule Manager</h1>
-                <span className="px-2.5 py-0.5 text-xs font-semibold rounded-full bg-teal-500/20 text-teal-300 border border-teal-500/30">
+              <div className="flex items-center gap-2 flex-wrap">
+                <h1 className="text-xl sm:text-2xl font-bold tracking-tight text-foreground">Schedule Manager</h1>
+                <span className="px-2.5 py-0.5 text-xs font-semibold rounded-full bg-teal-500/20 text-teal-600 dark:text-teal-300 border border-teal-500/30">
                   App #37
                 </span>
                 <span className="text-xs text-muted-foreground">
                   Source of Truth WorkSchedule • Pola Jam Kerja, Shift & Ketersediaan
                 </span>
               </div>
-              <p className="text-xs md:text-sm text-muted-foreground">
+              <p className="text-xs md:text-sm text-muted-foreground mt-0.5">
                 Fondasi kapasitas formal organisasi (Working Hours, Shift, Cuti, WFH) yang dikonsumsi oleh Planner (#04) dan Resource Manager (#34).
               </p>
             </div>
           </div>
+
+          {/* Quick Active Tab Chip */}
+          <div className="flex items-center gap-2 self-start md:self-auto">
+            <span className="text-xs text-muted-foreground">Menu Tab:</span>
+            <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-teal-500/10 text-teal-600 dark:text-teal-400 border border-teal-500/20 text-xs font-semibold">
+              {activeTab === "team_schedule" && <Users className="w-3.5 h-3.5" />}
+              {activeTab === "shift_roster" && <Layers className="w-3.5 h-3.5" />}
+              {activeTab === "exceptions" && <FileCheck2 className="w-3.5 h-3.5" />}
+              {activeTab === "holidays" && <Calendar className="w-3.5 h-3.5" />}
+              {activeTab === "stats" && <BarChart3 className="w-3.5 h-3.5" />}
+              {activeTab === "team_schedule" && "Jadwal Tim"}
+              {activeTab === "shift_roster" && "Shift Roster"}
+              {activeTab === "exceptions" && "Cuti & WFH"}
+              {activeTab === "holidays" && "Kalender Libur"}
+              {activeTab === "stats" && "Kapasitas & Statistik"}
+            </span>
+          </div>
         </div>
-
-        <div className="flex items-center flex-wrap gap-2.5">
-          <button
-            onClick={() => setIsShiftAssignOpen(true)}
-            className="flex items-center gap-1.5 px-3 py-2 bg-card hover:bg-card text-foreground border border-border rounded-lg text-xs font-semibold transition"
-          >
-            <Clock className="w-3.5 h-3.5 text-teal-400" />
-            <span>Tetapkan Shift</span>
-          </button>
-
-          <button
-            onClick={() => setIsExcModalOpen(true)}
-            className="flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-teal-600 to-emerald-600 hover:from-teal-500 hover:to-emerald-500 text-white rounded-lg text-sm font-semibold shadow-md shadow-teal-500/25 transition"
-          >
-            <Plus className="w-4 h-4" />
-            <span>Ajukan Cuti / WFH / Pengecualian</span>
-          </button>
-        </div>
-      </ShellHeader>
-
-      {/* Tabs */}
-      <div className="flex items-center gap-2 overflow-x-auto py-3 border-b border-border/80 scrollbar-none">
-        <button
-          onClick={() => setActiveTab("team_schedule")}
-          className={`flex items-center gap-2 px-3.5 py-1.5 rounded-lg text-sm font-medium transition shrink-0 ${
-            activeTab === "team_schedule" ? "bg-teal-600 text-background shadow-sm" : "text-muted-foreground hover:text-foreground hover:bg-foreground"
-          }`}
-        >
-          <Users className="w-4 h-4" />
-          <span>Jadwal Tim (Grid Ketersediaan)</span>
-        </button>
-
-        <button
-          onClick={() => setActiveTab("shift_roster")}
-          className={`flex items-center gap-2 px-3.5 py-1.5 rounded-lg text-sm font-medium transition shrink-0 ${
-            activeTab === "shift_roster" ? "bg-teal-600 text-background shadow-sm" : "text-muted-foreground hover:text-foreground hover:bg-foreground"
-          }`}
-        >
-          <Layers className="w-4 h-4 text-cyan-400" />
-          <span>Shift Roster & Giliran Kerja ({shiftAssignments.length})</span>
-        </button>
-
-        <button
-          onClick={() => setActiveTab("exceptions")}
-          className={`flex items-center gap-2 px-3.5 py-1.5 rounded-lg text-sm font-medium transition shrink-0 ${
-            activeTab === "exceptions" ? "bg-teal-600 text-background shadow-sm" : "text-muted-foreground hover:text-foreground hover:bg-foreground"
-          }`}
-        >
-          <FileCheck2 className="w-4 h-4 text-amber-400" />
-          <span>Permintaan Cuti & WFH ({exceptions.filter((e) => e.status === "pending").length})</span>
-        </button>
-
-        <button
-          onClick={() => setActiveTab("holidays")}
-          className={`flex items-center gap-2 px-3.5 py-1.5 rounded-lg text-sm font-medium transition shrink-0 ${
-            activeTab === "holidays" ? "bg-teal-600 text-background shadow-sm" : "text-muted-foreground hover:text-foreground hover:bg-foreground"
-          }`}
-        >
-          <Calendar className="w-4 h-4 text-purple-400" />
-          <span>Kalender Hari Libur ({holidays.length})</span>
-        </button>
-
-        <button
-          onClick={() => setActiveTab("stats")}
-          className={`flex items-center gap-2 px-3.5 py-1.5 rounded-lg text-sm font-medium transition shrink-0 ${
-            activeTab === "stats" ? "bg-teal-600 text-background shadow-sm" : "text-muted-foreground hover:text-foreground hover:bg-foreground"
-          }`}
-        >
-          <BarChart3 className="w-4 h-4 text-emerald-400" />
-          <span>Kapasitas & Statistik</span>
-        </button>
       </div>
 
       {/* Main Content Area */}

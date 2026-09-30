@@ -262,40 +262,43 @@ export function GoalManagerApp() {
         </div>
       )}
 
-      {/* Header */}
+      {/* Header Actions in Floating Pill */}
       <ShellHeader>
-        <div>
-          <div className="flex items-center gap-3">
-            <div className="p-2.5 bg-gradient-to-tr from-emerald-600 to-teal-600 rounded-xl shadow-lg shadow-teal-500/20">
+        <div className="flex items-center gap-1.5 shrink-0">
+          <button
+            onClick={() => setIsNewGoalOpen(true)}
+            className="flex items-center gap-1.5 px-3.5 py-1.5 bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-500 hover:to-teal-500 text-white rounded-full text-xs font-semibold shadow-xs transition-colors cursor-pointer"
+          >
+            <Plus className="w-3.5 h-3.5" />
+            <span>Rumuskan Goal</span>
+          </button>
+        </div>
+      </ShellHeader>
+
+      {/* Page Header Banner */}
+      <div className="px-6 py-4 border-b border-border bg-card/40 backdrop-blur-sm">
+        <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 max-w-7xl">
+          <div className="flex items-center gap-3.5">
+            <div className="p-2.5 bg-gradient-to-tr from-emerald-600 to-teal-600 rounded-xl shadow-lg shadow-teal-500/20 shrink-0">
               <Target className="w-6 h-6 text-white" />
             </div>
             <div>
-              <div className="flex items-center gap-2">
-                <h1 className="text-2xl font-bold tracking-tight text-white">Goal Manager</h1>
-                <span className="px-2.5 py-0.5 text-xs font-semibold rounded-full bg-emerald-500/20 text-emerald-300 border border-emerald-500/30">
+              <div className="flex items-center gap-2 flex-wrap">
+                <h1 className="text-xl sm:text-2xl font-bold tracking-tight text-foreground">Goal Manager</h1>
+                <span className="px-2.5 py-0.5 text-xs font-semibold rounded-full bg-emerald-500/20 text-emerald-600 dark:text-emerald-300 border border-emerald-500/30">
                   App #31
                 </span>
                 <span className="text-xs text-muted-foreground">
                   Puncak Hierarki Motivasi • Agregasi Task, Habit, Project & Metrik
                 </span>
               </div>
-              <p className="text-xs md:text-sm text-muted-foreground">
+              <p className="text-xs md:text-sm text-muted-foreground mt-0.5">
                 Menjawab "untuk apa semua itu dilakukan" dengan agregasi progres deterministik dan tinjauan berkala.
               </p>
             </div>
           </div>
         </div>
-
-        <div className="flex items-center flex-wrap gap-2.5">
-          <button
-            onClick={() => setIsNewGoalOpen(true)}
-            className="flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-500 hover:to-teal-500 text-white rounded-lg text-sm font-semibold shadow-md shadow-emerald-500/25 transition"
-          >
-            <Plus className="w-4 h-4" />
-            <span>Rumuskan Goal Baru</span>
-          </button>
-        </div>
-      </ShellHeader>
+      </div>
 
       {/* Tabs */}
       <div className="flex items-center gap-2 overflow-x-auto py-3 border-b border-border/80 scrollbar-none">
