@@ -254,9 +254,9 @@ const PersonalFlipCard = ({
   const Icon = app.icon;
 
   return (
-    <div className="w-full [perspective:1000px] min-h-[220px]">
+    <div className="w-full [perspective:1000px] min-h-[300px]">
       <motion.div
-        className="relative w-full h-full min-h-[220px] [transform-style:preserve-3d]"
+        className="relative w-full h-full min-h-[300px] [transform-style:preserve-3d]"
         animate={{
           rotateX: isFlipped && interactionConfig.axis === "x" ? 180 * interactionConfig.dir : 0,
           rotateY: isFlipped && interactionConfig.axis === "y" ? 180 * interactionConfig.dir : 0,
@@ -406,17 +406,17 @@ export function PersonalEssentialsSection({
   return (
     <div className="w-full flex flex-col items-center">
       {/* Title & Description */}
-      <div className="text-center mb-4">
+      <div className="text-center mb-6">
         <h3 className="text-2xl sm:text-3xl font-bold text-foreground/90 tracking-tight flex items-center justify-center gap-2">
           <span>Personal<span className="font-normal">,</span> Essentials<span className="font-normal">, and</span> Household</span>
         </h3>
-        <p className="text-xs sm:text-sm text-muted-foreground mt-1 max-w-xl mx-auto">
+        <p className="text-xs sm:text-sm text-muted-foreground mt-1.5 max-w-xl mx-auto">
           14 Standalone Apps Terintegrasi — Ruang Hidup, Finansial, Kesehatan, Hunian, dan Esensial Mandiri.
         </p>
       </div>
 
       {/* Main Filter Tabs */}
-      <div className="flex flex-wrap items-center justify-center gap-2.5 w-full mb-4">
+      <div className="flex flex-wrap items-center justify-center gap-2.5 w-full mb-6">
         <button
           onClick={() => setActiveTab("all")}
           className={`shrink-0 px-5 py-2.5 rounded-full text-xs sm:text-sm font-semibold transition-all duration-200 cursor-pointer flex items-center gap-2 ${
@@ -503,7 +503,7 @@ export function PersonalEssentialsSection({
       </div>
 
       {/* Standalone Apps Cards Grid */}
-      <div className="w-full grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3.5">
+      <div className="w-full grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
         {filteredApps.map((app) => {
           const isFav = favorites.includes(app.to);
           const gradient = getGradient(app.title);
