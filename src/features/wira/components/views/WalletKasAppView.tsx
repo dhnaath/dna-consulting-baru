@@ -406,7 +406,7 @@ export function WalletKasAppView() {
               <span className="text-xs text-muted-foreground">Financial & Purchase Management</span>
             </div>
             <h1 className="text-2xl sm:text-3xl font-bold tracking-tight text-foreground mt-1">
-              Wallet dan Kas
+              Cash Book
             </h1>
             <p className="text-xs sm:text-sm text-muted-foreground mt-0.5">
               Kendali arus kas harian, perbandingan harga cerdas, rencana belanja terarah, dan arsip garansi resmi.

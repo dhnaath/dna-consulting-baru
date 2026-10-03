@@ -146,7 +146,7 @@ export const STANDALONE_PEOPLE_APPS: StandalonePeopleAppDef[] = [
       { title: "Civic Calendar", to: "/lainnya?app=civic-calendar", icon: CalendarDays },
       { title: "Civil Registry", to: "/lainnya?app=civil-registry", icon: FileCheck },
       { title: "Civic Tax", to: "/lainnya?app=tax-civic", icon: Receipt },
-      { title: "Zakat Charity", to: "/zakat", icon: Coins },
+      { title: "Giving", to: "/zakat", icon: Coins },
       { title: "Donation Log MVP", to: "/lainnya?app=donation-tracker", icon: Coins },
       { title: "Volunteer Log MVP", to: "/lainnya?app=volunteer-log", icon: Heart },
       { title: "Neighbor Community", to: "/komunitas-warga", icon: Home },

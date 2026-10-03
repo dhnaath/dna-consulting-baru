@@ -209,7 +209,7 @@ export function WalletKasView() {
           </div>
           <div>
             <h1 className="text-xl sm:text-2xl font-bold tracking-tight text-foreground">
-              Wallet dan Kas
+              Cash Book
             </h1>
             <p className="text-xs sm:text-sm text-muted-foreground mt-0.5">
               Pencatatan kas, perbandingan harga belanja, wishlist impian, dan bukti garansi.
