@@ -27,12 +27,73 @@ export interface FrameworkContent {
 
 export interface FrameworkCategory {
   name: string;
+  pillar: string;
   frameworks: string[];
 }
 
-export const CATEGORIES: FrameworkCategory[] = [
+export interface MBAPillar {
+  id: string;
+  name: string;
+  description: string;
+  categories: string[];
+}
+
+export const MBA_PILLARS: MBAPillar[] = [
   {
-    "name": "Strategic Management",
+    id: "strategy",
+    name: "Strategy",
+    description: "Analisis posisi kompetitif, formulasi arah strategis korporat, model bisnis, dan pengambilan keputusan berbasis data.",
+    categories: ["Strategic Analysis", "Business Design", "Decision Analysis"],
+  },
+  {
+    id: "commercial",
+    name: "Commercial",
+    description: "Pertumbuhan komersial, bauran pemasaran, customer experience, manajemen siklus produk, dan akselerasi revenue penjualan.",
+    categories: ["Marketing Management", "Customer Experience", "Product Management", "Sales Revenue"],
+  },
+  {
+    id: "finance",
+    name: "Finance",
+    description: "Kesehatan finansial, rasio profitabilitas, kelayakan penganggaran modal (capital budgeting), dan titik impas (BEP).",
+    categories: ["Financial Analysis"],
+  },
+  {
+    id: "operations",
+    name: "Operations",
+    description: "Keunggulan operasional, efisiensi proses Six Sigma, manajemen alur kerja proyek, dan penjaminan kualitas berkesinambungan.",
+    categories: ["Operations Management", "Project Management", "Quality Management"],
+  },
+  {
+    id: "organization",
+    name: "Organization",
+    description: "Manajemen modal manusia, budaya kerja, transformasi perubahan organisasi, dan pelacakan kinerja terukur.",
+    categories: ["People Management", "Change Management", "Performance Management"],
+  },
+  {
+    id: "innovation",
+    name: "Innovation",
+    description: "Penciptaan nilai terobosan, akselerasi inovasi lean, perancangan masa depan teknologi, dan keberlanjutan ESG.",
+    categories: ["Innovation Management", "Technology Futures", "Sustainability"],
+  },
+  {
+    id: "governance",
+    name: "Governance",
+    description: "Tata kelola perusahaan, manajemen risiko, analisis kebijakan publik, dan komunikasi krisis serta reputasi korporat.",
+    categories: ["Risk Management", "Policy Management", "Corporate Communications"],
+  },
+  {
+    id: "analytics",
+    name: "Analytics",
+    description: "Pemodelan kuantitatif, analisis keseimbangan ekonomi mikro-makro, input-output multisektor, dan visualisasi data multi-sumbu.",
+    categories: ["Quantitative Analysis"],
+  },
+];
+
+export const CATEGORIES: FrameworkCategory[] = [
+  // 1. Strategy
+  {
+    "name": "Strategic Analysis",
+    "pillar": "Strategy",
     "frameworks": [
       "SWOT Analysis",
       "TOWS Matrix",
@@ -48,7 +109,8 @@ export const CATEGORIES: FrameworkCategory[] = [
     ]
   },
   {
-    "name": "Business Model & Value Proposition",
+    "name": "Business Design",
+    "pillar": "Strategy",
     "frameworks": [
       "Business Model Canvas (BMC)",
       "Lean Canvas",
@@ -57,89 +119,41 @@ export const CATEGORIES: FrameworkCategory[] = [
     ]
   },
   {
-    "name": "Marketing & Customer Management",
+    "name": "Decision Analysis",
+    "pillar": "Strategy",
+    "frameworks": [
+      "Cost-Benefit Analysis (CBA)",
+      "Business Case Analysis",
+      "Decision Tree Analysis",
+      "Decision Matrix (Pugh)",
+      "Analytical Hierarchy Process (AHP)",
+      "Six Thinking Hats",
+      "Eisenhower Matrix",
+      "Pareto Analysis (80/20)"
+    ]
+  },
+
+  // 2. Commercial
+  {
+    "name": "Marketing Management",
+    "pillar": "Commercial",
     "frameworks": [
       "STP Framework",
       "4P/7P Marketing Mix",
-      "Customer Journey Map (CJM)",
-      "Kano Model",
       "Product Life Cycle (PLC)"
     ]
   },
   {
-    "name": "Operations & Performance Management",
+    "name": "Customer Experience",
+    "pillar": "Commercial",
     "frameworks": [
-      "Six Sigma (DMAIC)",
-      "SIPOC Diagram",
-      "RACI Matrix",
-      "Gantt Chart",
-      "Balanced Scorecard (BSC)",
-      "OKR Framework",
-      "Eisenhower Matrix"
+      "Customer Journey Map (CJM)",
+      "Kano Model"
     ]
   },
   {
-    "name": "Financial Management & Business Feasibility",
-    "frameworks": [
-      "Analisis Rasio Keuangan",
-      "Capital Budgeting (ROI, NPV, IRR)",
-      "Break-Even Analysis (BEP)",
-      "Cost-Benefit Analysis (CBA)",
-      "Business Case Analysis"
-    ]
-  },
-  {
-    "name": "Innovation, Entrepreneurship & Design",
-    "frameworks": [
-      "Lean Startup Loop",
-      "Design Thinking"
-    ]
-  },
-  {
-    "name": "Quality Management & Continuous Improvement",
-    "frameworks": [
-      "Fishbone Diagram (Ishikawa)",
-      "PDCA Cycle",
-      "House of Quality (HOQ / QFD)"
-    ]
-  },
-  {
-    "name": "Change Management & Organizational Development",
-    "frameworks": [
-      "McKinsey 7S Framework",
-      "Kotter's 8-Step Change",
-      "Force Field Analysis"
-    ]
-  },
-  {
-    "name": "Public Policy & Program Management",
-    "frameworks": [
-      "Logical Framework Analysis",
-      "Stakeholder Power-Interest",
-      "Analisis Kebijakan Public (Dunn)",
-      "SMART Criteria"
-    ]
-  },
-  {
-    "name": "Decision Making & Analytical Thinking",
-    "frameworks": [
-      "Decision Tree Analysis",
-      "Decision Matrix (Pugh)",
-      "Pareto Analysis (80/20)",
-      "Analytical Hierarchy Process (AHP)",
-      "Six Thinking Hats"
-    ]
-  },
-  {
-    "name": "Economics & Quantitative Analysis",
-    "frameworks": [
-      "Supply-Demand Analysis",
-      "Input-Output Analysis",
-      "Radar / Spider Chart"
-    ]
-  },
-  {
-    "name": "Product Management & Agile/Scrum",
+    "name": "Product Management",
+    "pillar": "Commercial",
     "frameworks": [
       "Product Vision Board",
       "Kano Feature Prioritization",
@@ -152,36 +166,11 @@ export const CATEGORIES: FrameworkCategory[] = [
     ]
   },
   {
-    "name": "Sustainability, ESG & Risk Management",
-    "frameworks": [
-      "ESG Materiality Matrix",
-      "Risk Assessment Matrix",
-      "Triple Bottom Line (TBL)",
-      "Circular Economy (Butterfly)",
-      "FMEA Framework",
-      "ISO 31000 Risk Management",
-      "Carbon Footprint (Scope 1-3)",
-      "Business Continuity Plan (BCP)"
-    ]
-  },
-  {
-    "name": "Leadership, Talent & Culture Management",
-    "frameworks": [
-      "9-Box Talent Grid",
-      "Situational Leadership",
-      "Johari Window",
-      "Culture Map",
-      "Lencioni’s 5 Dysfunctions",
-      "EVP Canvas",
-      "360-Degree Feedback",
-      "Kirkpatrick 4-Level Model"
-    ]
-  },
-  {
-    "name": "Sales, Pricing & Revenue Operations",
+    "name": "Sales Revenue",
+    "pillar": "Commercial",
     "frameworks": [
       "MEDDPICC Framework",
-      "Pricing Matrix & Elasticity",
+      "Pricing Matrix",
       "Unit Economics (CLV/CAC)",
       "SPIN Selling Framework",
       "BANT Framework",
@@ -190,13 +179,87 @@ export const CATEGORIES: FrameworkCategory[] = [
       "Churn Analysis Matrix"
     ]
   },
+
+  // 3. Finance
   {
-    "name": "Deep Tech, Innovation & Future Studies",
+    "name": "Financial Analysis",
+    "pillar": "Finance",
     "frameworks": [
-      "Technology Readiness (TRL)",
-      "Horizon Scanning (Futures)",
-      "Gartner Hype Cycle",
-      "Doblin’s 10 Types Innovation",
+      "Analisis Rasio Keuangan",
+      "Capital Budgeting (ROI, NPV, IRR)",
+      "Break-Even Analysis (BEP)"
+    ]
+  },
+
+  // 4. Operations
+  {
+    "name": "Operations Management",
+    "pillar": "Operations",
+    "frameworks": [
+      "Six Sigma (DMAIC)",
+      "SIPOC Diagram"
+    ]
+  },
+  {
+    "name": "Project Management",
+    "pillar": "Operations",
+    "frameworks": [
+      "RACI Matrix",
+      "Gantt Chart"
+    ]
+  },
+  {
+    "name": "Quality Management",
+    "pillar": "Operations",
+    "frameworks": [
+      "Fishbone Diagram (Ishikawa)",
+      "PDCA Cycle",
+      "House of Quality (HOQ / QFD)"
+    ]
+  },
+
+  // 5. Organization
+  {
+    "name": "People Management",
+    "pillar": "Organization",
+    "frameworks": [
+      "9-Box Talent Grid",
+      "Situational Leadership",
+      "Johari Window",
+      "Culture Map",
+      "Lencioni's 5 Dysfunctions",
+      "EVP Canvas",
+      "360-Degree Feedback",
+      "Kirkpatrick 4-Level Model"
+    ]
+  },
+  {
+    "name": "Change Management",
+    "pillar": "Organization",
+    "frameworks": [
+      "McKinsey 7S Framework",
+      "Kotter's 8-Step Change",
+      "Force Field Analysis"
+    ]
+  },
+  {
+    "name": "Performance Management",
+    "pillar": "Organization",
+    "frameworks": [
+      "Balanced Scorecard (BSC)",
+      "OKR Framework",
+      "SMART Criteria"
+    ]
+  },
+
+  // 6. Innovation
+  {
+    "name": "Innovation Management",
+    "pillar": "Innovation",
+    "frameworks": [
+      "Lean Startup Loop",
+      "Design Thinking",
+      "Doblin's 10 Types Innovation",
       "SCAMPER Ideation Canvas",
       "MVP Canvas",
       "Open Innovation Model",
@@ -204,21 +267,126 @@ export const CATEGORIES: FrameworkCategory[] = [
     ]
   },
   {
-    "name": "Public Relations, Crisis & Stakeholder Management",
+    "name": "Technology Futures",
+    "pillar": "Innovation",
+    "frameworks": [
+      "Technology Readiness (TRL)",
+      "Horizon Scanning (Futures)",
+      "Gartner Hype Cycle"
+    ]
+  },
+  {
+    "name": "Sustainability",
+    "pillar": "Innovation",
+    "frameworks": [
+      "ESG Materiality Matrix",
+      "Triple Bottom Line (TBL)",
+      "Circular Economy (Butterfly)",
+      "Carbon Footprint (Scope 1-3)"
+    ]
+  },
+
+  // 7. Governance
+  {
+    "name": "Risk Management",
+    "pillar": "Governance",
+    "frameworks": [
+      "Risk Assessment Matrix",
+      "FMEA Framework",
+      "ISO 31000 Risk Management",
+      "Business Continuity Plan (BCP)"
+    ]
+  },
+  {
+    "name": "Policy Management",
+    "pillar": "Governance",
+    "frameworks": [
+      "Logical Framework Analysis",
+      "Stakeholder Power-Interest",
+      "Analisis Kebijakan Public (Dunn)"
+    ]
+  },
+  {
+    "name": "Corporate Communications",
+    "pillar": "Governance",
     "frameworks": [
       "SCR Framework (Minto)",
       "Crisis Communication (SCCT)",
       "Brand Archetypes",
       "PESO Model",
-      "Carroll’s CSR Pyramid",
+      "Carroll's CSR Pyramid",
       "Issue Life Cycle",
       "Stakeholder Engagement",
       "Press Release Canvas"
+    ]
+  },
+
+  // 8. Analytics
+  {
+    "name": "Quantitative Analysis",
+    "pillar": "Analytics",
+    "frameworks": [
+      "Supply-Demand Analysis",
+      "Input-Output Analysis",
+      "Radar / Spider Chart"
     ]
   }
 ];
 
 export const baseFrameworks: Record<string, FrameworkContent> = {
+  "Eisenhower Matrix": {
+    "teori": {
+      "deskripsi": "Kerangka kerja manajemen waktu dan prioritisasi tugas yang membagi aktivitas ke dalam 4 kuadran berdasarkan tingkat kepentingan (Importance) dan kegentingan (Urgency).",
+      "manfaat": "Membantu para eksekutif dan manajer membedakan antara tugas yang benar-benar bernilai strategis tinggi dengan distraksi mendesak yang dapat didelegasikan atau dieliminasi."
+    },
+    "layout": {
+      "tipe": "Matriks 2x2 Prioritas (Urgent vs Important)",
+      "elemen": [
+        "Q1: Do First (Mendesak & Penting)",
+        "Q2: Schedule (Penting & Tidak Mendesak)",
+        "Q3: Delegate (Mendesak & Tidak Penting)",
+        "Q4: Eliminate (Tidak Mendesak & Tidak Penting)"
+      ],
+      "visualType": "matrix2x2"
+    },
+    "draft": [
+      {
+        "bagian": "Q1 - Do First",
+        "hint": "Krisis, batas waktu kritis, masalah mendesak yang butuh penanganan langsung hari ini."
+      },
+      {
+        "bagian": "Q2 - Schedule",
+        "hint": "Perencanaan strategis, inovasi, self-development, relasi - kunci sukses jangka panjang."
+      },
+      {
+        "bagian": "Q3 - Delegate",
+        "hint": "Interupsi, meeting administratif rutin, tugas operasional yang bisa dikerjakan tim."
+      },
+      {
+        "bagian": "Q4 - Eliminate",
+        "hint": "Distraksi, aktivitas buang waktu, tugas usang yang tidak bernilai tambah."
+      }
+    ],
+    "tutorial": [
+      {
+        "step": "Inventarisasi Seluruh Tugas",
+        "desc": "Kumpulkan daftar semua to-do item dan komitmen kerja minggu ini."
+      },
+      {
+        "step": "Plot ke 4 Kuadran",
+        "desc": "Uji setiap tugas: Apakah ini penting bagi tujuan jangka panjang? Apakah batas waktunya mendesak?"
+      },
+      {
+        "step": "Fokus pada Kuadran 2",
+        "desc": "Alokasikan 60-70% waktu mingguan Anda pada Kuadran 2 (Penting tapi tidak mendesak) untuk mencegah krisis di Kuadran 1."
+      }
+    ],
+    "actionPlan": [
+      "Jadwalkan blok waktu 2 jam per hari khusus untuk tugas Kuadran 2 tanpa gangguan notifikasi.",
+      "Delegasikan minimal 2 tugas di Kuadran 3 kepada tim minggu ini.",
+      "Hapus atau tolak minimal 1 permintaan kerja yang masuk ke kategori Kuadran 4."
+    ]
+  },
   "SWOT Analysis": {
     "teori": {
       "deskripsi": "Kerangka evaluasi strategis untuk mengidentifikasi Kekuatan (Strengths), Kelemahan (Weaknesses), Peluang (Opportunities), dan Ancaman (Threats).",
@@ -1342,9 +1510,24 @@ export const allFrameworks: Record<string, FrameworkContent> = {
   ...sustainabilityAndHRFrameworks,
 };
 
+// Aliases for name variations (curly/straight apostrophes, extended names)
+const aliasPairs: [string, string][] = [
+  ["Pricing Matrix", "Pricing Matrix & Elasticity"],
+  ["Doblin's 10 Types Innovation", "Doblin’s 10 Types Innovation"],
+  ["Lencioni's 5 Dysfunctions", "Lencioni’s 5 Dysfunctions"],
+  ["Kotter's 8-Step Change", "Kotter’s 8-Step Change"],
+  ["Carroll's CSR Pyramid", "Carroll’s CSR Pyramid"],
+];
+
+for (const [a, b] of aliasPairs) {
+  if (allFrameworks[a] && !allFrameworks[b]) allFrameworks[b] = allFrameworks[a];
+  if (allFrameworks[b] && !allFrameworks[a]) allFrameworks[a] = allFrameworks[b];
+}
+
 export function slugify(str: string): string {
   return str
     .toLowerCase()
+    .replace(/[’']/g, "")
     .replace(/[()\/&,]/g, "")
     .replace(/\s+/g, "-")
     .replace(/-+/g, "-")
@@ -1371,3 +1554,14 @@ export function getFramework(nameOrSlug: string): FrameworkContent {
 }
 
 export const getFrameworkData = getFramework;
+
+export const CATEGORY_TO_PILLAR: Record<string, string> = {};
+for (const cat of CATEGORIES) {
+  CATEGORY_TO_PILLAR[cat.name] = cat.pillar;
+}
+
+export function getPillarByCategory(categoryName: string): MBAPillar | undefined {
+  const pillarName = CATEGORY_TO_PILLAR[categoryName];
+  if (!pillarName) return undefined;
+  return MBA_PILLARS.find((p) => p.name === pillarName);
+}

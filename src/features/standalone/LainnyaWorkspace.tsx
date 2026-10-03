@@ -31,7 +31,6 @@ export function LainnyaWorkspace({ initialAppId }: { initialAppId?: string } = {
   const search = (routerState.location.search || {}) as { id?: string; app?: string };
   const id = search.id;
   const app = initialAppId || search.app;
-  const navigate = useNavigate();
 
   const effectiveAppId = app || (id && STANDALONE_APPS[id] ? id : undefined);
 
@@ -49,6 +48,11 @@ export function LainnyaWorkspace({ initialAppId }: { initialAppId?: string } = {
     );
   }
 
+  return <CustomNavWorkspaceContent id={id} />;
+}
+
+function CustomNavWorkspaceContent({ id }: { id?: string }) {
+  const navigate = useNavigate();
   const {
     categories,
     findItemById,

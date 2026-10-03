@@ -1,5 +1,6 @@
 import { ShellHeader } from "@/app/shell-header";
 import { ShellSidebar } from "@/app/shell-sidebar";
+import { Link } from "@tanstack/react-router";
 import React, { useState, useMemo } from "react";
 import {
   Grid2X2,
@@ -147,9 +148,19 @@ export function EisenhowerApp() {
         </div>
 
         {/* Footnote */}
-        <div className="p-3 border-t border-border bg-muted/40 text-[10px] text-muted-foreground">
-          <p className="font-semibold text-foreground">Standalone App #08</p>
-          <p className="mt-0.5">Klasifikasi terstruktur tanpa mengubah data Task asli.</p>
+        <div className="p-3 border-t border-border bg-muted/40 text-[10px] text-muted-foreground space-y-2">
+          <div>
+            <p className="font-semibold text-foreground">Standalone App #08</p>
+            <p className="mt-0.5">Klasifikasi terstruktur tanpa mengubah data Task asli.</p>
+          </div>
+          <Link
+            to="/framework/$slug"
+            params={{ slug: "eisenhower-matrix" }}
+            className="flex items-center justify-between p-2 rounded-lg bg-card border border-border text-[11px] font-medium text-foreground hover:bg-accent transition-colors"
+          >
+            <span>Teori & Worksheet Mini MBA</span>
+            <ChevronRight className="w-3.5 h-3.5 text-muted-foreground" />
+          </Link>
         </div>
       </ShellSidebar>
 

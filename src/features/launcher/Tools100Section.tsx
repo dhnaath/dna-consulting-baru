@@ -62,7 +62,7 @@ import {
   type LucideIcon,
 } from "lucide-react";
 import { type NavItem } from "@/config/nav";
-import { CATEGORIES, getFrameworkData, slugify } from "@/frameworkData";
+import { CATEGORIES, MBA_PILLARS, type MBAPillar, getFrameworkData, slugify } from "@/frameworkData";
 
 export interface MBASubFeature {
   title: string;
@@ -77,13 +77,80 @@ export interface StandaloneMBAAppDef {
   title: string;
   subtitle: string;
   categoryLabel: string;
+  pillar: string;
   icon: LucideIcon;
   badge?: string;
   features: MBASubFeature[];
 }
 
+export function getPillarIcon(pillarName: string): LucideIcon {
+  switch (pillarName) {
+    case "Strategy":
+      return Compass;
+    case "Commercial":
+      return TrendingUp;
+    case "Finance":
+      return Calculator;
+    case "Operations":
+      return Settings;
+    case "Organization":
+      return Users;
+    case "Innovation":
+      return Lightbulb;
+    case "Governance":
+      return ShieldCheck;
+    case "Analytics":
+      return LineChart;
+    default:
+      return Box;
+  }
+}
+
 export function getCategoryIcon(cat: string): LucideIcon {
   switch (cat) {
+    case "Strategic Analysis":
+      return Compass;
+    case "Business Design":
+      return LayoutGrid;
+    case "Marketing Management":
+      return Store;
+    case "Customer Experience":
+      return Users;
+    case "Operations Management":
+      return Settings;
+    case "Project Management":
+      return CalendarDays;
+    case "Performance Management":
+      return Target;
+    case "Financial Analysis":
+      return Calculator;
+    case "Decision Analysis":
+      return CheckSquare;
+    case "Innovation Management":
+      return Lightbulb;
+    case "Quality Management":
+      return ShieldCheck;
+    case "Change Management":
+      return RefreshCw;
+    case "Policy Management":
+      return BookOpen;
+    case "Quantitative Analysis":
+      return LineChart;
+    case "Product Management":
+      return Layers;
+    case "Risk Management":
+      return ShieldAlert;
+    case "Sustainability":
+      return Sprout;
+    case "People Management":
+      return Award;
+    case "Sales Revenue":
+      return TrendingUp;
+    case "Technology Futures":
+      return Sparkles;
+    case "Corporate Communications":
+      return Megaphone;
+    // Fallbacks
     case "Strategic Management":
       return Compass;
     case "Business Model & Value Proposition":
@@ -97,7 +164,7 @@ export function getCategoryIcon(cat: string): LucideIcon {
     case "Innovation, Entrepreneurship & Design":
       return Lightbulb;
     case "Quality Management & Continuous Improvement":
-      return Target;
+      return ShieldCheck;
     case "Change Management & Organizational Development":
       return RefreshCw;
     case "Public Policy & Program Management":
@@ -109,7 +176,7 @@ export function getCategoryIcon(cat: string): LucideIcon {
     case "Product Management & Agile/Scrum":
       return Layers;
     case "Sustainability, ESG & Risk Management":
-      return ShieldAlert;
+      return Sprout;
     case "Leadership, Talent & Culture Management":
       return Award;
     case "Sales, Pricing & Revenue Operations":
@@ -144,7 +211,7 @@ export const DEDICATED_FRAMEWORK_ROUTES: Record<string, string> = {
   "Customer Journey Map (CJM)": "/customer-journey-map",
   "Kano Model": "/kano-model",
   "Product Life Cycle (PLC)": "/product-life-cycle",
-  "Eisenhower Matrix": "/eisenhower",
+  "Eisenhower Matrix": "/framework/eisenhower-matrix",
 };
 
 export const FRAMEWORK_ICONS: Record<string, LucideIcon> = {
@@ -248,43 +315,89 @@ export const FRAMEWORK_ICONS: Record<string, LucideIcon> = {
   "Issue Life Cycle": RefreshCw,
   "Stakeholder Engagement": HeartHandshake,
   "Press Release Canvas": PenTool,
+  "Pricing Matrix": DollarSign,
+  "Doblin's 10 Types Innovation": Sparkles,
+  "Lencioni's 5 Dysfunctions": AlertTriangle,
 };
 
 const CATEGORY_DESCRIPTIONS: Record<string, string> = {
-  "Strategic Management":
+  "Strategic Analysis":
     "Platform analisis strategi korporat dan posisi kompetitif jangka panjang melalui pemetaan lingkungan internal, eksternal, dan rantai nilai.",
-  "Business Model & Value Proposition":
+  "Business Design":
     "Studio arsitektur model bisnis, perancangan proposisi nilai pelanggan, struktur biaya, aliran pendapatan, dan pemetaan empati audiens.",
-  "Marketing & Customer Management":
-    "Manajemen pemasaran menyeluruh untuk segmentasi pasar, bauran 4P/7P, customer journey map, evaluasi kepuasan Kano, dan siklus hidup produk.",
-  "Operations & Performance Management":
-    "Suite optimasi operasional, efisiensi proses Six Sigma, akuntabilitas tim RACI, diagram SIPOC, pelacakan KPI Balanced Scorecard, dan OKR.",
-  "Financial Management & Business Feasibility":
-    "Analisis kelayakan investasi modal (NPV, IRR, ROI), rasio keuangan, titik impas (BEP), perbandingan biaya-manfaat (CBA), dan business case terpadu.",
-  "Innovation, Entrepreneurship & Design":
-    "Akselerator inovasi dan kewirausahaan berbasis metodologi iteratif Lean Startup (Build-Measure-Learn) dan eksplorasi Design Thinking.",
-  "Quality Management & Continuous Improvement":
+  "Marketing Management":
+    "Manajemen pemasaran menyeluruh untuk segmentasi pasar (STP), bauran 4P/7P, dan analisis siklus hidup produk (PLC).",
+  "Customer Experience":
+    "Pemetaan end-to-end pengalaman pelanggan melalui Customer Journey Map (CJM) dan evaluasi kepuasan fitur Kano Model.",
+  "Operations Management":
+    "Suite optimasi operasional, efisiensi proses Six Sigma (DMAIC), dan pemetaan alur suplai dengan SIPOC Diagram.",
+  "Project Management":
+    "Manajemen proyek terstruktur dengan matriks akuntabilitas RACI dan penjadwalan timeline kerja Gantt Chart.",
+  "Performance Management":
+    "Pengukuran kinerja strategis organisasi menggunakan Balanced Scorecard (BSC), OKR Framework, dan kriteria SMART.",
+  "Financial Analysis":
+    "Analisis kelayakan investasi modal (NPV, IRR, ROI), rasio profitabilitas keuangan, dan kalkulasi titik impas (BEP).",
+  "Decision Analysis":
+    "Mesin pengambilan keputusan analitis menggunakan Cost-Benefit Analysis (CBA), Business Case, Decision Tree, Pugh Matrix, AHP, Six Thinking Hats, Eisenhower Matrix, dan Pareto 80/20.",
+  "Innovation Management":
+    "Akselerator inovasi dan kewirausahaan berbasis metodologi iteratif Lean Startup Loop, Design Thinking, Doblin 10 Types, SCAMPER, MVP Canvas, Open Innovation, dan Value Proposition Testing.",
+  "Quality Management":
     "Sistem penjaminan mutu berkesinambungan melalui investigasi sebab-akibat Fishbone, siklus PDCA Kaizen, dan House of Quality (QFD).",
-  "Change Management & Organizational Development":
-    "Manajemen transformasi organisasi, keselarasan 7 elemen McKinsey 7S, akselerasi perubahan 8 langkah Kotter, dan pemetaan medan kekuatan.",
-  "Public Policy & Program Management":
-    "Kerangka kerja perumusan kebijakan publik terstruktur, pemetaan kuasa pemangku kepentingan, kerangka logis (LogFrame), dan kriteria SMART.",
-  "Decision Making & Analytical Thinking":
-    "Mesin pengambilan keputusan analitis menggunakan Decision Tree, Pugh Matrix, prinsip Pareto 80/20, Analytic Hierarchy Process (AHP), dan Six Thinking Hats.",
-  "Economics & Quantitative Analysis":
+  "Change Management":
+    "Manajemen transformasi organisasi, keselarasan 7 elemen McKinsey 7S, akselerasi perubahan 8 langkah Kotter, dan analisis medan kekuatan (Force Field).",
+  "Policy Management":
+    "Kerangka perumusan kebijakan publik terstruktur, pemetaan kuasa pemangku kepentingan (Power-Interest), dan Analisis Kebijakan Publik Dunn.",
+  "Quantitative Analysis":
     "Analisis kuantitatif keseimbangan mikro-makro ekonomi, ekuilibrium supply-demand, matriks input-output multisektor, dan visualisasi spider chart.",
+  "Product Management":
+    "Manajemen produk digital tangkas mulai dari Product Vision, prioritisasi backlog (Kano, RICE, MoSCoW), User Story Mapping, Opportunity Solution Tree, Dual-Track Agile, dan Scrum/Kanban.",
+  "Risk Management":
+    "Manajemen risiko perusahaan (ISO 31000, FMEA, BCP), dan matriks evaluasi risiko (Risk Assessment Matrix).",
+  "Sustainability":
+    "Praktik keberlanjutan dan ESG perusahaan: Materialitas ESG, Triple Bottom Line (TBL), Circular Economy (Butterfly), dan perhitungan Jejak Karbon Scope 1-3.",
+  "People Management":
+    "Manajemen talenta dan kepemimpinan strategis melalui 9-Box Grid, kepemimpinan situasional, Johari Window, Culture Map, 5 Disfungsi Tim Lencioni, EVP Canvas, dan umpan balik 360 derajat.",
+  "Sales Revenue":
+    "Operasi pendapatan enterprise, kualifikasi prospek (MEDDPICC, BANT, SPIN), strategi penetapan harga (Pricing Matrix), Flywheel Revenue Engine, Value-Based Pricing, Unit Economics (CLV/CAC), dan Churn Analysis.",
+  "Technology Futures":
+    "Pemindaian sinyal masa depan (Horizon Scanning), tingkat kesiapan teknologi (TRL), dan siklus ekspektasi Gartner Hype Cycle.",
+  "Corporate Communications":
+    "Manajemen komunikasi korporat dan krisis (SCCT), struktur piramida narasi SCR Minto, Brand Archetypes, model media PESO, Piramida CSR Carroll, siklus isu, dan kanvas press release.",
+  // Legacy mappings for backward compatibility
+  "Strategic Management":
+    "Platform analisis strategi korporat dan posisi kompetitif jangka panjang.",
+  "Business Model & Value Proposition":
+    "Studio arsitektur model bisnis dan proposisi nilai pelanggan.",
+  "Marketing & Customer Management":
+    "Manajemen pemasaran menyeluruh untuk segmentasi pasar dan customer journey.",
+  "Operations & Performance Management":
+    "Suite optimasi operasional dan manajemen performa organisasi.",
+  "Financial Management & Business Feasibility":
+    "Analisis kelayakan investasi modal, rasio keuangan, dan titik impas.",
+  "Innovation, Entrepreneurship & Design":
+    "Akselerator inovasi dan kewirausahaan.",
+  "Quality Management & Continuous Improvement":
+    "Sistem penjaminan mutu berkesinambungan dan Kaizen.",
+  "Change Management & Organizational Development":
+    "Manajemen transformasi organisasi dan akselerasi perubahan.",
+  "Public Policy & Program Management":
+    "Kerangka kerja perumusan kebijakan publik dan pemangku kepentingan.",
+  "Decision Making & Analytical Thinking":
+    "Mesin pengambilan keputusan analitis dan berpikir kritis.",
+  "Economics & Quantitative Analysis":
+    "Analisis kuantitatif keseimbangan pasar dan input-output.",
   "Product Management & Agile/Scrum":
-    "Manajemen produk digital tangkas mulai dari Product Vision, prioritisasi backlog (RICE, MoSCoW, Kano), user story map, hingga workflow Scrum/Kanban.",
+    "Manajemen produk digital tangkas dan prioritisasi fitur.",
   "Sustainability, ESG & Risk Management":
-    "Manajemen risiko perusahaan (ISO 31000, FMEA, BCP), materialitas ESG, perhitungan jejak karbon Scope 1-3, dan transisi circular economy.",
+    "Manajemen risiko perusahaan, ESG, dan keberlanjutan.",
   "Leadership, Talent & Culture Management":
-    "Manajemen talenta dan kepemimpinan strategis melalui 9-Box Grid, kepemimpinan situasional, pemetaan budaya kerja, dan evaluasi 360 derajat.",
+    "Manajemen talenta dan kepemimpinan strategis.",
   "Sales, Pricing & Revenue Operations":
-    "Operasi pendapatan enterprise, kualifikasi prospek (MEDDPICC, BANT, SPIN), strategi penetapan harga elastis, flywheel, dan unit economics (CAC/LTV).",
+    "Operasi pendapatan enterprise, penetapan harga, dan unit economics.",
   "Deep Tech, Innovation & Future Studies":
-    "Pemindaian sinyal masa depan (Horizon Scanning), tingkat kesiapan teknologi (TRL), siklus Gartner Hype, 10 tipe inovasi Doblin, dan perancangan MVP.",
+    "Pemindaian masa depan dan kesiapan teknologi.",
   "Public Relations, Crisis & Stakeholder Management":
-    "Manajemen komunikasi krisis korporat (SCCT), struktur narasi SCR Minto, model media PESO, piramida CSR Carroll, dan kanvas rilis publik.",
+    "Komunikasi krisis korporat dan manajemen pemangku kepentingan.",
 };
 
 // 17 Standalone Apps (The 17 Categories) with all their sub-features inside them
@@ -315,7 +428,8 @@ export const STANDALONE_MBA_APPS: StandaloneMBAAppDef[] = CATEGORIES.map((cat) =
     to: `/100-framework?cat=${encodeURIComponent(cat.name)}`,
     title: cat.name,
     subtitle: desc,
-    categoryLabel: "100 Tools & Mini MBA",
+    categoryLabel: cat.pillar,
+    pillar: cat.pillar,
     icon: CatIcon,
     features,
   };
@@ -712,9 +826,6 @@ const ToolsFlipCard = ({
                   <h4 className="font-bold text-base text-foreground group-hover/header:text-primary transition-colors truncate">
                     {app.title}
                   </h4>
-                  <span className="text-[11px] text-muted-foreground truncate block mt-0.5">
-                    {app.categoryLabel}
-                  </span>
                 </div>
               </Link>
 
@@ -805,7 +916,7 @@ const ToolsFlipCard = ({
   );
 };
 
-const ValueTreatedFlipCard = ({
+export const ValueTreatedFlipCard = ({
   app,
   isFav,
   toggleFavorite,
@@ -969,7 +1080,7 @@ export function Tools100Section({
   toggleFavorite,
   getGradient,
 }: Tools100SectionProps) {
-  const [activeCategory, setActiveCategory] = useState<"tools" | "value">("tools");
+  const [activePillar, setActivePillar] = useState<string>("all");
   const filteredApps = STANDALONE_MBA_APPS;
 
   const totalFeatures = useMemo(() => {
@@ -980,84 +1091,100 @@ export function Tools100Section({
     <div className="w-full flex flex-col items-center">
       {/* Title & Description */}
       <div className="text-center mb-6">
-        {activeCategory === "tools" ? (
+        {activePillar === "all" ? (
           <>
             <h3 className="text-2xl sm:text-3xl font-bold text-foreground/90 tracking-tight flex items-center justify-center gap-2.5">
-              <Wrench className="size-7 text-primary" />
-              <span>Tools</span>
+              <Layers className="size-7 text-primary" />
+              <span>8 Pilar Strategis & MBA Tools</span>
             </h3>
             <p className="text-xs sm:text-sm text-muted-foreground mt-1.5 max-w-2xl mx-auto">
-              Seluruh 100 instrumen analisis, framework Mini MBA, dan kanvas strategis disatukan dalam kategori <strong>Tools</strong> ({totalFeatures} instrumen).
+              Seluruh 100 instrumen analisis, framework Mini MBA, dan kanvas strategis yang dilebur ke dalam <strong>8 Pilar Utama</strong> ({totalFeatures} instrumen).
             </p>
           </>
         ) : (
-          <>
-            <h3 className="text-2xl sm:text-3xl font-bold text-foreground/90 tracking-tight flex items-center justify-center gap-2.5">
-              <Gem className="size-7 text-amber-500" />
-              <span>Value Treated</span>
-            </h3>
-            <p className="text-xs sm:text-sm text-muted-foreground mt-1.5 max-w-2xl mx-auto">
-              10 Disiplin Fundamental <strong>Value Treated</strong>: Ekonomi, Statistik, Manajemen, Komunikasi, Logistik, Bisnis, Administrasi, Akuntansi, Asuransi, dan Investasi.
-            </p>
-          </>
+          (() => {
+            const currentPillar = MBA_PILLARS.find((p) => p.id === activePillar);
+            const PillarIcon = currentPillar ? getPillarIcon(currentPillar.name) : Compass;
+            return (
+              <>
+                <h3 className="text-2xl sm:text-3xl font-bold text-foreground/90 tracking-tight flex items-center justify-center gap-2.5">
+                  <PillarIcon className="size-7 text-primary" />
+                  <span>Pilar {currentPillar?.name}</span>
+                </h3>
+                <p className="text-xs sm:text-sm text-muted-foreground mt-1.5 max-w-2xl mx-auto">
+                  {currentPillar?.description}
+                </p>
+              </>
+            );
+          })()
         )}
       </div>
 
-      {/* Kategori Atas: Tools & Value (Selevel) */}
-      <div className="flex items-center justify-center gap-3 w-full mb-6">
-        {/* Tab 1: Tools */}
+      {/* Kategori Atas: 8 Pilar MBA */}
+      <div className="w-full flex items-center justify-start sm:justify-center gap-2 overflow-x-auto pb-3 mb-6 no-scrollbar flex-nowrap sm:flex-wrap px-2">
+        {/* Tab Semua Pilar */}
         <button
-          onClick={() => setActiveCategory("tools")}
-          className={`px-6 py-2.5 rounded-full text-sm font-bold transition-all duration-200 cursor-pointer flex items-center gap-2.5 ${
-            activeCategory === "tools"
+          type="button"
+          onClick={() => setActivePillar("all")}
+          className={`px-4 py-2 rounded-full text-xs font-bold transition-all duration-200 cursor-pointer whitespace-nowrap flex items-center gap-2 shrink-0 ${
+            activePillar === "all"
               ? "bg-primary text-primary-foreground shadow-md ring-2 ring-primary/25 scale-105"
-              : "bg-muted/80 text-muted-foreground hover:bg-muted hover:text-foreground"
+              : "bg-card border border-border/80 text-muted-foreground hover:bg-muted hover:text-foreground"
           }`}
         >
-          <Wrench className="size-4 shrink-0" />
-          <span>Tools</span>
+          <Layers className="size-3.5 shrink-0" />
+          <span>Semua</span>
         </button>
 
-        {/* Tab 2: Value Treated (Selevel dengan Tools) */}
-        <button
-          onClick={() => setActiveCategory("value")}
-          className={`px-6 py-2.5 rounded-full text-sm font-bold transition-all duration-200 cursor-pointer flex items-center gap-2.5 ${
-            activeCategory === "value"
-              ? "bg-primary text-primary-foreground shadow-md ring-2 ring-primary/25 scale-105"
-              : "bg-muted/80 text-muted-foreground hover:bg-muted hover:text-foreground"
-          }`}
-        >
-          <Gem className="size-4 shrink-0 text-amber-300" />
-          <span>Value Treated</span>
-        </button>
+        {/* 8 Pilar MBA */}
+        {MBA_PILLARS.map((pillar) => {
+          const PillarIcon = getPillarIcon(pillar.name);
+          const isActive = activePillar === pillar.id;
+          const count = pillar.categories.length;
+
+          return (
+            <button
+              key={pillar.id}
+              type="button"
+              onClick={() => setActivePillar(pillar.id)}
+              className={`px-3.5 py-2 rounded-full text-xs font-bold transition-all duration-200 cursor-pointer whitespace-nowrap flex items-center gap-2 shrink-0 ${
+                isActive
+                  ? "bg-primary text-primary-foreground shadow-md ring-2 ring-primary/25 scale-105"
+                  : "bg-card border border-border/80 text-muted-foreground hover:bg-muted hover:text-foreground"
+              }`}
+            >
+              <PillarIcon size={14} className={isActive ? "text-primary-foreground" : "text-primary"} />
+              <span>{pillar.name}</span>
+              <span
+                className={`text-[10px] px-1.5 py-0.2 rounded-full font-semibold ${
+                  isActive ? "bg-primary-foreground/20 text-primary-foreground" : "bg-muted text-muted-foreground"
+                }`}
+              >
+                {count}
+              </span>
+            </button>
+          );
+        })}
       </div>
 
-      {/* Standalone Apps Grid */}
-      {activeCategory === "tools" ? (
-        <div className="w-full grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
-          {filteredApps.map((app) => (
-            <ToolsFlipCard
-              key={app.id}
-              app={app}
-              isFav={favorites.includes(app.to)}
-              toggleFavorite={toggleFavorite}
-              gradient={getGradient(app.title)}
-            />
-          ))}
-        </div>
-      ) : (
-        /* Value Treated Grid (10 Disiplin: Ekonomi, Statistik, Manajemen, Komunikasi, Logistik, Bisnis, Administrasi, Akuntansi, Asuransi, Investasi) */
-        <div className="w-full grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
-          {VALUE_TREATED_APPS.map((app) => (
-            <ValueTreatedFlipCard
-              key={app.id}
-              app={app}
-              isFav={favorites.includes(app.to)}
-              toggleFavorite={toggleFavorite}
-            />
-          ))}
-        </div>
-      )}
+      {/* Konten Grid */}
+      <div className="w-full grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+        {(activePillar === "all"
+          ? filteredApps
+          : filteredApps.filter((a) => {
+              const selectedPillar = MBA_PILLARS.find((p) => p.id === activePillar);
+              return a.pillar === selectedPillar?.name;
+            })
+        ).map((app) => (
+          <ToolsFlipCard
+            key={app.id}
+            app={app}
+            isFav={favorites.includes(app.to)}
+            toggleFavorite={toggleFavorite}
+            gradient={getGradient(app.title)}
+          />
+        ))}
+      </div>
     </div>
   );
 }

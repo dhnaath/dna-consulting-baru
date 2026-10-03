@@ -1,6 +1,7 @@
 import { AppDock } from "./shell/app-dock";
 import { ShellSidebarProvider } from "./shell-sidebar";
 import { ShellHeaderProvider } from "./shell-header";
+import { SidebarPillarsMenu } from "./shell/SidebarPillarsMenu";
 import {
   ShellSectionsProvider,
   type ShellSection,
@@ -11,6 +12,7 @@ import { AnimatedSearchIcon } from "./shell/AnimatedSearchIcon";
 import {
   WindowPositionLeftIcon,
   WindowPositionRightIcon,
+  WindowPositionTopIcon,
 } from "@/components/icons/WindowPositionIcons";
 import { useState, useEffect, useMemo, useRef, useCallback, useLayoutEffect } from "react";
 import { Link, useNavigate, useRouterState } from "@tanstack/react-router";
@@ -141,7 +143,7 @@ import {
   DropdownMenuPortal,
   DropdownMenuCheckboxItem,
 } from "@/components/ui/dropdown-menu";
-import { navKonsultan, navSidebar21, navAllSidebar, type NavItem, type NavGroup as NavGroupType } from "@/config/nav";
+import { navKonsultan, navAllSidebar, type NavItem, type NavGroup as NavGroupType } from "@/config/nav";
 
 function NavGroup({ title, items }: { title: string; items: any[] }) {
   const [isOpen, setIsOpen] = useState(true);
@@ -217,7 +219,7 @@ export const APP_MODES: ModeItem[] = [
     icon: User,
     badgeClass: "bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border-emerald-500/20",
     links: [
-      { to: "/habits", label: "Habit & Rutinitas", icon: Activity },
+      { to: "/habit-tracker", label: "Habit & Rutinitas", icon: Activity },
       { to: "/catatan", label: "Catatan & Ide", icon: NotebookText },
       { to: "/journal", label: "Journal Harian", icon: BookOpen },
       { to: "/goals", label: "Target & Resolusi", icon: Target },
@@ -263,7 +265,7 @@ export const APP_MODES: ModeItem[] = [
     badgeClass: "bg-teal-500/10 text-teal-600 dark:text-teal-400 border-teal-500/20",
     links: [
       { to: "/health", label: "Vitalitas & Kesehatan Fisik", icon: HeartPulse },
-      { to: "/habits", label: "Rutinitas Hidup Sehat", icon: Activity },
+      { to: "/habit-tracker", label: "Rutinitas Hidup Sehat", icon: Activity },
       { to: "/journal", label: "Refleksi & Mental Clarity", icon: BookOpen },
       { to: "/pomodoro", label: "Mindful Break & Istirahat", icon: Timer },
       { to: "/recipes", label: "Nutrisi & Pola Makan Sehat", icon: Utensils },
@@ -497,7 +499,8 @@ export function AppShell({
 
   // Category currently browsed in the left sidebar. Default to "All".
 
-  const isAppRoute = pathname !== "/";
+  const isHome = pathname === "/" || pathname === "/home";
+  const isAppRoute = !isHome;
   const [hasAppSidebar, setHasAppSidebar] = useState(false);
   const [sidebarView, setSidebarView] = useState<"navigation" | "menu">("navigation");
   useEffect(() => {
@@ -596,8 +599,18 @@ export function AppShell({
     return "personal";
   });
   const [isModeOpen, setIsModeOpen] = useState(false);
+
+  useEffect(() => {
+    const handleLauncherModeChanged = (e: any) => {
+      const modeId = e.detail;
+      if (modeId && APP_MODES.some((m) => m.id === modeId)) {
+        setCurrentMode(modeId as AppModeId);
+      }
+    };
+    window.addEventListener("aio_launcher_mode_changed", handleLauncherModeChanged);
+    return () => window.removeEventListener("aio_launcher_mode_changed", handleLauncherModeChanged);
+  }, []);
   const activeModeConfig = APP_MODES.find((m) => m.id === currentMode) || APP_MODES[0];
-  const ActiveModeIcon = activeModeConfig.icon;
   const [isSettingsOpen, setIsSettingsOpen] = useState(false);
   const [isLeftSidebar75, setIsLeftSidebar75] = useState<boolean>(() => {
     try {
@@ -638,7 +651,6 @@ export function AppShell({
     { to: "/", label: "Launcher", icon: LayoutDashboard },
     { to: "/terminal", label: "Terminal", icon: Terminal },
     ...navKonsultan.flatMap((g) => g.items as { to: string; label: string; icon: LucideIcon }[]),
-    ...navSidebar21.flatMap((g) => g.items as { to: string; label: string; icon: LucideIcon }[]),
   ];
   const favItems = favorites
     .map((route) => {
@@ -1013,64 +1025,14 @@ export function AppShell({
               </div>
             </div>
           ) : (
-            <div className="flex flex-col gap-2">
-              {/* TAB 2: MENU FITUR APLIKASI (Terpilih dari Menu Tab) */}
-              <div className="p-3 bg-white/10 dark:bg-white/5 border border-white/20 dark:border-white/10 rounded-2xl shadow-sm space-y-2.5 mb-2">
-                <div className="flex items-center justify-between pb-2 border-b border-white/15 dark:border-white/10">
-                  <div className="flex items-center gap-2 min-w-0">
-                    <div className="size-7 rounded-lg bg-cyan-500/20 text-cyan-400 flex items-center justify-center font-bold text-xs shrink-0">
-                      <Menu className="w-3.5 h-3.5" />
-                    </div>
-                    <div className="min-w-0">
-                      <p className="text-xs font-bold text-white truncate">{title || "Menu Fitur Halaman"}</p>
-                      <p className="text-[10px] text-white/70">Tab Opsi & Fitur Terpilih</p>
-                    </div>
-                  </div>
-                  {effectiveSections.length > 0 && (
-                    <span className="text-[10px] px-2 py-0.5 rounded-full bg-cyan-500/20 text-cyan-300 border border-cyan-500/30 font-semibold shrink-0">
-                      {effectiveSections.length} Opsi
-                    </span>
-                  )}
-                </div>
-
-                {effectiveSections.length > 0 ? (
-                  <div className="space-y-1">
-                    {effectiveSections.map((sec) => {
-                      const SecIcon = sec.icon || Layers;
-                      return (
-                        <button
-                          key={sec.id}
-                          type="button"
-                          onClick={() => {
-                            sec.onSelect();
-                            if (typeof window !== "undefined" && window.innerWidth < 768) {
-                              setOpenDrawer(null);
-                            }
-                          }}
-                          className={`w-full flex items-center justify-between px-3 py-2.5 rounded-xl text-xs font-semibold transition-all cursor-pointer ${
-                            sec.active
-                              ? "bg-white text-primary shadow-md font-bold"
-                              : "bg-white/10 hover:bg-white/20 text-white/90 hover:text-white border border-white/10"
-                          }`}
-                        >
-                          <div className="flex items-center gap-2.5">
-                            <SecIcon className="size-4 shrink-0" />
-                            <span>{sec.label}</span>
-                          </div>
-                          {sec.active && (
-                            <span className="size-2 rounded-full bg-primary shrink-0" />
-                          )}
-                        </button>
-                      );
-                    })}
-                  </div>
-                ) : (
-                  <div className="text-center py-3 text-xs text-white/70">
-                    Pilih opsi menu di halaman utama atau gunakan pintasan navigasi.
-                  </div>
-                )}
-              </div>
-            </div>
+            <SidebarPillarsMenu
+              isCompact={isLeftSidebar75}
+              onNavigate={() => {
+                if (typeof window !== "undefined" && window.innerWidth < 1024) {
+                  setOpenDrawer(null);
+                }
+              }}
+            />
           )}
         </div>
       </aside>
@@ -1247,51 +1209,6 @@ export function AppShell({
                 </Link>
               </div>
 
-              {/* Mode switcher — dipindahkan dari header atas */}
-              <div className="pt-3 border-t border-white/15 dark:border-white/10 w-full">
-                <p className="px-1 pb-2 text-[11px] font-semibold uppercase tracking-wider text-muted-foreground flex items-center gap-1.5">
-                  <ActiveModeIcon className="h-3.5 w-3.5" /> Mode Aktif
-                </p>
-                <div className="flex flex-col gap-1.5">
-                  {APP_MODES.map((m) => {
-                    const Icon = m.icon;
-                    const isSelected = currentMode === m.id;
-                    return (
-                      <button
-                        key={m.id}
-                        type="button"
-                        onClick={() => {
-                          setCurrentMode(m.id);
-                          try {
-                            localStorage.setItem("aio_active_mode", m.id);
-                            localStorage.setItem("client_os_active_mode", m.id);
-                            window.dispatchEvent(new Event("aio_mode_changed"));
-                          } catch {}
-                        }}
-                        className={`flex items-center gap-2.5 w-full px-2.5 py-2 rounded-xl border text-left backdrop-blur-md transition-all cursor-pointer ${
-                          isSelected
-                            ? "border-primary/40 bg-white/25 dark:bg-white/10 text-foreground font-semibold shadow-2xs"
-                            : "border-white/15 dark:border-white/10 bg-white/10 dark:bg-white/5 text-muted-foreground hover:bg-white/20 hover:text-foreground"
-                        }`}
-                      >
-                        <span
-                          className={`grid h-7 w-7 place-items-center rounded-lg shrink-0 ${
-                            isSelected ? "bg-primary text-primary-foreground" : "bg-white/15 dark:bg-white/10 text-muted-foreground"
-                          }`}
-                        >
-                          <Icon className="h-4 w-4" />
-                        </span>
-                        <span className="min-w-0 flex-1">
-                          <span className="block text-[13px] font-medium truncate">{m.label}</span>
-                          <span className="block text-[10.5px] text-muted-foreground truncate">{m.desc}</span>
-                        </span>
-                        {isSelected && <span className="size-1.5 rounded-full bg-primary shrink-0" />}
-                      </button>
-                    );
-                  })}
-                </div>
-              </div>
-
             </div>
           </nav>
           )}
@@ -1328,10 +1245,21 @@ export function AppShell({
           )}
 
           <div className="flex items-center justify-between gap-3 px-3 py-3 sm:px-5 pointer-events-none">
-            {/* Bagian Kiri Header: 2 Floating Pills Terpisah (Pill 1: Nav Toggle & Home, Pill 2: Panah Kiri, Refresh & Panah Kanan) */}
+            {/* Bagian Kiri Header: 2 Floating Pills Terpisah (Pill 1: Home & Nav Toggle, Pill 2: Panah Kiri, Refresh & Panah Kanan) */}
             <div className="flex items-center gap-2">
-              {/* Pill 1: Nav Toggle & Home */}
+              {/* Pill 1: Home & Nav Toggle */}
               <div className="pointer-events-auto flex items-center gap-1 p-1 rounded-full liquid-glass-header-pill">
+                {/* Icon Home */}
+                <Link
+                  to="/"
+                  className="relative z-10 size-9 rounded-full aspect-square shrink-0 transition-colors flex items-center justify-center cursor-pointer text-muted-foreground hover:text-foreground hover:bg-accent"
+                  title="Beranda (Home)"
+                  aria-label="Beranda"
+                >
+                  <Home size={20} className="shrink-0" />
+                </Link>
+
+                {/* Toggle Sidebar Kiri */}
                 <button
                   type="button"
                   className={`relative z-10 size-9 rounded-full aspect-square shrink-0 transition-colors flex items-center justify-center cursor-pointer ${
@@ -1345,16 +1273,6 @@ export function AppShell({
                 >
                   <WindowPositionLeftIcon size={24} />
                 </button>
-
-                {/* Icon Home */}
-                <Link
-                  to="/"
-                  className="relative z-10 size-9 rounded-full aspect-square shrink-0 transition-colors flex items-center justify-center cursor-pointer text-muted-foreground hover:text-foreground hover:bg-accent"
-                  title="Beranda (Home)"
-                  aria-label="Beranda"
-                >
-                  <Home size={20} className="shrink-0" />
-                </Link>
               </div>
 
               {/* Pill 2: Panah Kiri, Refresh & Panah Kanan */}
@@ -1363,40 +1281,44 @@ export function AppShell({
               </div>
             </div>
 
-            {/* Bagian Kanan Header: 2 Floating Pills Terpisah (Pill 1: Elemen Menu App & Aksi Halaman, Pill 2: Setting & Sidebar Kanan) */}
+            {/* Bagian Kanan Header: 2 Floating Pills (Pill 1: Elemen Menu App & Aksi Halaman [hanya muncul di modul/fitur], Pill 2: Setting & Sidebar Kanan) */}
             <div className="flex items-center gap-2">
-              {/* Pill 1: Elemen Menu App & Aksi Halaman (actions & portal) */}
-              <div
-                className={`pointer-events-auto flex items-center gap-2 px-2.5 h-[44px] rounded-full liquid-glass-header-pill transition-all duration-200 ${
-                  Boolean(actions) || hasAppHeader ? "inline-flex" : "hidden"
-                }`}
-              >
-                {actions && (
-                  <div className="relative z-10 flex items-center gap-1.5 shrink-0">
-                    {actions}
-                  </div>
-                )}
-                <div
-                  id="app-header-actions-portal"
-                  className="relative z-10 flex items-center gap-1.5 min-w-0 empty:hidden overflow-x-auto no-scrollbar"
-                />
-              </div>
+              {/* Pill 1: Elemen Menu App & Aksi Halaman (actions & portal) — Dihapus kalau di laman utama, muncul kalau modul app atau fitur terbuka */}
+              {!isHome && (
+                <div className="pointer-events-auto inline-flex items-center gap-2 px-2.5 h-[44px] rounded-full liquid-glass-header-pill transition-all duration-200">
+                  {!actions && !hasAppHeader && (
+                    <div className="relative z-10 flex items-center gap-1.5 px-1 text-xs font-medium text-foreground truncate max-w-[180px] sm:max-w-[260px]">
+                      {ContextCategoryIcon && <ContextCategoryIcon size={14} className="shrink-0 text-primary" />}
+                      <span className="truncate font-semibold">{title || contextMatch?.item.label || "Modul Aktif"}</span>
+                    </div>
+                  )}
+                  {actions && (
+                    <div className="relative z-10 flex items-center gap-1.5 shrink-0">
+                      {actions}
+                    </div>
+                  )}
+                  <div
+                    id="app-header-actions-portal"
+                    className="relative z-10 flex items-center gap-1.5 min-w-0 empty:hidden overflow-x-auto no-scrollbar"
+                  />
+                </div>
+              )}
 
-              {/* Pill 2: Pengaturan & Sidebar Kanan (Control Center) */}
+              {/* Pill 2: Pengaturan (Panel Atas) & Sidebar Kanan (Control Center) */}
               <div className="pointer-events-auto flex items-center gap-1 p-1 rounded-full liquid-glass-header-pill">
                 {/* Toggle Panel Atas (Akun, Tema, Region / Setting) */}
                 <button
                   type="button"
                   className={`relative z-10 size-9 rounded-full aspect-square shrink-0 transition-colors flex items-center justify-center cursor-pointer ${
                     isTopPanelOpen
-                      ? "bg-primary text-primary-foreground font-bold shadow-xs"
+                      ? "bg-primary text-primary-foreground font-bold shadow-2xs"
                       : "text-muted-foreground hover:text-foreground hover:bg-accent"
                   }`}
                   onClick={() => setIsTopPanelOpen((prev) => !prev)}
                   title={isTopPanelOpen ? "Tutup Panel Pengaturan Atas" : "Pengaturan (Akun, Tema & Preferensi)"}
                   aria-label="Toggle panel bar atas"
                 >
-                  <Settings size={20} className={`transition-transform duration-300 ${isTopPanelOpen ? "rotate-90" : ""}`} />
+                  <Settings size={20} className="shrink-0" />
                 </button>
 
                 {/* Toggle Sidebar Kanan (Control Center) */}

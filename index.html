@@ -516,8 +516,8 @@
          - Rapi, serasi dengan floating pills lainnya (tinggi 44px, rounded-full)
          - Efek frosted glass bersih dengan shadow halus
          ========================================================================== */
-      div#root:nth-of-type(1) > div:nth-of-type(1) > main#mainContent:nth-of-type(1) > header:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(2) > div:nth-of-type(1),
-      div#root > div > main#mainContent > header > div:nth-of-type(1) > div:nth-of-type(2) > div:nth-of-type(1) {
+      div#root:nth-of-type(1) > div:nth-of-type(1) > main#mainContent:nth-of-type(1) > header:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(2) > div:has(#app-header-actions-portal),
+      div#root > div > main#mainContent > header > div:nth-of-type(1) > div:nth-of-type(2) > div:has(#app-header-actions-portal) {
         display: inline-flex !important;
         align-items: center !important;
         height: 44px !important;
@@ -535,8 +535,8 @@
         transition: all 0.2s ease !important;
       }
 
-      .dark div#root:nth-of-type(1) > div:nth-of-type(1) > main#mainContent:nth-of-type(1) > header:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(2) > div:nth-of-type(1),
-      .dark div#root > div > main#mainContent > header > div:nth-of-type(1) > div:nth-of-type(2) > div:nth-of-type(1) {
+      .dark div#root:nth-of-type(1) > div:nth-of-type(1) > main#mainContent:nth-of-type(1) > header:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(2) > div:has(#app-header-actions-portal),
+      .dark div#root > div > main#mainContent > header > div:nth-of-type(1) > div:nth-of-type(2) > div:has(#app-header-actions-portal) {
         background: rgba(15, 23, 42, 0.82) !important;
         background-color: rgba(15, 23, 42, 0.82) !important;
         border: 1px solid rgba(255, 255, 255, 0.12) !important;
@@ -625,7 +625,7 @@
          Penyesuaian Ekstra untuk Elemen Teks/Banner di dalam Header Pill (CSS Selectors 1-7)
          ========================================================================== */
       /* CSS Selector 7: Header Pill Container */
-      div#root:nth-of-type(1) > div:nth-of-type(1) > main#mainContent:nth-of-type(1) > header:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(2) > div:nth-of-type(1) {
+      div#root:nth-of-type(1) > div:nth-of-type(1) > main#mainContent:nth-of-type(1) > header:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(2) > div:has(#app-header-actions-portal) {
         height: 44px !important;
         min-height: 44px !important;
         max-height: 44px !important;

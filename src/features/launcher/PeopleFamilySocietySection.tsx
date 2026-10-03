@@ -29,6 +29,16 @@ import {
   ArrowRight,
   Search,
   RotateCcw,
+  ShieldAlert,
+  Car,
+  ShoppingBag,
+  FileBarChart,
+  Clock,
+  CalendarCheck,
+  UserCheck,
+  ThumbsUp,
+  Award,
+  MessagesSquare,
   type LucideIcon,
 } from "lucide-react";
 import { type NavItem } from "@/config/nav";
@@ -59,29 +69,40 @@ export interface StandalonePeopleAppDef {
 }
 
 export const STANDALONE_PEOPLE_APPS: StandalonePeopleAppDef[] = [
-  // 1. Klien dan Partner (Standalone)
+  // 1. Customer (Standalone) + 12 Fitur
   {
-    id: "klien",
+    id: "customer",
     to: "/klien",
-    title: "Klien dan Partner",
+    title: "Customer",
     subtitle:
-      "Sistem manajemen hubungan klien profesional, profil PIC, portofolio engagement proyek, dan portal kolaborasi terintegrasi.",
+      "Pusat manajemen siklus hubungan klien & pelanggan: direktori klien, portal kolaborasi, pesanan jasa, kontak CRM, laporan kustom, antrean loket, booking jadwal sesi, buku tamu, survei kepuasan CSAT, reward loyalitas, dan histori interaksi.",
     category: "kemitraan",
     categoryLabel: "Kemitraan & Bisnis",
     icon: Briefcase,
     badge: "Standalone",
     features: [
-      { title: "Portal Kolaborasi", to: "/portal", icon: Building2 },
+      { title: "Clients Directory", to: "/klien", icon: Briefcase },
+      { title: "Collab Portal", to: "/portal", icon: Building2 },
+      { title: "Client Orders", to: "/lainnya?app=client-orders", icon: ShoppingBag },
+      { title: "Contacts CRM", to: "/contacts", icon: Users },
+      { title: "Custom Reports", to: "/lainnya?app=custom-reports", icon: FileBarChart },
+      { title: "Queue Line", to: "/lainnya?app=queue-line", icon: Clock },
+      { title: "Book Slot", to: "/lainnya?app=book-slot", icon: CalendarCheck },
+      { title: "Visitor Log", to: "/lainnya?app=visitor-log", icon: UserCheck },
+      { title: "Feedback Loop", to: "/lainnya?app=feedback-loop", icon: ThumbsUp },
+      { title: "Loyalty Point", to: "/lainnya?app=loyalty-point", icon: Award },
+      { title: "Client Messages", to: "/portal/pesan", icon: MessagesSquare },
+      { title: "Interaction Manager", to: "/interaction-manager", icon: Network },
     ],
   },
 
-  // 2. People Manager (Standalone)
+  // 2. Family (Standalone) + 15 Fitur
   {
-    id: "people-manager",
+    id: "family",
     to: "/people-manager",
-    title: "People Manager",
+    title: "Family",
     subtitle:
-      "Pusat kendali ekosistem keluarga besar, lingkaran relasi sosial, aturan rumah tangga, dokumen KK, dan momen penting kerabat.",
+      "Pusat tata kelola keluarga besar: silsilah garis keturunan, aturan rumah tangga, arsip memori, profil medis, siaga darurat, lingkaran relasi, musyawarah agenda, pinjam barang, hadiah kerabat, reuni, dan rencana carpool.",
     category: "keluarga",
     categoryLabel: "Keluarga & Relasi",
     icon: Users,
@@ -91,22 +112,27 @@ export const STANDALONE_PEOPLE_APPS: StandalonePeopleAppDef[] = [
       { title: "House Rules", to: "/lainnya?app=family-rules", icon: Scale },
       { title: "Family Archive", to: "/lainnya?app=family-archive", icon: Archive },
       { title: "Medical Profile", to: "/lainnya?app=medical-family", icon: HeartHandshake },
+      { title: "Disaster Prep", to: "/lainnya?app=disaster-prep", icon: ShieldAlert },
+      { title: "Emergency Contacts", to: "/lainnya?app=emergency-hub", icon: PhoneCall },
       { title: "Relation Circles", to: "/lainnya?app=circle-groups", icon: Network },
       { title: "Catchup Reminder", to: "/lainnya?app=catchup-cadence", icon: PhoneCall },
-      { title: "Borrow Log", to: "/lainnya?app=borrowed-items", icon: ArrowRightLeft },
+      { title: "Meeting Timeline", to: "/lainnya?app=meeting-timeline", icon: CalendarDays },
+      { title: "Borrow Log MVP", to: "/lainnya?app=borrowed-items", icon: ArrowRightLeft },
       { title: "Gift Tracker", to: "/lainnya?app=gift-tracker", icon: Gift },
       { title: "Reunion Planner", to: "/lainnya?app=reunion-planner", icon: PartyPopper },
       { title: "Anniversary Tracker", to: "/lainnya?app=family-anniversary", icon: CalendarDays },
+      { title: "Carpool Plan", to: "/lainnya?app=carpool-plan", icon: Car },
+      { title: "People Manager", to: "/people-manager", icon: Users },
     ],
   },
 
-  // 3. Komunitas Warga (Standalone)
+  // 3. Community (Standalone) + 14 Fitur
   {
-    id: "komunitas-warga",
+    id: "community",
     to: "/komunitas-warga",
-    title: "Komunitas Warga",
+    title: "Community",
     subtitle:
-      "Platform rukun tetangga & warga pemukiman: buku warga RT/RW, transparansi iuran, pengumuman, kepatuhan sipil, dan layanan publik.",
+      "Pusat kebersamaan warga pemukiman, kepatuhan sipil, dan filantropi sosial: buku warga RT/RW, papan pengumuman warga, kartu anggota, notula musyawarah warga, panduan faskes/layanan publik, kalender sipil, hisab zakat amal, donasi sedekah, dan kerelawanan.",
     category: "komunitas",
     categoryLabel: "Komunitas & Publik",
     icon: Home,
@@ -120,23 +146,12 @@ export const STANDALONE_PEOPLE_APPS: StandalonePeopleAppDef[] = [
       { title: "Civic Calendar", to: "/lainnya?app=civic-calendar", icon: CalendarDays },
       { title: "Civil Registry", to: "/lainnya?app=civil-registry", icon: FileCheck },
       { title: "Civic Tax", to: "/lainnya?app=tax-civic", icon: Receipt },
-    ],
-  },
-
-  // 4. Zakat dan Sedekah (Standalone)
-  {
-    id: "zakat",
-    to: "/zakat",
-    title: "Zakat dan Sedekah",
-    subtitle:
-      "Kalkulator kepatuhan syariah zakat maal, penghasilan, dan fitrah dengan transparansi catatan donasi infaq dan relawan kemanusiaan.",
-    category: "sosial",
-    categoryLabel: "Zakat & Filantropi",
-    icon: Coins,
-    badge: "Standalone",
-    features: [
-      { title: "Catatan Infaq dan Donasi", to: "/lainnya?app=donation-tracker", icon: Coins },
-      { title: "Relawan dan Bakti Sosial", to: "/lainnya?app=volunteer-log", icon: Heart },
+      { title: "Zakat Charity", to: "/zakat", icon: Coins },
+      { title: "Donation Log MVP", to: "/lainnya?app=donation-tracker", icon: Coins },
+      { title: "Volunteer Log MVP", to: "/lainnya?app=volunteer-log", icon: Heart },
+      { title: "Neighbor Community", to: "/komunitas-warga", icon: Home },
+      { title: "Civic Compliance", to: "/lainnya?app=civic-compliance", icon: Scale },
+      { title: "Social Impact", to: "/lainnya?app=social-impact", icon: HeartHandshake },
     ],
   },
 ];
