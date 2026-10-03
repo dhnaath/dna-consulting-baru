@@ -24,7 +24,7 @@ import {
   StandaloneAppConfig,
   StandaloneRecord,
 } from "./standaloneAppsData";
-import { useRouterState } from "@tanstack/react-router";
+import { useRouterState, Navigate } from "@tanstack/react-router";
 import { ShellHeader } from "@/app/shell-header";
 
 interface StandaloneAppViewProps {
@@ -32,6 +32,16 @@ interface StandaloneAppViewProps {
 }
 
 export function StandaloneAppView({ appId }: StandaloneAppViewProps) {
+  if (appId === "roadmap") {
+    return <Navigate to="/milestone-manager" replace />;
+  }
+  if (appId === "emergency-broadcast") {
+    return <Navigate to={"/lainnya?app=emergency-hub" as any} replace />;
+  }
+  if (appId === "interaction-timeline") {
+    return <Navigate to={"/lainnya?app=meeting-timeline" as any} replace />;
+  }
+
   const config = STANDALONE_APPS[appId];
 
   // If no config found, render fallback

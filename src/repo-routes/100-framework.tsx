@@ -12,7 +12,7 @@ import {
 } from 'lucide-react';
 import { AppShell } from '@/app/app-shell';
 import { Panel } from '@/app/ui-bits';
-import { CATEGORIES, getFrameworkData, FrameworkContent } from '../frameworkData';
+import { CATEGORIES, MBA_PILLARS, CATEGORY_TO_PILLAR, getPillarByCategory, getFrameworkData, FrameworkContent } from '../frameworkData';
 import { VisualLayoutMockup } from '@/app/VisualMockups';
 
 export const Route = createFileRoute('/100-framework')({
@@ -30,8 +30,44 @@ const SectionHeader = ({ number, title, icon: Icon }: { number: string, title: s
   </div>
 );
 
+const getPillarIcon = (pillarName: string) => {
+  switch (pillarName) {
+    case "Strategy": return Activity;
+    case "Commercial": return TrendingUp;
+    case "Finance": return Landmark;
+    case "Operations": return Settings;
+    case "Organization": return Award;
+    case "Innovation": return Lightbulb;
+    case "Governance": return ShieldCheck;
+    case "Analytics": return LineChart;
+    default: return Box;
+  }
+};
+
 const getCategoryIcon = (categoryName: string) => {
   switch (categoryName) {
+    case "Strategic Analysis": return Activity;
+    case "Business Design": return LayoutTemplate;
+    case "Marketing Management": return TrendingUp;
+    case "Customer Experience": return Users;
+    case "Operations Management": return Settings;
+    case "Project Management": return CheckSquare;
+    case "Performance Management": return Target;
+    case "Financial Analysis": return Landmark;
+    case "Decision Analysis": return CheckSquare;
+    case "Innovation Management": return Lightbulb;
+    case "Quality Management": return ShieldCheck;
+    case "Change Management": return RefreshCw;
+    case "Policy Management": return BookOpen;
+    case "Quantitative Analysis": return LineChart;
+    case "Product Management": return Layers;
+    case "Risk Management": return ShieldCheck;
+    case "Sustainability": return Target;
+    case "People Management": return Award;
+    case "Sales Revenue": return TrendingUp;
+    case "Technology Futures": return Sparkles;
+    case "Corporate Communications": return Megaphone;
+    // Legacy fallbacks
     case "Strategic Management": return Activity;
     case "Business Model & Value Proposition": return LayoutTemplate;
     case "Marketing & Customer Management": return Users;
@@ -78,6 +114,7 @@ function FrameworkDashboard() {
 
   const data: FrameworkContent = getFrameworkData(activeFramework);
   const activeCategory = CATEGORIES.find(c => c.frameworks.includes(activeFramework))?.name || "";
+  const activePillar = getPillarByCategory(activeCategory);
 
   useEffect(() => {
     try {
@@ -345,61 +382,90 @@ function FrameworkDashboard() {
                     <p className="text-sm text-muted-foreground">Tidak ada framework ditemukan.</p>
                   </div>
                 ) : (
-                  filteredCategories.map((category) => {
-                    const IconComp = getCategoryIcon(category.name);
-                    const isCollapsed = isCategoryCollapsed(category.name);
-                    const hasActiveChild = category.frameworks.includes(activeFramework);
-                    
-                    return (
-                      <div key={category.name} className="border-b border-border pb-3 last:border-0">
-                        <button
-                          onClick={() => toggleCategoryCollapse(category.name)}
-                          className="w-full text-left flex items-center justify-between px-2 py-1.5 rounded-lg text-foreground hover:bg-muted/50 transition-colors group"
-                        >
-                          <div className="flex items-center gap-2 min-w-0 pr-1">
-                            <div className={`w-6 h-6 rounded flex items-center justify-center shrink-0 ${hasActiveChild ? 'text-primary bg-primary/10' : 'text-muted-foreground group-hover:text-primary'}`}>
-                              <IconComp size={15} />
-                            </div>
-                            <span className={`text-xs font-bold uppercase tracking-wider truncate ${hasActiveChild ? 'text-primary' : 'text-muted-foreground'}`}>
-                              {category.name}
-                            </span>
-                          </div>
-                          <div className="flex items-center gap-1.5 shrink-0">
-                            <span className="text-[11px] font-medium text-muted-foreground bg-muted px-1.5 py-0.5 rounded-md">
-                              {category.frameworks.length}
-                            </span>
-                            {isCollapsed ? <ChevronRight size={14} className="text-muted-foreground" /> : <ChevronDown size={14} className="text-muted-foreground" />}
-                          </div>
-                        </button>
+                  MBA_PILLARS.map((pillar) => {
+                    const pillarCategories = filteredCategories.filter(
+                      (cat) => cat.pillar === pillar.name || CATEGORY_TO_PILLAR[cat.name] === pillar.name
+                    );
+                    if (pillarCategories.length === 0) return null;
+                    const PillarIcon = getPillarIcon(pillar.name);
+                    const totalToolsInPillar = pillarCategories.reduce((acc, c) => acc + c.frameworks.length, 0);
 
-                        {!isCollapsed && (
-                          <div className="space-y-0.5 mt-1 pl-2">
-                            {category.frameworks.map((fw) => {
-                              const isActive = fw === activeFramework;
-                              const isFav = favorites.includes(fw);
-                              return (
+                    return (
+                      <div key={pillar.id} className="border-b border-border/80 pb-3 last:border-0 pt-1 first:pt-0">
+                        {/* Level 1: Pillar Header */}
+                        <div className="flex items-center justify-between px-2 py-1 mb-1.5 rounded-md bg-muted/40 text-foreground">
+                          <div className="flex items-center gap-1.5 min-w-0">
+                            <PillarIcon size={13} className="text-primary shrink-0" />
+                            <span className="text-[11px] font-bold uppercase tracking-wider truncate">
+                              {pillar.name}
+                            </span>
+                          </div>
+                          <span className="text-[10px] font-semibold px-1.5 py-0.2 rounded-full bg-background border border-border/60 text-muted-foreground">
+                            {totalToolsInPillar}
+                          </span>
+                        </div>
+
+                        {/* Level 2: Sub-Categories */}
+                        <div className="space-y-1 pl-1">
+                          {pillarCategories.map((category) => {
+                            const IconComp = getCategoryIcon(category.name);
+                            const isCollapsed = isCategoryCollapsed(category.name);
+                            const hasActiveChild = category.frameworks.includes(activeFramework);
+
+                            return (
+                              <div key={category.name} className="pt-0.5">
                                 <button
-                                  key={fw}
-                                  onClick={() => {
-                                    setActiveFramework(fw);
-                                    setMobileSidebarOpen(false);
-                                  }}
-                                  className={`w-full text-left px-3 py-2 rounded-lg text-sm font-medium transition-all flex items-center justify-between group ${
-                                    isActive 
-                                      ? "bg-accent text-accent-foreground border border-border" 
-                                      : "text-muted-foreground hover:bg-muted hover:text-foreground"
-                                  }`}
+                                  onClick={() => toggleCategoryCollapse(category.name)}
+                                  className="w-full text-left flex items-center justify-between px-2 py-1 rounded-lg text-foreground hover:bg-muted/50 transition-colors group cursor-pointer"
                                 >
-                                  <span className="truncate pr-2">{fw}</span>
+                                  <div className="flex items-center gap-1.5 min-w-0 pr-1">
+                                    <div className={`w-5 h-5 rounded flex items-center justify-center shrink-0 ${hasActiveChild ? 'text-primary bg-primary/10' : 'text-muted-foreground group-hover:text-primary'}`}>
+                                      <IconComp size={13} />
+                                    </div>
+                                    <span className={`text-[11px] font-semibold truncate ${hasActiveChild ? 'text-primary font-bold' : 'text-muted-foreground'}`}>
+                                      {category.name}
+                                    </span>
+                                  </div>
                                   <div className="flex items-center gap-1 shrink-0">
-                                    {isFav && <Star size={12} className="text-amber-500 fill-amber-500" />}
-                                    {isActive && <ArrowRight size={14} className="text-primary" />}
+                                    <span className="text-[10px] text-muted-foreground">
+                                      {category.frameworks.length}
+                                    </span>
+                                    {isCollapsed ? <ChevronRight size={12} className="text-muted-foreground" /> : <ChevronDown size={12} className="text-muted-foreground" />}
                                   </div>
                                 </button>
-                              );
-                            })}
-                          </div>
-                        )}
+
+                                {!isCollapsed && (
+                                  <div className="space-y-0.5 mt-0.5 pl-2.5 border-l border-border/60 ml-2.5">
+                                    {category.frameworks.map((fw) => {
+                                      const isActive = fw === activeFramework;
+                                      const isFav = favorites.includes(fw);
+                                      return (
+                                        <button
+                                          key={fw}
+                                          onClick={() => {
+                                            setActiveFramework(fw);
+                                            setMobileSidebarOpen(false);
+                                          }}
+                                          className={`w-full text-left px-2 py-1.5 rounded-lg text-xs font-medium transition-all flex items-center justify-between group cursor-pointer ${
+                                            isActive 
+                                              ? "bg-primary text-primary-foreground font-semibold shadow-xs" 
+                                              : "text-muted-foreground hover:bg-muted hover:text-foreground"
+                                          }`}
+                                        >
+                                          <span className="truncate pr-1">{fw}</span>
+                                          <div className="flex items-center gap-1 shrink-0">
+                                            {isFav && <Star size={11} className={isActive ? "text-amber-200 fill-amber-200" : "text-amber-500 fill-amber-500"} />}
+                                            {isActive && <ArrowRight size={12} className="text-primary-foreground" />}
+                                          </div>
+                                        </button>
+                                      );
+                                    })}
+                                  </div>
+                                )}
+                              </div>
+                            );
+                          })}
+                        </div>
                       </div>
                     );
                   })
@@ -416,7 +482,12 @@ function FrameworkDashboard() {
           
           <div className="bg-card rounded-2xl border border-border p-6 md:p-8">
             <div className="flex flex-wrap items-center justify-between gap-3 mb-6">
-              <div className="flex items-center gap-2">
+              <div className="flex items-center gap-2 flex-wrap">
+                {activePillar && (
+                  <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-primary/10 text-primary text-xs font-bold tracking-wide uppercase border border-primary/20">
+                    {activePillar.name}
+                  </span>
+                )}
                 <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-accent text-accent-foreground text-xs font-bold tracking-wide uppercase border border-border">
                   {activeCategory}
                 </span>

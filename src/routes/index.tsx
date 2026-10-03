@@ -5,29 +5,38 @@ import { AppShell } from "../app/app-shell";
 import { useFavorites } from "@/hooks/useFavorites";
 import { getLastLauncherPage, setLastLauncherPage } from "@/utils/launcherCategoryMapper";
 import { Tools100Section } from "@/features/launcher/Tools100Section";
+import { ValueTreatedSection } from "@/features/launcher/ValueTreatedSection";
 import { FinancialWealthSection } from "@/features/launcher/FinancialWealthSection";
 import { ProductivitySection } from "@/features/launcher/ProductivitySection";
 import { PersonalEssentialsSection } from "@/features/launcher/PersonalEssentialsSection";
 import { PeopleFamilySocietySection } from "@/features/launcher/PeopleFamilySocietySection";
-import { KurasiSection } from "@/features/launcher/KurasiSection";
 import { CommodityDashboardSection } from "./commodity-dashboard";
-import { COMMODITY_DATA } from "../commodityData";
+import { EmptyModePage } from "@/features/launcher/EmptyModePage";
 import { AnimatedSearchIcon } from "@/app/shell/AnimatedSearchIcon";
 import { TypewriterSearchText } from "@/app/shell/TypewriterSearchText";
 import {
   Layers,
+  Gem,
   Coins,
   CheckSquare,
   Heart,
   Users,
   TrendingUp,
-  ArrowRight,
   BookOpen,
+  ArrowRight,
+  User,
+  GraduationCap,
+  Palette,
+  HeartPulse,
+  Coffee,
+  Sofa,
+  Briefcase,
+  Crown,
+  Globe,
   Search,
   ChevronLeft,
   ChevronRight,
   Sparkles,
-  ExternalLink,
 } from "lucide-react";
 
 const GRADIENT_PALETTES = [
@@ -50,18 +59,52 @@ export function getGradient(title: string): string {
   return GRADIENT_PALETTES[idx];
 }
 
-const LAUNCHER_TABS = [
-  { id: "tools100", label: "100 MBA Tools", icon: Layers, badge: "100 Tools" },
+export const LAUNCHER_TABS = [
+  // 8 Halaman Inti Sebelumnya (Tetap ada, lengkap & tidak dihapus)
+  { id: "tools100", label: "100 MBA Tools", icon: Layers, badge: "8 Pilar" },
+  { id: "valuetreated", label: "Value Treated", icon: Gem, badge: "10 Disiplin" },
   { id: "financial", label: "Finansial & Wealth", icon: Coins, badge: "5 Tahapan" },
   { id: "productivity", label: "Produktivitas", icon: CheckSquare, badge: "Operasional" },
   { id: "personal", label: "Personal & Essentials", icon: Heart, badge: "Lifestyle" },
   { id: "people", label: "People & Relasi", icon: Users, badge: "Keluarga & CRM" },
   { id: "commodity", label: "100 Komoditas", icon: TrendingUp, badge: "Nasional" },
-  { id: "curated", label: "Kurasi & Playbook", icon: BookOpen, badge: "Framework" },
+
+  // 10 Halaman Mode Tambahan (Sementara Kosong Siap Dikonfigurasi)
+  { id: "mode_personal", modeId: "personal", label: "Mode Personal", icon: User, badge: "Self", desc: "Keseharian, Catatan & Habit" },
+  { id: "mode_student", modeId: "student", label: "Mode Student", icon: GraduationCap, badge: "Study", desc: "Akademik, Riset & Pembelajaran" },
+  { id: "mode_creator", modeId: "creator", label: "Mode Creator", icon: Palette, badge: "Media", desc: "Konten, Desain & Media Kreatif" },
+  { id: "mode_wellbeing", modeId: "wellbeing", label: "Mode Wellbeing", icon: HeartPulse, badge: "Health", desc: "Kebugaran Fisik, Mental & Keseimbangan Hidup" },
+  { id: "mode_leisure", modeId: "leisure", label: "Mode Leisure", icon: Coffee, badge: "Relax", desc: "Rekreasi, Hiburan, Hobi & Liburan" },
+  { id: "mode_household", modeId: "household", label: "Mode Household", icon: Sofa, badge: "Living", desc: "Domestik & Manajemen Rumah" },
+  { id: "mode_relatives", modeId: "relatives", label: "Mode Relatives", icon: Users, badge: "Family", desc: "Keluarga Besar & Silaturahmi" },
+  { id: "mode_employment", modeId: "employment", label: "Mode Employment", icon: Briefcase, badge: "Career", desc: "Pekerjaan, Tugas & Proyek" },
+  { id: "mode_owner", modeId: "owner", label: "Mode Owner", icon: Crown, badge: "Equity", desc: "Kepemilikan Bisnis & Portofolio" },
+  { id: "mode_public", modeId: "public", label: "Mode Public", icon: Globe, badge: "External", desc: "Ranah Publik & Dinamika Luar" },
 ];
 
 export function Launcher() {
-  const initialPage = getLastLauncherPage(LAUNCHER_TABS.length);
+  const getInitialModeIndex = () => {
+    if (typeof window !== "undefined") {
+      try {
+        const urlParams = new URLSearchParams(window.location.search);
+        const modeFromUrl = urlParams.get("mode");
+        if (modeFromUrl) {
+          const idx = LAUNCHER_TABS.findIndex(
+            (t) => t.id === modeFromUrl || (t as any).modeId === modeFromUrl
+          );
+          if (idx !== -1) return idx;
+        }
+        const tabFromUrl = urlParams.get("tab");
+        if (tabFromUrl) {
+          const idx = LAUNCHER_TABS.findIndex((t) => t.id === tabFromUrl);
+          if (idx !== -1) return idx;
+        }
+      } catch {}
+    }
+    return getLastLauncherPage(LAUNCHER_TABS.length);
+  };
+
+  const initialPage = getInitialModeIndex();
   const [activeTabIdx, setActiveTabIdx] = useState<number>(initialPage);
   const { favorites, toggleFavorite } = useFavorites();
 
@@ -101,6 +144,18 @@ export function Launcher() {
       setActiveTabIdx(snap);
       setLastLauncherPage(snap, LAUNCHER_TABS.length);
       showDotsTemporarily(2200);
+
+      const currentTab = LAUNCHER_TABS[snap];
+      if (currentTab && (currentTab as any).modeId) {
+        try {
+          const modeId = (currentTab as any).modeId;
+          localStorage.setItem("aio_active_mode", modeId);
+          localStorage.setItem("client_os_active_mode", modeId);
+          window.dispatchEvent(
+            new CustomEvent("aio_launcher_mode_changed", { detail: modeId })
+          );
+        } catch {}
+      }
     };
 
     const onPointerDown = () => {
@@ -125,13 +180,29 @@ export function Launcher() {
     emblaApi.on("scroll", onScroll);
     emblaApi.on("settle", onSettle);
 
+    // Dukungan sinkronisasi pergantian mode dari Sidebar Kanan
+    const handleModeChanged = () => {
+      try {
+        const savedMode = localStorage.getItem("aio_active_mode");
+        if (savedMode && emblaApi) {
+          const idx = LAUNCHER_TABS.findIndex(
+            (t) => t.id === savedMode || (t as any).modeId === savedMode
+          );
+          if (idx !== -1 && idx !== emblaApi.selectedScrollSnap()) {
+            emblaApi.scrollTo(idx);
+          }
+        }
+      } catch {}
+    };
+
+    window.addEventListener("aio_mode_changed", handleModeChanged);
+
     // Dukungan geser / swipe 2 jari horizontal pada trackpad
     const emblaNode = emblaApi.rootNode();
     let accumulatedDeltaX = 0;
     let wheelDebounceTimer: any = null;
 
     const onWheel = (e: WheelEvent) => {
-      // Deteksi geseran 2 jari horizontal di trackpad (deltaX lebih dominan daripada deltaY)
       if (Math.abs(e.deltaX) > Math.abs(e.deltaY) && Math.abs(e.deltaX) > 12) {
         showDotsImmediately();
         accumulatedDeltaX += e.deltaX;
@@ -162,6 +233,7 @@ export function Launcher() {
       emblaApi.off("pointerUp", onPointerUp);
       emblaApi.off("scroll", onScroll);
       emblaApi.off("settle", onSettle);
+      window.removeEventListener("aio_mode_changed", handleModeChanged);
       if (emblaNode) {
         emblaNode.removeEventListener("wheel", onWheel);
       }
@@ -176,14 +248,27 @@ export function Launcher() {
     setLastLauncherPage(idx, LAUNCHER_TABS.length);
     emblaApi?.scrollTo(idx);
     showDotsTemporarily(2200);
+
+    const currentTab = LAUNCHER_TABS[idx];
+    if (currentTab && (currentTab as any).modeId) {
+      try {
+        const modeId = (currentTab as any).modeId;
+        localStorage.setItem("aio_active_mode", modeId);
+        localStorage.setItem("client_os_active_mode", modeId);
+        window.dispatchEvent(new Event("aio_mode_changed"));
+      } catch {}
+    }
   };
 
   // Keyboard navigation untuk swipe kiri-kanan
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
-      // Hanya jika bukan sedang mengetik di input/textarea
       const target = e.target as HTMLElement;
-      if (target?.tagName === "INPUT" || target?.tagName === "TEXTAREA" || target?.isContentEditable) {
+      if (
+        target?.tagName === "INPUT" ||
+        target?.tagName === "TEXTAREA" ||
+        target?.isContentEditable
+      ) {
         return;
       }
       if (e.key === "ArrowLeft") {
@@ -207,7 +292,7 @@ export function Launcher() {
   return (
     <AppShell
       title="All in One Workspace"
-      subtitle="Workspace Eksekutif Terintegrasi: Bisnis, Finansial, Manajemen, Komoditas & Produktivitas"
+      subtitle="Workspace Eksekutif Terintegrasi: Bisnis, Finansial, Manajemen, Komoditas & 10 Mode Kehidupan"
     >
       <div className="max-w-[1500px] mx-auto px-4 sm:px-6 py-4 space-y-4 pb-20">
         {/* Swipe Carousel Area */}
@@ -222,7 +307,16 @@ export function Launcher() {
               />
             </div>
 
-            {/* Slide 1: Finansial & Wealth */}
+            {/* Slide 1: Value Treated (10 Disiplin Fundamental) */}
+            <div className="flex-[0_0_100%] min-w-0 pr-1">
+              <ValueTreatedSection
+                favorites={favorites}
+                toggleFavorite={toggleFavorite}
+                getGradient={getGradient}
+              />
+            </div>
+
+            {/* Slide 2: Finansial & Wealth */}
             <div className="flex-[0_0_100%] min-w-0 pr-1">
               <FinancialWealthSection
                 favorites={favorites}
@@ -231,7 +325,7 @@ export function Launcher() {
               />
             </div>
 
-            {/* Slide 2: Produktivitas */}
+            {/* Slide 3: Produktivitas */}
             <div className="flex-[0_0_100%] min-w-0 pr-1">
               <ProductivitySection
                 favorites={favorites}
@@ -240,7 +334,7 @@ export function Launcher() {
               />
             </div>
 
-            {/* Slide 3: Personal & Essentials */}
+            {/* Slide 4: Personal & Essentials */}
             <div className="flex-[0_0_100%] min-w-0 pr-1">
               <PersonalEssentialsSection
                 favorites={favorites}
@@ -249,7 +343,7 @@ export function Launcher() {
               />
             </div>
 
-            {/* Slide 4: People & Relasi */}
+            {/* Slide 5: People & Relasi */}
             <div className="flex-[0_0_100%] min-w-0 pr-1">
               <PeopleFamilySocietySection
                 favorites={favorites}
@@ -258,34 +352,23 @@ export function Launcher() {
               />
             </div>
 
-            {/* Slide 5: 100 Komoditas (1 Halaman Terpadu Tanpa Opsi Penuh / Lebih Lanjut) */}
+            {/* Slide 6: 100 Komoditas */}
             <div className="flex-[0_0_100%] min-w-0 pr-1">
               <CommodityDashboardSection isEmbedded={true} />
             </div>
 
-            {/* Slide 6: Kurasi & Playbook */}
-            <div className="flex-[0_0_100%] min-w-0 pr-1 space-y-6">
-              <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 p-6 rounded-2xl border border-border bg-card/70">
-                <div>
-                  <div className="flex items-center gap-2">
-                    <span className="p-2 rounded-full bg-amber-500/10 text-amber-500">
-                      <BookOpen className="size-5" />
-                    </span>
-                    <h2 className="text-xl font-bold text-foreground">Kurasi & Playbook Bisnis DNA</h2>
-                  </div>
-                  <p className="text-sm text-muted-foreground mt-1">
-                    Koleksi lengkap 100 modul strategis, framework operasional, dan pedoman konsultasi terstruktur.
-                  </p>
-                </div>
-                <Link
-                  to="/kurasi"
-                  className="flex items-center gap-2 px-4 py-2.5 rounded-xl bg-primary text-primary-foreground font-medium text-sm hover:bg-primary/90 transition-colors shrink-0"
-                >
-                  Buka Modul Kurasi Lengkap <ArrowRight className="size-4" />
-                </Link>
+            {/* 10 Mode Halaman Tambahan (Sementara Kosong) */}
+            {LAUNCHER_TABS.filter((t) => (t as any).modeId).map((tab) => (
+              <div key={tab.id} className="flex-[0_0_100%] min-w-0 pr-1">
+                <EmptyModePage
+                  id={tab.id}
+                  label={tab.label}
+                  badge={tab.badge}
+                  desc={(tab as any).desc || ""}
+                  icon={tab.icon}
+                />
               </div>
-              <KurasiSection />
-            </div>
+            ))}
           </div>
         </div>
 
@@ -312,7 +395,7 @@ export function Launcher() {
             <div
               onMouseEnter={showDotsImmediately}
               onMouseLeave={() => showDotsTemporarily(1800)}
-              className="pointer-events-auto flex items-center justify-center h-[28.5px] px-3 gap-2 rounded-full liquid-glass-pill text-xs transition-all duration-200 animate-in fade-in zoom-in-95"
+              className="pointer-events-auto flex items-center justify-center h-[28.5px] px-3 gap-2 rounded-full liquid-glass-pill text-xs transition-all duration-200 animate-in fade-in zoom-in-95 max-w-[90vw]"
             >
               {/* Tombol prev slide */}
               <button
@@ -322,15 +405,15 @@ export function Launcher() {
                   if (activeTabIdx > 0) handleSelectTab(activeTabIdx - 1);
                 }}
                 disabled={activeTabIdx === 0}
-                className="relative z-10 text-muted-foreground hover:text-foreground disabled:opacity-20 cursor-pointer p-0.5 rounded transition-colors"
+                className="relative z-10 text-muted-foreground hover:text-foreground disabled:opacity-20 cursor-pointer p-0.5 rounded transition-colors shrink-0"
                 aria-label="Halaman Sebelumnya"
                 title="Halaman Sebelumnya"
               >
                 <ChevronLeft className="size-3.5" />
               </button>
 
-              {/* Titik-titik indikator halaman */}
-              <div className="relative z-10 flex items-center gap-1.5 px-1">
+              {/* Titik-titik indikator halaman (Scrollable jika banyak) */}
+              <div className="relative z-10 flex items-center gap-1.5 px-1 max-w-[240px] sm:max-w-[360px] overflow-x-auto no-scrollbar py-0.5">
                 {LAUNCHER_TABS.map((tab, idx) => {
                   const isActive = idx === activeTabIdx;
                   return (
@@ -341,7 +424,7 @@ export function Launcher() {
                         e.stopPropagation();
                         handleSelectTab(idx);
                       }}
-                      className={`transition-all duration-300 rounded-full cursor-pointer ${
+                      className={`transition-all duration-300 rounded-full cursor-pointer shrink-0 ${
                         isActive
                           ? "w-4 sm:w-5 h-2 bg-primary shadow-xs"
                           : "size-2 bg-foreground/30 hover:bg-foreground/60 hover:scale-125"
@@ -361,7 +444,7 @@ export function Launcher() {
                   if (activeTabIdx < LAUNCHER_TABS.length - 1) handleSelectTab(activeTabIdx + 1);
                 }}
                 disabled={activeTabIdx === LAUNCHER_TABS.length - 1}
-                className="relative z-10 text-muted-foreground hover:text-foreground disabled:opacity-20 cursor-pointer p-0.5 rounded transition-colors"
+                className="relative z-10 text-muted-foreground hover:text-foreground disabled:opacity-20 cursor-pointer p-0.5 rounded transition-colors shrink-0"
                 aria-label="Halaman Berikutnya"
                 title="Halaman Berikutnya"
               >
@@ -375,7 +458,7 @@ export function Launcher() {
                   e.stopPropagation();
                   openGlobalSearch();
                 }}
-                className="relative z-10 ml-1 pl-1.5 border-l border-border/60 text-muted-foreground hover:text-primary transition-colors cursor-pointer"
+                className="relative z-10 ml-1 pl-1.5 border-l border-border/60 text-muted-foreground hover:text-primary transition-colors cursor-pointer shrink-0"
                 title="Buka Pencarian"
                 aria-label="Buka Pencarian"
               >

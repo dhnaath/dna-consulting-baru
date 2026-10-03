@@ -39,6 +39,17 @@ import {
   Search,
   ExternalLink,
   RotateCcw,
+  Film,
+  Gamepad2,
+  Podcast,
+  Music,
+  Flame,
+  HeartPulse,
+  Pill,
+  Palmtree,
+  Car,
+  Fuel,
+  Wrench,
   type LucideIcon,
 } from "lucide-react";
 import { type NavItem } from "@/config/nav";
@@ -61,76 +72,52 @@ export interface StandaloneAppDef {
 }
 
 export const STANDALONE_REORGANIZED_APPS: StandaloneAppDef[] = [
-  // 1. Personal Projects
+  // 1. Personal (Standalone) + 11 Fitur
   {
-    id: "proyek-personal",
+    id: "personal",
     to: "/proyek-personal",
-    title: "Personal Projects",
-    subtitle: "Manajemen portofolio proyek pribadi, inisiatif mandiri, dan milestone capaian.",
+    title: "Personal",
+    subtitle: "Pusat inisiatif mandiri, brankas identitas berenkripsi, brankas sandi kredensial, pembanding harga belanja, dan organizer saku.",
     category: "personal",
     icon: Briefcase,
     badge: "Standalone",
-  },
-  // 2. Journal Harian
-  {
-    id: "journal",
-    to: "/journal",
-    title: "Journal Harian",
-    subtitle: "Catatan refleksi harian, pembelajaran keputusan, rasa syukur, dan ritme energi.",
-    category: "personal",
-    icon: BookOpen,
-    badge: "Standalone",
     features: [
-      { title: "Buku Syukur (Gratitude)", to: "/journal?tab=gratitude", icon: Heart },
-      { title: "Mood dan Energi Harian", to: "/journal?tab=mood", icon: Smile },
+      { title: "Personal Projects", to: "/proyek-personal", icon: Briefcase },
+      { title: "Vault", to: "/vault", icon: Vault },
+      { title: "ID Vault", to: "/vault?tab=ktp", icon: Shield },
+      { title: "Certificate Vault", to: "/vault?tab=certificates", icon: Award },
+      { title: "Passwords", to: "/passwords", icon: Key },
+      { title: "Price Compare", to: "/wallet?tab=price-compare", icon: TrendingDown },
+      { title: "Wishlist", to: "/wallet?tab=wishlist", icon: ShoppingBag },
+      { title: "Warranty Receipts MVP", to: "/wallet?tab=warranty", icon: ShieldCheck },
+      { title: "Pocket", to: "/pocket", icon: Pocket },
+      { title: "Pouch", to: "/pouch", icon: ShoppingBag },
+      { title: "Wallet dan Kas", to: "/wallet", icon: Wallet },
     ],
   },
-  // 3. Wallet dan Kas
+  // 2. Wellbeing (Standalone) + 13 Fitur
   {
-    id: "wallet",
-    to: "/wallet",
-    title: "Wallet dan Kas",
-    subtitle: "Kendali arus kas masuk/keluar, pembanding harga barang, wishlist belanja, dan garansi.",
-    category: "essentials",
-    icon: Wallet,
-    badge: "Standalone",
-    features: [
-      { title: "Pembanding Harga", to: "/wallet?tab=price-compare", icon: TrendingDown },
-      { title: "Rencana Belanja (Wishlist)", to: "/wallet?tab=wishlist", icon: ShoppingBag },
-      { title: "Garansi dan Bukti Nota", to: "/wallet?tab=warranty", icon: ShieldCheck },
-    ],
-  },
-  // 4. Health
-  {
-    id: "health",
+    id: "wellbeing",
     to: "/health",
-    title: "Health",
-    subtitle: "Executive health vitality matrix, kebugaran fungsional, hidrasi, dan pemantauan biomarker.",
+    title: "Wellbeing",
+    subtitle: "Pusat vitalitas eksekutif: pelacak kebiasaan streak, jurnal refleksi harian, rasa syukur, mood, kebugaran, hidrasi, rekam medis, biomarker, kualitas tidur, dan pengingat obat.",
     category: "personal",
     icon: Heart,
     badge: "Standalone",
     features: [
+      { title: "Habit Tracker MVP", to: "/habit-tracker", icon: Flame },
+      { title: "Daily Journal", to: "/journal", icon: BookOpen },
+      { title: "Gratitude Journal", to: "/journal?tab=gratitude", icon: Heart },
+      { title: "Mood Tracker MVP", to: "/journal?tab=mood", icon: Smile },
+      { title: "Health Tracker", to: "/health", icon: Activity },
       { title: "Workouts", to: "/health?tab=workouts", icon: Dumbbell },
-      { title: "Water", to: "/health?tab=water", icon: Droplet },
+      { title: "Water Intake", to: "/health?tab=water", icon: Droplet },
       { title: "Medical Records", to: "/health?tab=medical-records", icon: FileHeart },
-      { title: "Vitals Tracker", to: "/health?tab=vitals", icon: Activity },
+      { title: "Vitals Tracker", to: "/health?tab=vitals", icon: HeartPulse },
       { title: "Body Metrics", to: "/health?tab=body-metrics", icon: Scale },
-      { title: "Sleep Quality", to: "/health?tab=sleep", icon: Moon },
+      { title: "Sleep Quality MVP", to: "/health?tab=sleep", icon: Moon },
       { title: "Skincare Log", to: "/health?tab=skincare", icon: Sparkles },
-    ],
-  },
-  // 5. Vault
-  {
-    id: "vault",
-    to: "/vault",
-    title: "Vault",
-    subtitle: "Brankas enkripsi aman untuk KTP, Paspor, Kartu Keluarga, dan Ijazah Sertifikat.",
-    category: "personal",
-    icon: Vault,
-    badge: "Standalone",
-    features: [
-      { title: "KTP dan Identitas Resmi", to: "/vault?tab=ktp", icon: Shield },
-      { title: "Ijazah dan Sertifikat", to: "/vault?tab=certificates", icon: Award },
+      { title: "Med Reminder", to: "/lainnya?app=med-reminder", icon: Pill },
     ],
   },
   // 6. Recipes
@@ -160,37 +147,43 @@ export const STANDALONE_REORGANIZED_APPS: StandaloneAppDef[] = [
     icon: ShoppingCart,
     badge: "Standalone",
   },
-  // 8. Trips
+  // Leisure (Standalone) + 6 Fitur
   {
-    id: "trips",
+    id: "leisure",
     to: "/trips",
-    title: "Trips",
-    subtitle: "Manajemen perjalanan dinas, retret strategis, itinerary hari ke hari, dan logistik.",
+    title: "Leisure",
+    subtitle: "Pusat rekreasi dan hiburan eksekutif: perencana perjalanan, prakiraan cuaca, kurasi film, game pelepas penat, podcast audio, dan koleksi musik.",
     category: "household",
-    icon: Plane,
+    icon: Palmtree,
     badge: "Standalone",
+    features: [
+      { title: "Trip Planner", to: "/trips", icon: Plane },
+      { title: "Weather", to: "/weather", icon: CloudSun },
+      { title: "Movies Film", to: "/movies", icon: Film },
+      { title: "Games Fun", to: "/games", icon: Gamepad2 },
+      { title: "Podcasts", to: "/podcasts", icon: Podcast },
+      { title: "Music Audio", to: "/music", icon: Music },
+    ],
   },
-  // 9. Pocket
+  // Mobility (Standalone) + 6 Fitur
   {
-    id: "pocket",
-    to: "/pocket",
-    title: "Pocket",
-    subtitle: "Saku digital untuk slip kartu akses, voucher diskon, tiket, dan catatan cepat.",
+    id: "mobility",
+    to: "/lainnya?app=vehicle-identity",
+    title: "Mobility",
+    subtitle: "Pusat manajemen armada kendaraan keluarga: buku registrasi BPKB/STNK, log konsumsi BBM, riwayat servis bengkel, siklus aus suku cadang, dan jadwal perpanjangan pajak.",
     category: "essentials",
-    icon: Pocket,
+    icon: Car,
     badge: "Standalone",
+    features: [
+      { title: "Vehicle Registry", to: "/lainnya?app=vehicle-identity", icon: Car },
+      { title: "Fuel Log", to: "/lainnya?app=mileage-fuel", icon: Fuel },
+      { title: "Service History", to: "/lainnya?app=vehicle-service", icon: Wrench },
+      { title: "Parts Lifecycle", to: "/lainnya?app=parts-lifecycle", icon: RefreshCw },
+      { title: "Vehicle Renewals", to: "/lainnya?app=vehicle-renewals", icon: ShieldCheck },
+      { title: "Vehicle Logbook", to: "/lainnya?app=vehicle-logbook", icon: CalendarDays },
+    ],
   },
-  // 10. Pouch
-  {
-    id: "pouch",
-    to: "/pouch",
-    title: "Pouch",
-    subtitle: "Organizer dokumen esensial, tiket bepergian, kit perjalanan, dan perlengkapan.",
-    category: "essentials",
-    icon: ShoppingBag,
-    badge: "Standalone",
-  },
-  // 11. Trunk
+  // 9. Trunk
   {
     id: "trunk",
     to: "/trunk",
@@ -198,26 +191,6 @@ export const STANDALONE_REORGANIZED_APPS: StandaloneAppDef[] = [
     subtitle: "Gudang perkakas rumah tangga, inventaris alat musiman, dan penyimpanan bagasi.",
     category: "household",
     icon: Luggage,
-    badge: "Standalone",
-  },
-  // 12. Passwords
-  {
-    id: "passwords",
-    to: "/passwords",
-    title: "Passwords",
-    subtitle: "Penyimpanan kredensial aman, audit kekuatan sandi, dan generator akun acak.",
-    category: "personal",
-    icon: Key,
-    badge: "Standalone",
-  },
-  // 13. Weather
-  {
-    id: "weather",
-    to: "/weather",
-    title: "Weather",
-    subtitle: "Prakiraan cuaca real-time, indeks UV, kelembapan udara, dan kondisi lingkungan.",
-    category: "essentials",
-    icon: CloudSun,
     badge: "Standalone",
   },
   // 14. Kalkulator

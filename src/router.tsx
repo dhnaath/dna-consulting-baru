@@ -27,6 +27,7 @@ import {
 } from "./features/nonWhiteApps/NonWhiteAppRenderer";
 import { StandaloneAppView } from "./features/standalone/StandaloneAppView";
 import { STANDALONE_APPS } from "./features/standalone/standaloneAppsData";
+import { ValueTreatedPage } from "./features/value-treated/ValueTreatedPage";
 
 import React, { useState } from "react";
 import {
@@ -38,6 +39,7 @@ import {
   useNavigate,
   useRouterState,
   Link,
+  Navigate,
 } from "@tanstack/react-router";
 import type { QueryClient } from "@tanstack/react-query";
 import { Launcher } from "./routes/index";
@@ -84,6 +86,7 @@ import { ScheduleManagerApp } from "./features/schedule-manager/ScheduleManagerA
 import { SubscriptionManagerApp } from "./features/subscription-manager/SubscriptionManagerApp";
 import { ExpenseTrackerApp } from "./features/expense-tracker/ExpenseTrackerApp";
 import { ShariaIndexApp } from "./features/sharia-index/ShariaIndexApp";
+import ProductApp from "./features/product/App";
 import { getFramework } from "./frameworkData";
 import { AppShell } from "./app/app-shell";
 import { ShellSections } from "./app/shell-sections";
@@ -100,6 +103,8 @@ import {
   FileText,
   TrendingUp,
   Table,
+  Grid2X2,
+  ArrowRight,
 } from "lucide-react";
 
 // 1. Root route
@@ -239,6 +244,16 @@ function FrameworkDetailView() {
                 {cleanName}
               </h1>
             </div>
+            {slug === "eisenhower-matrix" && (
+              <Link
+                to="/eisenhower"
+                className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-semibold bg-primary/10 text-primary hover:bg-primary/20 transition-colors shrink-0"
+              >
+                <Grid2X2 className="size-3.5" />
+                <span>Buka Tool Interaktif Task</span>
+                <ArrowRight className="size-3" />
+              </Link>
+            )}
           </div>
 
           <div className="flex items-center gap-2">
@@ -530,7 +545,7 @@ function HabitTrackerView() {
 const habitsRoute = createRoute({
   getParentRoute: () => rootRoute,
   path: "/habits",
-  component: HabitTrackerView,
+  component: () => <Navigate to="/habit-tracker" replace />,
 });
 
 const habitTrackerRoute = createRoute({
@@ -557,7 +572,7 @@ const pomodoroRoute = createRoute({
 const focusTimerRoute = createRoute({
   getParentRoute: () => rootRoute,
   path: "/focus-timer",
-  component: FocusTimerView,
+  component: () => <Navigate to="/pomodoro" replace />,
 });
 
 // 14. Eisenhower Matrix route (#08 Standalone App Ecosystem)
@@ -1475,6 +1490,28 @@ const gamesRoute = createRoute({ getParentRoute: () => rootRoute, path: "/games"
 const healthRoute = createRoute({ getParentRoute: () => rootRoute, path: "/health", component: () => <WiraView type="health" /> });
 const ideasRoute = createRoute({ getParentRoute: () => rootRoute, path: "/ideas", component: () => <WiraView type="ideas" /> });
 const inventoryRoute = createRoute({ getParentRoute: () => rootRoute, path: "/inventory", component: () => <WiraView type="inventory" /> });
+const katalogProdukRoute = createRoute({
+  getParentRoute: () => rootRoute,
+  path: "/katalog-produk",
+  component: () => (
+    <AppShell title="Katalog Produk" subtitle="Pelacak Masa Pakai & Nilai Aset">
+      <div className="w-full -mt-6">
+        <ProductApp />
+      </div>
+    </AppShell>
+  ),
+});
+const productCatalogRoute = createRoute({
+  getParentRoute: () => rootRoute,
+  path: "/product-catalog",
+  component: () => (
+    <AppShell title="Product Catalog" subtitle="Pelacak Masa Pakai & Nilai Aset">
+      <div className="w-full -mt-6">
+        <ProductApp />
+      </div>
+    </AppShell>
+  ),
+});
 const journalRoute = createRoute({ getParentRoute: () => rootRoute, path: "/journal", component: () => <WiraView type="journal" /> });
 const kalkulatorRoute = createRoute({ getParentRoute: () => rootRoute, path: "/kalkulator", component: () => <WiraView type="kalkulator" /> });
 const languagesRoute = createRoute({ getParentRoute: () => rootRoute, path: "/languages", component: () => <WiraView type="languages" /> });
@@ -1513,6 +1550,7 @@ const valueChainRoute = createRoute({ getParentRoute: () => rootRoute, path: "/v
 const valueDisciplinesRoute = createRoute({ getParentRoute: () => rootRoute, path: "/value-disciplines", component: () => <FrameworkByNameView name="Value Disciplines" /> });
 const vrioRoute = createRoute({ getParentRoute: () => rootRoute, path: "/vrio", component: () => <FrameworkByNameView name="VRIO Framework" /> });
 const framework100Route = createRoute({ getParentRoute: () => rootRoute, path: "/100-framework", component: () => <FrameworkByNameView name="Katalog 100 Framework" /> });
+const valueTreatedRoute = createRoute({ getParentRoute: () => rootRoute, path: "/value-treated", component: ValueTreatedPage });
 
 
 // 6. Dynamic catch-all route for any standalone app / nav path
@@ -1810,6 +1848,8 @@ const routeTree = rootRoute.addChildren([
   healthRoute,
   ideasRoute,
   inventoryRoute,
+  katalogProdukRoute,
+  productCatalogRoute,
   journalRoute,
   kalkulatorRoute,
   languagesRoute,
@@ -1846,6 +1886,7 @@ const routeTree = rootRoute.addChildren([
   valueDisciplinesRoute,
   vrioRoute,
   framework100Route,
+  valueTreatedRoute,
   catchAllRoute,
 
 ]);
