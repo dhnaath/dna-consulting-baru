@@ -5,8 +5,8 @@ import { AppShell } from "@/app/app-shell";
 export const Route = createFileRoute("/kalkulator")({
   head: () => ({
     meta: [
-      { title: "Kalkulator Umum — Client OS" },
-      { name: "description", content: "Kalkulator ilmiah, konverter satuan, dan kalkulator persentase niaga." },
+      { title: "Utilities — Client OS" },
+      { name: "description", content: "Kalkulator ilmiah, konverter satuan, dan kalkulasi persentase kas." },
     ],
   }),
   component: KalkulatorPage,
@@ -14,7 +14,7 @@ export const Route = createFileRoute("/kalkulator")({
 
 function KalkulatorPage() {
   return (
-    <AppShell title="Kalkulator Umum" subtitle="Alat hitung serbaguna, konverter satuan, dan pecahan kas.">
+    <AppShell title="Utilities" subtitle="Kalkulator ilmiah, konverter satuan, dan pecahan kas.">
       <div className="w-full">
         <KalkulatorUmumView />
       </div>

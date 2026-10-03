@@ -168,7 +168,7 @@ export const STANDALONE_PRODUCTIVITY_APPS: StandaloneProductivityAppDef[] = [
       { title: "Work Templates", to: "/lainnya?app=templates", icon: ClipboardList },
       { title: "Forms", to: "/forms", icon: FormInput },
       { title: "Incident Log", to: "/lainnya?app=incident-log", icon: AlertTriangle },
-      { title: "Agenda Surat & Ekspedisi", to: "/lainnya?app=mailroom", icon: Mail },
+      { title: "Letter Log", to: "/lainnya?app=mailroom", icon: Mail },
     ],
   },
   // Business Operations (Standalone) + 13 Fitur

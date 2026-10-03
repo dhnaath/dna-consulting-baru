@@ -188,7 +188,7 @@ export const STANDALONE_FINANCIAL_APPS: StandaloneFinancialAppDef[] = [
     icon: Banknote,
     badge: "Standalone",
     features: [
-      { title: "Wallet dan Kas", to: "/wallet", icon: Wallet },
+      { title: "Cash Book", to: "/wallet", icon: Wallet },
       { title: "Kredit dan Utang", to: "/kredit", icon: CreditCard },
     ],
   },

@@ -92,7 +92,7 @@ export const STANDALONE_REORGANIZED_APPS: StandaloneAppDef[] = [
       { title: "Warranty Receipts MVP", to: "/wallet?tab=warranty", icon: ShieldCheck },
       { title: "Pocket", to: "/pocket", icon: Pocket },
       { title: "Pouch", to: "/pouch", icon: ShoppingBag },
-      { title: "Wallet dan Kas", to: "/wallet", icon: Wallet },
+      { title: "Cash Book", to: "/wallet", icon: Wallet },
     ],
   },
   // 2. Wellbeing (Standalone) + 13 Fitur
@@ -137,12 +137,12 @@ export const STANDALONE_REORGANIZED_APPS: StandaloneAppDef[] = [
       { title: "Meal Planner", to: "/recipes?tab=meal-planner", icon: CalendarDays },
     ],
   },
-  // 7. Shopping
+  // 7. Shopping List
   {
     id: "shopping",
     to: "/shopping",
-    title: "Shopping",
-    subtitle: "Daftar belanja cerdas, pengadaan perlengkapan kerja & groceries bernutrisi.",
+    title: "Shopping List",
+    subtitle: "Daftar belanja kebutuhan pribadi, perlengkapan kerja, dan logistik nutrisi.",
     category: "essentials",
     icon: ShoppingCart,
     badge: "Standalone",
@@ -159,10 +159,10 @@ export const STANDALONE_REORGANIZED_APPS: StandaloneAppDef[] = [
     features: [
       { title: "Trip Planner", to: "/trips", icon: Plane },
       { title: "Weather", to: "/weather", icon: CloudSun },
-      { title: "Movies Film", to: "/movies", icon: Film },
-      { title: "Games Fun", to: "/games", icon: Gamepad2 },
+      { title: "Movies", to: "/movies", icon: Film },
+      { title: "Games", to: "/games", icon: Gamepad2 },
       { title: "Podcasts", to: "/podcasts", icon: Podcast },
-      { title: "Music Audio", to: "/music", icon: Music },
+      { title: "Music", to: "/music", icon: Music },
     ],
   },
   // Mobility (Standalone) + 6 Fitur
@@ -193,11 +193,11 @@ export const STANDALONE_REORGANIZED_APPS: StandaloneAppDef[] = [
     icon: Luggage,
     badge: "Standalone",
   },
-  // 14. Kalkulator
+  // 14. Utilities
   {
     id: "kalkulator",
     to: "/kalkulator",
-    title: "Kalkulator",
+    title: "Utilities",
     subtitle: "Alat hitung serbaguna ilmiah, konverter satuan, dan kalkulasi persentase kas.",
     category: "personal",
     icon: Calculator,

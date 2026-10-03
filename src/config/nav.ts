@@ -597,7 +597,7 @@ export const navKonsultan: NavGroup[] = [
       { to: "/lainnya?app=templates", label: "Template Dokumen Kerja", icon: FileText },
       { to: "/lainnya?app=vendors", label: "Vendor & Pemasok", icon: Truck },
       { to: "/lainnya?app=services-ratecard", label: "Daftar Tarif & Jasa", icon: ScrollText },
-      { to: "/lainnya?app=mailroom", label: "Agenda Surat & Ekspedisi", icon: Mail },
+      { to: "/lainnya?app=mailroom", label: "Letter Log", icon: Mail },
       { to: "/lainnya?app=minutes", label: "Risalah Rapat (Minutes)", icon: ScrollText },
       { to: "/lainnya?app=access-matrix", label: "Access & Key Directory", icon: Shield },
     ],
@@ -649,8 +649,8 @@ export const navKonsultan: NavGroup[] = [
       { to: "/wallet?tab=warranty", label: "Warranty Receipts MVP", icon: ShieldCheck },
       { to: "/pocket", label: "Pocket", icon: Pocket },
       { to: "/pouch", label: "Pouch", icon: ShoppingBag },
-      { to: "/wallet", label: "Wallet dan Kas", icon: Wallet },
-      { to: "/kalkulator", label: "Kalkulator", icon: Calculator },
+      { to: "/wallet", label: "Cash Book", icon: Wallet },
+      { to: "/kalkulator", label: "Utilities", icon: Calculator },
     ],
   },
   {
@@ -678,7 +678,7 @@ export const navKonsultan: NavGroup[] = [
     isStandalone: false,
     parentCategory: "Personal",
     items: [
-      { to: "/shopping", label: "Shopping", icon: ShoppingCart },
+      { to: "/shopping", label: "Shopping List", icon: ShoppingCart },
     ],
   },
   {
@@ -796,7 +796,7 @@ export const navKonsultan: NavGroup[] = [
     isStandalone: false,
     parentCategory: "Society",
     items: [
-      { to: "/zakat", label: "Zakat Charity", icon: Coins },
+      { to: "/zakat", label: "Giving", icon: Coins },
       { to: "/lainnya?app=donation-tracker", label: "Donation Log", icon: Coins },
       { to: "/lainnya?app=volunteer-log", label: "Volunteer Log", icon: Heart },
     ],
@@ -808,10 +808,10 @@ export const navKonsultan: NavGroup[] = [
     items: [
       { to: "/trips", label: "Trip Planner", icon: Plane },
       { to: "/weather", label: "Weather", icon: CloudSun },
-      { to: "/movies", label: "Movies Film", icon: Film },
-      { to: "/games", label: "Games Fun", icon: Gamepad2 },
+      { to: "/movies", label: "Movies", icon: Film },
+      { to: "/games", label: "Games", icon: Gamepad2 },
       { to: "/podcasts", label: "Podcasts", icon: Podcast },
-      { to: "/music", label: "Music Audio", icon: Music },
+      { to: "/music", label: "Music", icon: Music },
     ],
   },
   {

@@ -35,7 +35,7 @@ export function KalkulatorUmumView() {
               <Calculator className="w-6 h-6" />
             </div>
             <div>
-              <h1 className="text-2xl md:text-3xl font-bold tracking-tight text-foreground">Kalkulator Umum</h1>
+              <h1 className="text-2xl md:text-3xl font-bold tracking-tight text-foreground">Utilities</h1>
               <p className="text-muted-foreground text-xs md:text-sm mt-0.5">
                 Alat hitung serbaguna: kalkulator ilmiah, konverter satuan, persentase niaga, dan pecahan kas.
               </p>
@@ -55,7 +55,7 @@ export function KalkulatorUmumView() {
             )}
           >
             <Calculator size={14} />
-            <span>Kalkulator</span>
+            <span>Calculator</span>
           </button>
 
           <button

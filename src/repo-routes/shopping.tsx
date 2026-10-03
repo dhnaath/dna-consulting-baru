@@ -5,8 +5,8 @@ import { AppShell } from "@/app/app-shell";
 export const Route = createFileRoute("/shopping")({
   head: () => ({
     meta: [
-      { title: "Shopping List & Executive Procurement — All in One" },
-      { name: "description", content: "Daftar belanja pintar, pengadaan perlengkapan kantor & studio, groceries nutrisi, dan manajemen anggaran." },
+      { title: "Shopping List — All in One" },
+      { name: "description", content: "Daftar belanja, perlengkapan kerja & nutrisi dengan pelacakan anggaran." },
     ],
   }),
   component: ShoppingListViewPage,
@@ -14,7 +14,7 @@ export const Route = createFileRoute("/shopping")({
 
 function ShoppingListViewPage() {
   return (
-    <AppShell title="Shopping List & Executive Procurement" subtitle="Daftar belanja cerdas, pengadaan perlengkapan kerja & nutrisi dengan pelacakan anggaran">
+    <AppShell title="Shopping List" subtitle="Daftar belanja, perlengkapan kerja & nutrisi dengan pelacakan anggaran">
       <div className="w-full">
         <ShoppingListView />
       </div>

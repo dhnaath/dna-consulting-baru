@@ -1100,13 +1100,13 @@ export const STANDALONE_APPS: Record<string, StandaloneAppConfig> = {
   },
   "mailroom": {
     id: "mailroom",
-    title: "Agenda Surat & Ekspedisi",
-    subtitle: "Buku register penomoran surat resmi masuk/keluar, status disposisi, dan ekspedisi dokumen.",
+    title: "Letter Log",
+    subtitle: "Buku register penomoran surat resmi masuk/keluar, status disposisi, dan pelacakan surat.",
     section: "productivity",
     categoryGroup: "Business Operations",
     subCategoryTitle: "Administration and Governance",
     icon: Mail,
-    badge: "Mailroom Log",
+    badge: "Letter Log",
     colorScheme: "from-rose-600 to-pink-700",
     tabs: [
       { id: "all", label: "Semua Surat" },
