@@ -74,27 +74,18 @@ export interface StandaloneAppDef {
 }
 
 export const STANDALONE_REORGANIZED_APPS: StandaloneAppDef[] = [
-  // 1. Personal (Standalone) + 11 Fitur
+  // 1. Personal (Standalone) + 6 Fitur
   {
     id: "personal",
     to: "/proyek-personal",
     title: "Personal",
-    subtitle: "Pusat inisiatif mandiri, brankas identitas berenkripsi, brankas sandi kredensial, pembanding harga belanja, dan organizer saku.",
+    subtitle: "Pusat inisiatif mandiri dan manajemen kata sandi kredensial.",
     category: "personal",
     icon: Briefcase,
     badge: "Standalone",
     features: [
       { title: "Personal Projects", to: "/proyek-personal", icon: Briefcase },
-      { title: "Vault", to: "/vault", icon: Vault },
-      { title: "ID Vault", to: "/vault?tab=ktp", icon: Shield },
-      { title: "Certificate Vault", to: "/vault?tab=certificates", icon: Award },
       { title: "Passwords", to: "/passwords", icon: Key },
-      { title: "Price Compare", to: "/wallet?tab=price-compare", icon: TrendingDown },
-      { title: "Wishlist", to: "/wallet?tab=wishlist", icon: ShoppingBag },
-      { title: "Warranty Receipts MVP", to: "/wallet?tab=warranty", icon: ShieldCheck },
-      { title: "Pocket", to: "/pocket", icon: Pocket },
-      { title: "Pouch", to: "/pouch", icon: ShoppingBag },
-      { title: "Cash Book", to: "/wallet", icon: Wallet },
     ],
   },
   // 2. Wellbeing (Standalone) + 13 Fitur
@@ -185,17 +176,7 @@ export const STANDALONE_REORGANIZED_APPS: StandaloneAppDef[] = [
       { title: "Vehicle Logbook", to: "/lainnya?app=vehicle-logbook", icon: CalendarDays },
     ],
   },
-  // 9. Trunk
-  {
-    id: "trunk",
-    to: "/trunk",
-    title: "Trunk",
-    subtitle: "Gudang perkakas rumah tangga, inventaris alat musiman, dan penyimpanan bagasi.",
-    category: "household",
-    icon: Luggage,
-    badge: "Standalone",
-  },
-  // 14. Utilities
+  // Utilities
   {
     id: "kalkulator",
     to: "/kalkulator",
@@ -499,7 +480,7 @@ export function PersonalEssentialsSection({
               : "bg-muted/80 text-muted-foreground hover:bg-muted hover:text-foreground hover:scale-105"
           }`}
         >
-          <Wallet className="size-4 shrink-0" />
+          <ShoppingBag className="size-4 shrink-0" />
           <span>Essentials</span>
           <span
             className={`text-[10px] px-2 py-0.5 rounded-full font-bold ${

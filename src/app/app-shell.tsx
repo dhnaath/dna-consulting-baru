@@ -110,6 +110,10 @@ import {
   FileCode2,
   LayoutGrid,
   Wrench,
+  Pocket,
+  ShoppingBag,
+  Vault,
+  Luggage,
   type LucideIcon,
 } from "lucide-react";
 import { useLanguage } from "@/features/finance/hooks/useLanguage";
@@ -1183,8 +1187,8 @@ export function AppShell({
               </div>
             </div>
           ) : (
-          <nav className="flex flex-col gap-5 items-start">
-            <div className="flex flex-col gap-3 w-full">
+          <nav className="flex flex-col gap-4 items-start w-full">
+            <div className="flex flex-col gap-4 w-full">
 
               {/* Quick actions — dipindahkan dari header atas */}
               <div className="flex items-center gap-2 w-full">
@@ -1206,6 +1210,134 @@ export function AppShell({
                   aria-label="Notifikasi"
                 >
                   <Bell className="h-4 w-4" />
+                </Link>
+              </div>
+
+              {/* STORAGE & UTILITY ORGANIZER: WALLET, POCKET, POUCH, VAULT, TRUNK */}
+              <div className="flex flex-col gap-2 pt-2 border-t border-white/15 dark:border-white/10">
+                <div className="flex items-center justify-between px-1">
+                  <div>
+                    <h3 className="text-xs font-bold text-foreground flex items-center gap-1.5">
+                      <Archive className="h-3.5 w-3.5 text-primary" />
+                      <span>Storage & Organizer Hub</span>
+                    </h3>
+                    <p className="text-[11px] text-muted-foreground">Wallet, Pocket, Pouch, Vault & Trunk</p>
+                  </div>
+                  <span className="text-[10px] font-semibold px-2 py-0.5 rounded-full bg-primary/10 text-primary border border-primary/20">
+                    5 Utility
+                  </span>
+                </div>
+
+                <div className="grid grid-cols-1 gap-2 mt-1">
+                  {[
+                    {
+                      to: "/wallet",
+                      title: "Wallet",
+                      subtitle: "Dompet kas, komparasi harga & nota belanja",
+                      badge: "Dompet",
+                      icon: Wallet,
+                      accentColor: "bg-indigo-500/15 text-indigo-600 dark:text-indigo-400 border-indigo-500/30",
+                    },
+                    {
+                      to: "/pocket",
+                      title: "Pocket",
+                      subtitle: "Kartu akses, voucher, tiket & slip saku",
+                      badge: "Saku",
+                      icon: Pocket,
+                      accentColor: "bg-emerald-500/15 text-emerald-600 dark:text-emerald-400 border-emerald-500/30",
+                    },
+                    {
+                      to: "/pouch",
+                      title: "Pouch",
+                      subtitle: "Organizer dokumen esensial & kit bepergian",
+                      badge: "Travel",
+                      icon: ShoppingBag,
+                      accentColor: "bg-pink-500/15 text-pink-600 dark:text-pink-400 border-pink-500/30",
+                    },
+                    {
+                      to: "/vault",
+                      title: "Vault",
+                      subtitle: "Brankas digital & identitas resmi terenkripsi",
+                      badge: "Kredensial",
+                      icon: Vault,
+                      accentColor: "bg-teal-500/15 text-teal-600 dark:text-teal-400 border-teal-500/30",
+                    },
+                    {
+                      to: "/trunk",
+                      title: "Trunk",
+                      subtitle: "Gudang perkakas & inventaris rumah tangga",
+                      badge: "Gudang",
+                      icon: Luggage,
+                      accentColor: "bg-amber-500/15 text-amber-600 dark:text-amber-400 border-amber-500/30",
+                    },
+                  ].map((item) => {
+                    const ItemIcon = item.icon;
+                    const isActive = pathname === item.to;
+                    return (
+                      <Link
+                        key={item.to}
+                        to={item.to as any}
+                        onClick={() => setOpenDrawer(null)}
+                        className={`group flex items-center justify-between rounded-xl p-2.5 transition-all border backdrop-blur-md cursor-pointer ${
+                          isActive
+                            ? "bg-white/25 dark:bg-white/10 border-primary/40 text-primary shadow-xs font-semibold ring-1 ring-primary/30"
+                            : "bg-white/10 dark:bg-white/5 border-white/15 dark:border-white/10 text-foreground hover:bg-white/20 dark:hover:bg-white/10 hover:border-white/25"
+                        }`}
+                      >
+                        <div className="flex items-center gap-3 min-w-0 flex-1">
+                          <div className={`grid h-8 w-8 place-items-center rounded-lg shrink-0 border ${item.accentColor} transition-transform group-hover:scale-105`}>
+                            <ItemIcon className="h-4 w-4" />
+                          </div>
+                          <div className="min-w-0 flex-1">
+                            <div className="flex items-center gap-1.5">
+                              <span className="font-bold text-xs truncate text-foreground group-hover:text-primary transition-colors">
+                                {item.title}
+                              </span>
+                              <span className="text-[9px] font-semibold px-1.5 py-0.2 rounded-full bg-muted/70 text-muted-foreground">
+                                {item.badge}
+                              </span>
+                            </div>
+                            <p className="text-[11px] text-muted-foreground truncate mt-0.5">
+                              {item.subtitle}
+                            </p>
+                          </div>
+                        </div>
+                        <ChevronRight className="h-4 w-4 text-muted-foreground/60 group-hover:text-foreground group-hover:translate-x-0.5 transition-all shrink-0 ml-1" />
+                      </Link>
+                    );
+                  })}
+                </div>
+              </div>
+
+              {/* Pintasan Lainnya pada Control Center */}
+              <div className="flex flex-col gap-1.5 pt-2 border-t border-white/15 dark:border-white/10">
+                <p className="px-1 text-[11px] font-semibold uppercase tracking-wider text-muted-foreground">
+                  Pusat Kendali
+                </p>
+                <button
+                  type="button"
+                  onClick={() => {
+                    setIsTerminalOpen(true);
+                    setOpenDrawer(null);
+                  }}
+                  className="flex items-center justify-between rounded-xl px-2.5 py-2 text-xs text-foreground bg-white/10 dark:bg-white/5 hover:bg-white/20 dark:hover:bg-white/10 border border-white/15 dark:border-white/10 backdrop-blur-sm transition-all cursor-pointer text-left w-full group"
+                >
+                  <div className="flex items-center gap-2.5 min-w-0">
+                    <Terminal className="h-4 w-4 text-indigo-500 shrink-0" />
+                    <span className="truncate">Command Center / Terminal</span>
+                  </div>
+                  <ChevronRight className="h-3.5 w-3.5 text-muted-foreground group-hover:translate-x-0.5 transition-transform" />
+                </button>
+                <Link
+                  to="/"
+                  onClick={() => setOpenDrawer(null)}
+                  className="flex items-center justify-between rounded-xl px-2.5 py-2 text-xs text-foreground bg-white/10 dark:bg-white/5 hover:bg-white/20 dark:hover:bg-white/10 border border-white/15 dark:border-white/10 backdrop-blur-sm transition-all cursor-pointer group"
+                >
+                  <div className="flex items-center gap-2.5 min-w-0">
+                    <LayoutDashboard className="h-4 w-4 text-primary shrink-0" />
+                    <span className="truncate">Launcher Beranda</span>
+                  </div>
+                  <ChevronRight className="h-3.5 w-3.5 text-muted-foreground group-hover:translate-x-0.5 transition-transform" />
                 </Link>
               </div>
 

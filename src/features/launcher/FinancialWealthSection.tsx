@@ -157,9 +157,9 @@ export const STANDALONE_FINANCIAL_APPS: StandaloneFinancialAppDef[] = [
     icon: Lock,
     badge: "Standalone",
     features: [
-      { title: "Vault", to: "/surety?tab=cat_proteksi&sub=vault", icon: Vault },
+      { title: "Dokumen Aset", to: "/surety?tab=cat_proteksi&sub=vault", icon: ShieldCheck },
       { title: "Passwords", to: "/surety?tab=cat_proteksi&sub=passwords", icon: Key },
-      { title: "Garansi dan Bukti Nota", to: "/wallet?tab=warranty", icon: ShieldCheck },
+      { title: "Garansi dan Bukti Nota", to: "/surety?tab=cat_proteksi", icon: ShieldCheck },
     ],
   },
 
@@ -204,7 +204,7 @@ export const STANDALONE_FINANCIAL_APPS: StandaloneFinancialAppDef[] = [
     icon: Banknote,
     badge: "Standalone",
     features: [
-      { title: "Cash Book", to: "/wallet", icon: Wallet },
+      { title: "Buku Arus Kas", to: "/flow?tab=cat_arus_kas", icon: Banknote },
       { title: "Kredit dan Utang", to: "/kredit", icon: CreditCard },
     ],
   },
@@ -824,9 +824,9 @@ export const WEALTH_STAGE_MAIN_BOXES: WealthStageMainBoxDef[] = [
         to: "/surety?tab=cat_proteksi",
         icon: Lock,
         subFeatures: [
-          { title: "Vault", to: "/surety?tab=cat_proteksi&sub=vault", icon: Vault },
+          { title: "Dokumen Aset", to: "/surety?tab=cat_proteksi&sub=vault", icon: ShieldCheck },
           { title: "Passwords", to: "/surety?tab=cat_proteksi&sub=passwords", icon: Key },
-          { title: "Garansi & Bukti Nota", to: "/wallet?tab=warranty", icon: ShieldCheck },
+          { title: "Garansi & Bukti Nota", to: "/surety?tab=cat_proteksi", icon: ShieldCheck },
         ],
       },
     ],
@@ -881,7 +881,7 @@ export const WEALTH_STAGE_MAIN_BOXES: WealthStageMainBoxDef[] = [
         to: "/flow?tab=cat_kredit",
         icon: Banknote,
         subFeatures: [
-          { title: "Wallet & Kas", to: "/wallet", icon: Wallet },
+          { title: "Buku Arus Kas", to: "/flow?tab=cat_arus_kas", icon: Banknote },
           { title: "Kredit & Utang", to: "/kredit", icon: CreditCard },
         ],
       },
