@@ -28,6 +28,8 @@ import {
 import { StandaloneAppView } from "./features/standalone/StandaloneAppView";
 import { STANDALONE_APPS } from "./features/standalone/standaloneAppsData";
 import { ValueTreatedPage } from "./features/value-treated/ValueTreatedPage";
+import { AppModuleSection } from "./features/launcher/AppModuleSection";
+import { useFavorites } from "./hooks/useFavorites";
 
 import React, { useState } from "react";
 import {
@@ -1139,6 +1141,41 @@ const peopleRoute = createRoute({
   component: PeopleManagerView,
 });
 
+function AppModulePageView() {
+  const { favorites, toggleFavorite } = useFavorites();
+  return (
+    <AppShell
+      title="App Module"
+      subtitle="Suite 47 Standalone Apps Terintegrasi — Produktivitas, Personal, dan Relasi"
+    >
+      <div className="w-full max-w-[1500px] mx-auto p-4 sm:p-6 space-y-6">
+        <AppModuleSection
+          favorites={favorites}
+          toggleFavorite={toggleFavorite}
+        />
+      </div>
+    </AppShell>
+  );
+}
+
+const appModuleRoute = createRoute({
+  getParentRoute: () => rootRoute,
+  path: "/app-module",
+  component: AppModulePageView,
+});
+
+const productivityRoute = createRoute({
+  getParentRoute: () => rootRoute,
+  path: "/productivity",
+  component: AppModulePageView,
+});
+
+const personalRoute = createRoute({
+  getParentRoute: () => rootRoute,
+  path: "/personal",
+  component: AppModulePageView,
+});
+
 function KomunitasWargaView() {
   return (
     <AppShell title="Komunitas Warga" subtitle="Manajemen Rukun Warga RT/RW, Transparansi Iuran, Pengumuman, dan Layanan Publik">
@@ -1720,6 +1757,9 @@ const catchAllRoute = createRoute({
 // Build route tree
 const routeTree = rootRoute.addChildren([
   indexRoute,
+  appModuleRoute,
+  productivityRoute,
+  personalRoute,
   kreditRoute,
   kurasiRoute,
   kurasiSlugRoute,

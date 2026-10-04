@@ -8,9 +8,7 @@ import { getLastLauncherPage, setLastLauncherPage } from "@/utils/launcherCatego
 import { Tools100Section } from "@/features/launcher/Tools100Section";
 import { ValueTreatedSection } from "@/features/launcher/ValueTreatedSection";
 import { FinancialWealthSection } from "@/features/launcher/FinancialWealthSection";
-import { ProductivitySection } from "@/features/launcher/ProductivitySection";
-import { PersonalEssentialsSection } from "@/features/launcher/PersonalEssentialsSection";
-import { PeopleFamilySocietySection } from "@/features/launcher/PeopleFamilySocietySection";
+import { AppModuleSection } from "@/features/launcher/AppModuleSection";
 import { CommodityDashboardSection } from "./commodity-dashboard";
 import { EmptyModePage } from "@/features/launcher/EmptyModePage";
 import { AnimatedSearchIcon } from "@/app/shell/AnimatedSearchIcon";
@@ -19,13 +17,12 @@ import {
   Layers,
   Gem,
   Coins,
-  CheckSquare,
-  Heart,
-  Users,
+  LayoutGrid,
   TrendingUp,
   BookOpen,
   ArrowRight,
   User,
+  Users,
   GraduationCap,
   Palette,
   HeartPulse,
@@ -61,13 +58,11 @@ export function getGradient(title: string): string {
 }
 
 export const LAUNCHER_TABS = [
-  // 8 Halaman Inti Sebelumnya (Tetap ada, lengkap & tidak dihapus)
+  // Halaman Inti Launcher
   { id: "tools100", label: "100 MBA Tools", icon: Layers, badge: "8 Pilar" },
   { id: "valuetreated", label: "Value Treated", icon: Gem, badge: "10 Disiplin" },
   { id: "financial", label: "Finansial & Wealth", icon: Coins, badge: "5 Tahapan" },
-  { id: "productivity", label: "Produktivitas", icon: CheckSquare, badge: "Operasional" },
-  { id: "personal", label: "Personal & Essentials", icon: Heart, badge: "Lifestyle" },
-  { id: "people", label: "People & Relasi", icon: Users, badge: "Keluarga & CRM" },
+  { id: "app_module", label: "App Module", icon: LayoutGrid, badge: "47 Modul" },
   { id: "commodity", label: "100 Komoditas", icon: TrendingUp, badge: "Nasional" },
 
   // 10 Halaman Mode Tambahan (Sementara Kosong Siap Dikonfigurasi)
@@ -90,14 +85,26 @@ export function Launcher() {
         const urlParams = new URLSearchParams(window.location.search);
         const modeFromUrl = urlParams.get("mode");
         if (modeFromUrl) {
+          const mappedMode =
+            modeFromUrl === "productivity" ||
+            modeFromUrl === "personal" ||
+            modeFromUrl === "people"
+              ? "app_module"
+              : modeFromUrl;
           const idx = LAUNCHER_TABS.findIndex(
-            (t) => t.id === modeFromUrl || (t as any).modeId === modeFromUrl
+            (t) => t.id === mappedMode || (t as any).modeId === mappedMode
           );
           if (idx !== -1) return idx;
         }
         const tabFromUrl = urlParams.get("tab");
         if (tabFromUrl) {
-          const idx = LAUNCHER_TABS.findIndex((t) => t.id === tabFromUrl);
+          const mappedTab =
+            tabFromUrl === "productivity" ||
+            tabFromUrl === "personal" ||
+            tabFromUrl === "people"
+              ? "app_module"
+              : tabFromUrl;
+          const idx = LAUNCHER_TABS.findIndex((t) => t.id === mappedTab);
           if (idx !== -1) return idx;
         }
       } catch {}
@@ -335,10 +342,10 @@ export function Launcher() {
               )}
             </div>
 
-            {/* Slide 3: Produktivitas */}
+            {/* Slide 3: App Module (Gabungan Productivity, Personal, People) */}
             <div className={`flex-[0_0_100%] min-w-0 pr-1 ${activeTabIdx === 3 ? "h-auto opacity-100" : "h-0 max-h-0 min-h-0 overflow-hidden invisible pointer-events-none"}`}>
               {activeTabIdx === 3 && (
-                <ProductivitySection
+                <AppModuleSection
                   favorites={favorites}
                   toggleFavorite={toggleFavorite}
                   getGradient={getGradient}
@@ -346,38 +353,16 @@ export function Launcher() {
               )}
             </div>
 
-            {/* Slide 4: Personal & Essentials */}
+            {/* Slide 4: 100 Komoditas */}
             <div className={`flex-[0_0_100%] min-w-0 pr-1 ${activeTabIdx === 4 ? "h-auto opacity-100" : "h-0 max-h-0 min-h-0 overflow-hidden invisible pointer-events-none"}`}>
               {activeTabIdx === 4 && (
-                <PersonalEssentialsSection
-                  favorites={favorites}
-                  toggleFavorite={toggleFavorite}
-                  getGradient={getGradient}
-                />
-              )}
-            </div>
-
-            {/* Slide 5: People & Relasi */}
-            <div className={`flex-[0_0_100%] min-w-0 pr-1 ${activeTabIdx === 5 ? "h-auto opacity-100" : "h-0 max-h-0 min-h-0 overflow-hidden invisible pointer-events-none"}`}>
-              {activeTabIdx === 5 && (
-                <PeopleFamilySocietySection
-                  favorites={favorites}
-                  toggleFavorite={toggleFavorite}
-                  getGradient={getGradient}
-                />
-              )}
-            </div>
-
-            {/* Slide 6: 100 Komoditas */}
-            <div className={`flex-[0_0_100%] min-w-0 pr-1 ${activeTabIdx === 6 ? "h-auto opacity-100" : "h-0 max-h-0 min-h-0 overflow-hidden invisible pointer-events-none"}`}>
-              {activeTabIdx === 6 && (
                 <CommodityDashboardSection isEmbedded={true} />
               )}
             </div>
 
             {/* 10 Mode Halaman Tambahan (Sementara Kosong) */}
             {LAUNCHER_TABS.filter((t) => (t as any).modeId).map((tab, mIdx) => {
-              const slideIdx = 7 + mIdx;
+              const slideIdx = 5 + mIdx;
               const isActive = activeTabIdx === slideIdx;
               return (
                 <div

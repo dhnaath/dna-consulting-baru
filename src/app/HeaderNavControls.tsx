@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { ArrowLeft, ArrowRight, RotateCw } from "lucide-react";
 
-export function HeaderNavControls() {
+export function HeaderNavControls({ isLightOnDark = false }: { isLightOnDark?: boolean } = {}) {
   const [isRefreshing, setIsRefreshing] = useState(false);
 
   const handleRefresh = (e: React.MouseEvent) => {
@@ -70,13 +70,17 @@ export function HeaderNavControls() {
     }
   };
 
+  const btnClass = isLightOnDark
+    ? "size-9 rounded-full aspect-square shrink-0 transition-colors text-white/90 hover:text-white hover:bg-white/20 cursor-pointer flex items-center justify-center"
+    : "size-9 rounded-full aspect-square shrink-0 transition-colors text-muted-foreground hover:text-foreground hover:bg-accent cursor-pointer flex items-center justify-center";
+
   return (
     <div className="relative z-10 flex items-center gap-0.5 sm:gap-1 shrink-0">
       {/* Panah Kiri: Undo */}
       <button
         type="button"
         onClick={handleUndo}
-        className="size-9 rounded-full aspect-square shrink-0 transition-colors text-muted-foreground hover:text-foreground hover:bg-accent cursor-pointer flex items-center justify-center"
+        className={btnClass}
         title="Undo / Riwayat Sebelumnya (Ctrl+Z)"
         aria-label="Undo"
       >
@@ -87,13 +91,13 @@ export function HeaderNavControls() {
       <button
         type="button"
         onClick={handleRefresh}
-        className="size-9 rounded-full aspect-square shrink-0 transition-colors text-muted-foreground hover:text-foreground hover:bg-accent flex items-center justify-center cursor-pointer"
+        className={btnClass}
         title="Muat Ulang / Refresh Halaman"
         aria-label="Refresh"
       >
         <RotateCw
           size={20}
-          className={`shrink-0 transition-transform duration-500 ${isRefreshing ? "animate-spin text-primary" : ""}`}
+          className={`shrink-0 transition-transform duration-500 ${isRefreshing ? "animate-spin text-white" : ""}`}
         />
       </button>
 
@@ -101,7 +105,7 @@ export function HeaderNavControls() {
       <button
         type="button"
         onClick={handleRedo}
-        className="size-9 rounded-full aspect-square shrink-0 transition-colors text-muted-foreground hover:text-foreground hover:bg-accent cursor-pointer flex items-center justify-center"
+        className={btnClass}
         title="Redo / Riwayat Berikutnya (Ctrl+Y)"
         aria-label="Redo"
       >

@@ -87,18 +87,18 @@ export function TopPanelControlHub({
 
   return (
     <div
-      className="w-full flex flex-col relative z-10 animate-in slide-in-from-top-3 duration-200"
+      className="w-full flex flex-col relative z-10"
       style={{ backgroundColor: "hsl(var(--primary))" }}
     >
       {/* Grid Konten 4 Kolom: Akun, Tema & Bahasa, Region, Client OS Info */}
       <div
-        className="overflow-y-auto p-4 sm:p-5 scrollbar-thin"
-        style={{ backgroundColor: "hsl(var(--primary))" }}
+        className="overflow-y-auto overflow-x-hidden p-4 sm:p-5 no-scrollbar scrollbar-none"
+        style={{ backgroundColor: "hsl(var(--primary))", scrollbarWidth: "none", msOverflowStyle: "none" }}
       >
-        <div className="max-w-[1500px] mx-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-5 items-stretch">
+        <div className="max-w-[1500px] w-full mx-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-5 items-stretch min-w-0">
           {/* Kolom 1: Akun & Profil Pengguna */}
           <div
-            className="liquid-glass-card bg-white rounded-2xl shadow-xl border border-white/50 overflow-hidden text-slate-900 transition-transform duration-200 hover:-translate-y-0.5"
+            className="liquid-glass-card min-w-0 bg-white rounded-2xl shadow-xl border border-white/50 overflow-hidden text-slate-900 transition-transform duration-200 hover:-translate-y-0.5"
             style={{ backgroundColor: "#ffffff" }}
           >
             <div className="card-content text-slate-900" style={{ color: "#0f172a" }}>
@@ -175,7 +175,7 @@ export function TopPanelControlHub({
 
           {/* Kolom 2: Personalisasi Tampilan & Bahasa */}
           <div
-            className="liquid-glass-card bg-white rounded-2xl shadow-xl border border-white/50 overflow-hidden text-slate-900 transition-transform duration-200 hover:-translate-y-0.5"
+            className="liquid-glass-card min-w-0 bg-white rounded-2xl shadow-xl border border-white/50 overflow-hidden text-slate-900 transition-transform duration-200 hover:-translate-y-0.5"
             style={{ backgroundColor: "#ffffff" }}
           >
             <div className="card-content text-slate-900" style={{ color: "#0f172a" }}>
@@ -209,7 +209,7 @@ export function TopPanelControlHub({
 
           {/* Kolom 3: Wilayah, Kota & Zona Waktu */}
           <div
-            className="liquid-glass-card bg-white rounded-2xl shadow-xl border border-white/50 overflow-hidden text-slate-900 transition-transform duration-200 hover:-translate-y-0.5"
+            className="liquid-glass-card min-w-0 bg-white rounded-2xl shadow-xl border border-white/50 overflow-hidden text-slate-900 transition-transform duration-200 hover:-translate-y-0.5"
             style={{ backgroundColor: "#ffffff" }}
           >
             <div className="card-content text-slate-900" style={{ color: "#0f172a" }}>
@@ -289,7 +289,7 @@ export function TopPanelControlHub({
 
           {/* Kolom 4: Informasi Versi & Status Sistem */}
           <div
-            className="liquid-glass-card bg-white rounded-2xl shadow-xl border border-white/50 overflow-hidden text-slate-900 transition-transform duration-200 hover:-translate-y-0.5"
+            className="liquid-glass-card min-w-0 bg-white rounded-2xl shadow-xl border border-white/50 overflow-hidden text-slate-900 transition-transform duration-200 hover:-translate-y-0.5"
             style={{ backgroundColor: "#ffffff" }}
           >
             <div className="card-content text-slate-900" style={{ color: "#0f172a" }}>
