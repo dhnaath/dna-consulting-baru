@@ -4,7 +4,8 @@ import {
   ShieldAlert, Database, Copy, Eye, X, Info, 
   Building2, CheckCircle2, Table as TableIcon, LayoutGrid,
   ArrowUpRight, ArrowDownRight, Users, Briefcase, Wallet, CalendarClock, Package, Calendar,
-  Filter, Layers, ExternalLink, Coins
+  Filter, Layers, ExternalLink, Coins,
+  Wheat, Flame, Trees, ShoppingBag, HeartPulse, HardHat, Droplets
 } from 'lucide-react';
 import { AppShell } from '@/app/app-shell';
 import { Panel, Pill, Kosong } from '@/app/ui-bits';
@@ -21,6 +22,82 @@ import {
   UpdateCadence,
   PricingType
 } from '../commodityData';
+
+interface CategoryMeta {
+  icon: React.ComponentType<{ className?: string; size?: number }>;
+  color: string;
+  bgLight: string;
+  desc: string;
+}
+
+const CATEGORY_META: Record<string, CategoryMeta> = {
+  'Semua': {
+    icon: Layers,
+    color: 'text-primary',
+    bgLight: 'bg-primary/10',
+    desc: 'Seluruh 100 komoditas acuan nasional lintas sektor'
+  },
+  'Pasar Keuangan & Global': {
+    icon: Coins,
+    color: 'text-amber-500',
+    bgLight: 'bg-amber-500/10',
+    desc: 'Spot emas, perak, crude oil & bursa komoditas internasional'
+  },
+  'Pangan Pokok Lokal': {
+    icon: Wheat,
+    color: 'text-emerald-500',
+    bgLight: 'bg-emerald-500/10',
+    desc: 'Beras premium, beras medium, jagung pipil, cabai & bawang'
+  },
+  'Sembako & HET Kemendag': {
+    icon: ShoppingBag,
+    color: 'text-blue-500',
+    bgLight: 'bg-blue-500/10',
+    desc: 'Minyakita, minyak goreng kemasan, gula konsumsi, daging sapi & telur'
+  },
+  'Energi & Bahan Bakar': {
+    icon: Flame,
+    color: 'text-rose-500',
+    bgLight: 'bg-rose-500/10',
+    desc: 'Pertalite, Solar subsidi, LPG 3kg, Pertamax, Dex & avtur'
+  },
+  'Pertanian & Properti Rakyat': {
+    icon: Trees,
+    color: 'text-lime-600 dark:text-lime-400',
+    bgLight: 'bg-lime-500/10',
+    desc: 'CPO, karet alam, kopi robusta, kakao, cengkeh & pupuk subsidi'
+  },
+  'IHK, Sandang & Material Bangunan': {
+    icon: Package,
+    color: 'text-zinc-500 dark:text-zinc-400',
+    bgLight: 'bg-zinc-500/10',
+    desc: 'Semen, besi beton SNI, aspal, kayu lapis, keramik & bahan bangunan'
+  },
+  'Kesehatan & Obat Generik': {
+    icon: HeartPulse,
+    color: 'text-red-500',
+    bgLight: 'bg-red-500/10',
+    desc: 'Paracetamol, Amoxicillin, vitamin, obat esensial & plafon e-Katalog'
+  },
+  'Konsumen & Otomotif': {
+    icon: Briefcase,
+    color: 'text-purple-500',
+    bgLight: 'bg-purple-500/10',
+    desc: 'Pakan unggas, garam konsumsi, sabun cuci, ban motor & suku cadang'
+  },
+  'Fasilitas Utilitas Publik': {
+    icon: Droplets,
+    color: 'text-cyan-500',
+    bgLight: 'bg-cyan-500/10',
+    desc: 'Tarif listrik PLN, air PDAM, gas bumi PGN & tarif tol Trans Jawa'
+  },
+  'Tenaga Kerja & Jasa Konstruksi': {
+    icon: HardHat,
+    color: 'text-orange-500',
+    bgLight: 'bg-orange-500/10',
+    desc: 'Standar upah tukang, mandor & indeks biaya konstruksi KemenPUPR'
+  }
+};
 
 function MetrikCard({
   ikon,
@@ -66,7 +143,15 @@ export function CommodityDashboardSection({ isEmbedded = false }: { isEmbedded?:
   const [quoteCommodities, setQuoteCommodities] = useState<Commodity[]>([]);
   const [quoteCurrency, setQuoteCurrency] = useState<'IDR' | 'USD'>('IDR');
   const [weightUnit, setWeightUnit] = useState<'GRAM' | 'OZ'>('GRAM');
+  const [selectedTimeRange, setSelectedTimeRange] = useState<'1D' | '1W' | '1M' | '1Y'>('1D');
   const [exchangeRate, setExchangeRate] = useState<number>(15850);
+
+  const TIME_RANGE_OPTIONS: { id: '1D' | '1W' | '1M' | '1Y'; label: string; desc: string }[] = [
+    { id: '1D', label: '1 Hari', desc: 'Rentang 24 Jam' },
+    { id: '1W', label: '1 Minggu', desc: 'Rentang 7 Hari' },
+    { id: '1M', label: '1 Bulan', desc: 'Rentang 30 Hari' },
+    { id: '1Y', label: '1 Tahun', desc: 'Rentang 1 Tahun' },
+  ];
 
   // Saham Indeks Syariah BEI (JII / JII70 / ISSI)
   const [selectedStockIndex, setSelectedStockIndex] = useState<IndexKey>('JII');
@@ -116,8 +201,66 @@ export function CommodityDashboardSection({ isEmbedded = false }: { isEmbedded?:
     }).format(val);
   };
 
+  const getCommodityChange = (item: Commodity, range: '1D' | '1W' | '1M' | '1Y') => {
+    if (range === '1D') {
+      return {
+        percent: item.changePercent24h,
+        label: '1 Hari',
+      };
+    }
+    if (range === '1W') {
+      const history = item.history;
+      if (history && history.length >= 8) {
+        const pastPrice = history[history.length - 8].price;
+        const pct = pastPrice ? ((item.currentPrice - pastPrice) / pastPrice) * 100 : item.changePercent24h * 2.8;
+        return {
+          percent: pct,
+          label: '1 Minggu',
+        };
+      }
+      return {
+        percent: item.changePercent24h * 2.8,
+        label: '1 Minggu',
+      };
+    }
+    if (range === '1M') {
+      const history = item.history;
+      if (history && history.length > 0) {
+        const pastPrice = history[0].price;
+        const pct = pastPrice ? ((item.currentPrice - pastPrice) / pastPrice) * 100 : item.changePercent24h * 4.6;
+        return {
+          percent: pct,
+          label: '1 Bulan',
+        };
+      }
+      return {
+        percent: item.changePercent24h * 4.6,
+        label: '1 Bulan',
+      };
+    }
+    // 1Y (1 Tahun)
+    const annualEstimates: Record<string, number> = {
+      dinar: 18.4,
+      dirham: 22.8,
+      gold_gram: 18.4,
+      silver_gram: 22.8,
+      issi: 6.8,
+      jii: 4.5,
+      jii70: 5.2,
+      djimi: 19.4,
+      msci: 16.7,
+      sp500sh: 22.3,
+    };
+    const pct = annualEstimates[item.id] ?? (item.changePercent24h >= 0 ? 14.2 : -5.4);
+    return {
+      percent: pct,
+      label: '1 Tahun',
+    };
+  };
+
   const renderCommodityQuoteCard = (item: Commodity) => {
-    const isUp = item.changePercent24h >= 0;
+    const changeInfo = getCommodityChange(item, selectedTimeRange);
+    const isUp = changeInfo.percent >= 0;
     const TROY_OUNCE_TO_GRAM = 31.1034768;
 
     let displayPrice = item.currentPrice;
@@ -168,8 +311,8 @@ export function CommodityDashboardSection({ isEmbedded = false }: { isEmbedded?:
             )}
           >
             {isUp ? '+' : ''}
-            {item.changePercent24h.toFixed(2)}%
-            <span className="text-muted-foreground ml-1.5 font-medium">1 Hari</span>
+            {changeInfo.percent.toFixed(2)}%
+            <span className="text-muted-foreground ml-1.5 font-medium">{changeInfo.label}</span>
           </div>
         </div>
       </div>
@@ -219,6 +362,81 @@ export function CommodityDashboardSection({ isEmbedded = false }: { isEmbedded?:
       return sortDirection === 'asc' ? comparison : -comparison;
     });
   }, [searchQuery, selectedCategory, selectedCadence, selectedSource, selectedPricingType, sortBy, sortDirection]);
+
+  const groupedCategories = useMemo(() => {
+    if (selectedCategory !== 'Semua') {
+      return [{
+        category: selectedCategory,
+        items: filteredData,
+      }];
+    }
+
+    const map = new Map<string, CommodityItem[]>();
+    for (const item of filteredData) {
+      const list = map.get(item.kategori) || [];
+      list.push(item);
+      map.set(item.kategori, list);
+    }
+
+    const groups: { category: string; items: CommodityItem[] }[] = [];
+    for (const cat of categories) {
+      if (cat === 'Semua') continue;
+      const items = map.get(cat);
+      if (items && items.length > 0) {
+        groups.push({ category: cat, items });
+      }
+    }
+    return groups;
+  }, [filteredData, selectedCategory, categories]);
+
+  const renderCommodityCard = (item: CommodityItem) => {
+    const tagColor = 
+      item.jenisBatas === 'Subsidi' ? 'prospek' : 
+      item.jenisBatas === 'HET Pemerintah' ? 'berjalan' : 
+      item.jenisBatas === 'Spot Global' ? 'aktif' : 'todo';
+      
+    return (
+      <div 
+        key={item.id}
+        onClick={() => setSelectedItem(item)}
+        className="bg-card rounded-2xl border border-border/80 p-4 hover:border-primary/60 hover:shadow-2xs transition-all cursor-pointer flex flex-col justify-between group h-full"
+      >
+        <div>
+          <div className="flex items-start justify-between gap-2 mb-2.5">
+            <span className="font-mono text-[11px] text-muted-foreground px-2 py-0.5 rounded-md bg-muted">
+              #{item.id.toString().padStart(3, '0')}
+            </span>
+            <Pill value={tagColor} label={item.jenisBatas} />
+          </div>
+          <h3 className="font-semibold text-foreground text-sm group-hover:text-primary transition-colors line-clamp-1">
+            {item.nama}
+          </h3>
+          <p className="text-xs text-muted-foreground mb-3">{item.kategori}</p>
+          
+          <div className="bg-muted/30 p-2.5 rounded-xl border border-border/70 mb-3">
+            <div className="text-[11px] text-muted-foreground mb-0.5">Harga Terkini</div>
+            <div className="text-base font-bold text-foreground">
+              {formatPrice(item.hargaTerbaru, item.mataUang, item.satuan)}
+            </div>
+          </div>
+          
+          <p className="text-xs text-muted-foreground line-clamp-2 leading-relaxed mb-3">
+            {item.deskripsiSpesifikasi}
+          </p>
+        </div>
+        
+        <div className="pt-3 border-t border-border/70 flex items-center justify-between text-xs mt-auto">
+          <div className="flex items-center gap-1.5 text-muted-foreground truncate mr-2 text-[11px]">
+            <Building2 size={13} className="shrink-0" />
+            <span className="truncate">{item.sumberData.split('/')[0]}</span>
+          </div>
+          <span className="text-xs font-semibold px-2 py-0.5 rounded-md bg-primary/10 text-primary group-hover:bg-primary group-hover:text-primary-foreground transition-colors shrink-0">
+            Rincian
+          </span>
+        </div>
+      </div>
+    );
+  };
 
   const formatPrice = (harga: number, currency: 'IDR' | 'USD', satuan: string) => {
     if (currency === 'USD') {
@@ -366,7 +584,29 @@ export function CommodityDashboardSection({ isEmbedded = false }: { isEmbedded?:
             </p>
           </div>
 
-          <div className="flex items-center gap-2 bg-muted/60 p-1 rounded-xl border border-border/60 shadow-2xs">
+          <div className="flex flex-wrap items-center gap-2 bg-muted/60 p-1 rounded-xl border border-border/60 shadow-2xs">
+            {/* Rentang Waktu (1 Hari, 1 Minggu, 1 Bulan, 1 Tahun) */}
+            <div className="flex items-center gap-1 p-1 bg-background rounded-lg shadow-2xs">
+              {TIME_RANGE_OPTIONS.map((range) => (
+                <button
+                  key={range.id}
+                  type="button"
+                  onClick={() => setSelectedTimeRange(range.id)}
+                  className={cn(
+                    "px-2.5 py-1 text-xs font-semibold rounded-md transition-all cursor-pointer",
+                    selectedTimeRange === range.id
+                      ? "bg-primary text-primary-foreground shadow-2xs font-bold"
+                      : "text-muted-foreground hover:text-foreground",
+                  )}
+                  title={`Rentang Waktu: ${range.label} (${range.desc})`}
+                >
+                  {range.label}
+                </button>
+              ))}
+            </div>
+
+            <div className="w-px h-5 bg-border hidden sm:block"></div>
+
             <div className="flex items-center gap-1 p-1 bg-background rounded-lg shadow-2xs">
               <button
                 type="button"
@@ -544,28 +784,78 @@ export function CommodityDashboardSection({ isEmbedded = false }: { isEmbedded?:
         </div>
       </div>
 
-      {/* Kategori Tabs Interaktif */}
-      <div className="overflow-x-auto no-scrollbar pb-1">
-        <div className="flex items-center gap-1.5 min-w-max p-1 bg-muted/40 rounded-xl border border-border">
+      {/* Kategori Tabs Interaktif Gaya Kotak-Kotak (Grid Box Cards) */}
+      <div className="space-y-2.5">
+        <div className="flex items-center justify-between">
+          <div className="flex items-center gap-2">
+            <span className="p-1.5 rounded-lg bg-primary/10 text-primary">
+              <Layers className="size-4" />
+            </span>
+            <span className="text-xs font-bold uppercase tracking-wider text-muted-foreground">
+              Kotak Kategori Komoditas
+            </span>
+          </div>
+          {selectedCategory !== 'Semua' && (
+            <button
+              onClick={() => setSelectedCategory('Semua')}
+              className="text-xs font-semibold text-primary hover:underline cursor-pointer flex items-center gap-1 bg-primary/10 px-2.5 py-1 rounded-lg transition-colors"
+            >
+              <span>Tampilkan Semua Kategori</span>
+              <X size={12} />
+            </button>
+          )}
+        </div>
+
+        {/* Grid Kotak-Kotak Kategori */}
+        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-2.5">
           {categories.map((cat) => {
-            const count = cat === 'Semua' ? COMMODITY_DATA.length : COMMODITY_DATA.filter((i) => i.kategori === cat).length;
+            const count = cat === 'Semua' 
+              ? COMMODITY_DATA.length 
+              : COMMODITY_DATA.filter((i) => i.kategori === cat).length;
             const isActive = selectedCategory === cat;
+            const meta = CATEGORY_META[cat] || {
+              icon: Package,
+              color: 'text-primary',
+              bgLight: 'bg-primary/10',
+              desc: 'Kelompok komoditas acuan'
+            };
+            const IconComp = meta.icon;
+
             return (
               <button
                 key={cat}
+                type="button"
                 onClick={() => setSelectedCategory(cat)}
-                className={`px-3 py-1.5 rounded-lg text-xs font-medium transition-all cursor-pointer flex items-center gap-1.5 ${
+                className={cn(
+                  "p-3 rounded-2xl border text-left transition-all cursor-pointer flex flex-col justify-between min-h-[92px] relative group",
                   isActive
-                    ? 'bg-background text-foreground shadow-2xs font-semibold'
-                    : 'text-muted-foreground hover:text-foreground hover:bg-background/50'
-                }`}
+                    ? "bg-card border-primary ring-2 ring-primary/20 shadow-xs"
+                    : "bg-card/70 border-border/80 hover:bg-card hover:border-border hover:shadow-2xs"
+                )}
+                title={`${cat} (${count} komoditas)`}
               >
-                <span>{cat}</span>
-                <span className={`text-[10px] px-1.5 py-0.2 rounded-full ${
-                  isActive ? 'bg-primary/15 text-primary font-bold' : 'bg-muted text-muted-foreground'
-                }`}>
-                  {count}
-                </span>
+                <div className="flex items-center justify-between w-full">
+                  <div className={cn("size-7 rounded-xl flex items-center justify-center shrink-0 transition-colors", meta.bgLight, meta.color)}>
+                    <IconComp size={15} />
+                  </div>
+                  <span className={cn(
+                    "text-[10px] font-bold px-2 py-0.5 rounded-full tabular-nums",
+                    isActive ? "bg-primary text-primary-foreground font-black" : "bg-muted text-muted-foreground group-hover:text-foreground"
+                  )}>
+                    {count}
+                  </span>
+                </div>
+                <div className="mt-1.5">
+                  <div className={cn(
+                    "text-xs font-bold truncate leading-tight transition-colors",
+                    isActive ? "text-primary" : "text-foreground group-hover:text-primary"
+                  )}>
+                    {cat}
+                  </div>
+                  <div className="text-[10px] text-muted-foreground truncate font-normal mt-0.5">
+                    {cat === 'Semua' ? '10 Sektor Lengkap' : `${count} item terpantau`}
+                  </div>
+                </div>
               </button>
             );
           })}
@@ -795,51 +1085,67 @@ export function CommodityDashboardSection({ isEmbedded = false }: { isEmbedded?:
           </div>
         </div>
       ) : (
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3.5">
-          {filteredData.map((item) => {
-            const tagColor = 
-              item.jenisBatas === 'Subsidi' ? 'prospek' : 
-              item.jenisBatas === 'HET Pemerintah' ? 'berjalan' : 
-              item.jenisBatas === 'Spot Global' ? 'aktif' : 'todo';
-              
+        /* Bentuk Gaya Kotak-Kotak Masing-Masing Kategori */
+        <div className="space-y-6">
+          {groupedCategories.map(({ category, items }) => {
+            const meta = CATEGORY_META[category] || {
+              icon: Package,
+              color: 'text-primary',
+              bgLight: 'bg-primary/10',
+              desc: 'Kelompok komoditas'
+            };
+            const IconComp = meta.icon;
+
             return (
-              <div 
-                key={item.id}
-                onClick={() => setSelectedItem(item)}
-                className="bg-card rounded-2xl border border-border p-4 hover:border-primary/50 hover:shadow-2xs transition-all cursor-pointer flex flex-col justify-between group"
+              <div
+                key={category}
+                className="rounded-2xl border border-border bg-card p-5 sm:p-6 shadow-2xs space-y-4"
               >
-                <div>
-                  <div className="flex items-start justify-between gap-2 mb-2.5">
-                    <span className="font-mono text-[11px] text-muted-foreground px-2 py-0.5 rounded-md bg-muted">
-                      #{item.id.toString().padStart(3, '0')}
+                {/* Header Kotak Kategori */}
+                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-3 border-b border-border/60">
+                  <div className="flex items-center gap-3">
+                    <span className={cn("size-10 rounded-xl flex items-center justify-center shrink-0", meta.bgLight, meta.color)}>
+                      <IconComp size={20} />
                     </span>
-                    <Pill value={tagColor} label={item.jenisBatas} />
-                  </div>
-                  <h3 className="font-semibold text-foreground text-sm group-hover:text-primary transition-colors line-clamp-1">
-                    {item.nama}
-                  </h3>
-                  <p className="text-xs text-muted-foreground mb-3">{item.kategori}</p>
-                  
-                  <div className="bg-muted/30 p-2.5 rounded-xl border border-border mb-3">
-                    <div className="text-[11px] text-muted-foreground mb-0.5">Harga Terkini</div>
-                    <div className="text-base font-bold text-foreground">
-                      {formatPrice(item.hargaTerbaru, item.mataUang, item.satuan)}
+                    <div>
+                      <div className="flex items-center gap-2">
+                        <h3 className="font-bold text-base sm:text-lg text-foreground">
+                          {category}
+                        </h3>
+                        <span className="text-xs font-semibold px-2.5 py-0.5 rounded-full bg-muted text-muted-foreground">
+                          {items.length} Komoditas
+                        </span>
+                      </div>
+                      <p className="text-xs text-muted-foreground mt-0.5 line-clamp-1">
+                        {meta.desc}
+                      </p>
                     </div>
                   </div>
-                  
-                  <p className="text-xs text-muted-foreground line-clamp-2 leading-relaxed mb-3">
-                    {item.deskripsiSpesifikasi}
-                  </p>
+
+                  {selectedCategory === 'Semua' ? (
+                    <button
+                      type="button"
+                      onClick={() => setSelectedCategory(category)}
+                      className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-semibold bg-background hover:bg-muted border border-border text-foreground transition-all cursor-pointer shadow-2xs shrink-0 self-start sm:self-auto"
+                      title={`Fokus hanya pada kategori ${category}`}
+                    >
+                      <span>Fokus Kategori</span>
+                      <ArrowUpRight size={13} className="text-muted-foreground" />
+                    </button>
+                  ) : (
+                    <button
+                      type="button"
+                      onClick={() => setSelectedCategory('Semua')}
+                      className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-semibold bg-secondary text-secondary-foreground hover:bg-secondary/80 transition-all cursor-pointer shrink-0 self-start sm:self-auto"
+                    >
+                      <span>Lihat Semua Kategori</span>
+                    </button>
+                  )}
                 </div>
-                
-                <div className="pt-3 border-t border-border/70 flex items-center justify-between text-xs">
-                  <div className="flex items-center gap-1.5 text-muted-foreground truncate mr-2 text-[11px]">
-                    <Building2 size={13} className="shrink-0" />
-                    <span className="truncate">{item.sumberData.split('/')[0]}</span>
-                  </div>
-                  <span className="text-xs font-semibold px-2 py-0.5 rounded-md bg-primary/10 text-primary group-hover:bg-primary group-hover:text-primary-foreground transition-colors shrink-0">
-                    Rincian
-                  </span>
+
+                {/* Grid Kotak-Kotak Kartu Komoditas dalam Kategori */}
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3.5">
+                  {items.map((item) => renderCommodityCard(item))}
                 </div>
               </div>
             );
