@@ -39,6 +39,8 @@ import {
   ThumbsUp,
   Award,
   MessagesSquare,
+  ChevronDown,
+  ChevronUp,
   type LucideIcon,
 } from "lucide-react";
 import { type NavItem } from "@/config/nav";
@@ -180,6 +182,7 @@ const PeopleFlipCard = ({
   gradient: string;
 }) => {
   const [isFlipped, setIsFlipped] = useState(false);
+  const [isExpanded, setIsExpanded] = useState(false);
   const [interactionConfig, setInteractionConfig] = useState(() => ({
     axis: Math.random() > 0.5 ? "x" : "y",
     dir: Math.random() > 0.5 ? 1 : -1,
@@ -201,11 +204,16 @@ const PeopleFlipCard = ({
   };
 
   const Icon = app.icon;
+  const initialFeatureCount = 6;
+  const displayFeatures = isExpanded
+    ? app.features
+    : app.features?.slice(0, initialFeatureCount);
+  const hasMoreFeatures = (app.features?.length || 0) > initialFeatureCount;
 
   return (
-    <div className="w-full [perspective:1000px] min-h-[300px]">
+    <div className="w-full [perspective:1000px] min-h-[220px]">
       <motion.div
-        className="relative w-full h-full min-h-[300px] [transform-style:preserve-3d]"
+        className="relative w-full h-full min-h-[220px] [transform-style:preserve-3d]"
         animate={{
           rotateX: isFlipped && interactionConfig.axis === "x" ? 180 * interactionConfig.dir : 0,
           rotateY: isFlipped && interactionConfig.axis === "y" ? 180 * interactionConfig.dir : 0,
@@ -213,18 +221,18 @@ const PeopleFlipCard = ({
         transition={{ duration: 0.6, type: "spring", stiffness: 80, damping: 15 }}
       >
         {/* Front Face */}
-        <div className="w-full h-full rounded-2xl border border-border bg-card p-5 shadow-xs hover:shadow-md transition-all flex flex-col justify-between gap-4 group [backface-visibility:hidden]">
+        <div className="w-full h-full rounded-2xl border border-border bg-card p-4 sm:p-5 shadow-xs hover:shadow-md transition-all flex flex-col justify-between gap-3 group [backface-visibility:hidden]">
           <div>
             {/* Header: Icon, Title & Standalone Badge */}
             <div className="flex items-start justify-between gap-3">
               <Link
                 to={app.to}
-                className="flex items-center gap-3.5 group/header min-w-0 flex-1 outline-none"
+                className="flex items-center gap-3 group/header min-w-0 flex-1 outline-none"
               >
                 <div
-                  className={`h-12 w-12 rounded-full flex items-center justify-center text-white shadow-xs shrink-0 ${gradient} group-hover/header:scale-105 transition-transform`}
+                  className={`h-11 w-11 rounded-full flex items-center justify-center text-white shadow-xs shrink-0 ${gradient} group-hover/header:scale-105 transition-transform`}
                 >
-                  <Icon className="h-6 w-6 opacity-90 drop-shadow-sm" strokeWidth={1.75} />
+                  <Icon className="h-5 w-5 opacity-90 drop-shadow-sm" strokeWidth={1.75} />
                 </div>
                 <div className="min-w-0">
                   <h4 className="font-bold text-base text-foreground group-hover/header:text-primary transition-colors truncate">
@@ -256,32 +264,56 @@ const PeopleFlipCard = ({
               </button>
             </div>
 
-            {/* Sub-Features Chips (If any) */}
+            {/* Sub-Features Chips (With compact view and internal scrolling) */}
             {app.features && app.features.length > 0 && (
-              <div className="mt-3 pt-3 border-t border-border/60">
-                <span className="text-[10px] font-bold tracking-wider text-muted-foreground block mb-2 text-center">
-                  Features ({app.features.length}):
-                </span>
-                <div className="flex flex-wrap justify-center gap-1.5">
-                  {app.features.map((feat, idx) => {
-                    const FeatIcon = feat.icon;
-                    const featPath = feat.to.split("?")[0];
-                    const featSearch = feat.to.includes("?")
-                      ? Object.fromEntries(new URLSearchParams(feat.to.split("?")[1]))
-                      : undefined;
+              <div className="mt-3 pt-2.5 border-t border-border/60">
+                <div className="flex items-center justify-between mb-2">
+                  <span className="text-[10px] font-bold tracking-wider text-muted-foreground">
+                    Features ({app.features.length}):
+                  </span>
+                  {hasMoreFeatures && (
+                    <button
+                      type="button"
+                      onClick={() => setIsExpanded((prev) => !prev)}
+                      className="text-[10px] font-semibold text-primary hover:underline flex items-center gap-0.5 cursor-pointer transition-colors"
+                    >
+                      {isExpanded ? (
+                        <>
+                          <ChevronUp size={11} />
+                          <span>Ringkas</span>
+                        </>
+                      ) : (
+                        <>
+                          <ChevronDown size={11} />
+                          <span>+{app.features.length - initialFeatureCount} Semua</span>
+                        </>
+                      )}
+                    </button>
+                  )}
+                </div>
 
-                    return (
-                      <Link
-                        key={idx}
-                        to={featPath}
-                        search={featSearch as any}
-                        className="inline-flex items-center justify-center gap-1.5 px-2.5 py-1 rounded-lg bg-muted/60 hover:bg-primary/10 hover:text-primary text-[11px] font-medium text-foreground transition-all cursor-pointer border border-border/40 hover:border-primary/30 text-center"
-                      >
-                        <FeatIcon size={12} className="text-primary shrink-0" />
-                        <span>{feat.title}</span>
-                      </Link>
-                    );
-                  })}
+                <div className="max-h-[150px] overflow-y-auto no-scrollbar pr-0.5">
+                  <div className="flex flex-wrap justify-center gap-1.5">
+                    {displayFeatures?.map((feat, idx) => {
+                      const FeatIcon = feat.icon;
+                      const featPath = feat.to.split("?")[0];
+                      const featSearch = feat.to.includes("?")
+                        ? Object.fromEntries(new URLSearchParams(feat.to.split("?")[1]))
+                        : undefined;
+
+                      return (
+                        <Link
+                          key={idx}
+                          to={featPath}
+                          search={featSearch as any}
+                          className="inline-flex items-center justify-center gap-1.5 px-2.5 py-1 rounded-lg bg-muted/60 hover:bg-primary/10 hover:text-primary text-[11px] font-medium text-foreground transition-all cursor-pointer border border-border/40 hover:border-primary/30 text-center"
+                        >
+                          <FeatIcon size={12} className="text-primary shrink-0" />
+                          <span>{feat.title}</span>
+                        </Link>
+                      );
+                    })}
+                  </div>
                 </div>
               </div>
             )}

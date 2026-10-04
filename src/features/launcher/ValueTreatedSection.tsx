@@ -64,9 +64,9 @@ export function ValueTreatedSection({
   };
 
   return (
-    <div className="w-full flex flex-col items-center font-sans space-y-6">
+    <div className="w-full flex flex-col items-center font-sans space-y-4">
       {/* Title & Description */}
-      <div className="text-center max-w-3xl mx-auto space-y-1.5">
+      <div className="text-center max-w-3xl mx-auto space-y-1">
         <h3 className="text-2xl sm:text-3xl font-extrabold text-foreground tracking-tight flex items-center justify-center gap-2.5">
           <Gem className="size-7 text-amber-500 shrink-0" />
           <span>Struktur Silabus Nilai & Kurikulum Terapan</span>
@@ -77,7 +77,7 @@ export function ValueTreatedSection({
       </div>
 
       {/* Kategori Atas: 5 JENJANG (Matrikulasi, 1 SKS, 2 SKS, 3 SKS, + Praktikum) */}
-      <div className="w-full flex items-center justify-start sm:justify-center gap-2.5 overflow-x-auto pb-2 no-scrollbar flex-nowrap sm:flex-wrap px-2">
+      <div className="w-full flex items-center justify-start sm:justify-center gap-2.5 overflow-x-auto pb-1 no-scrollbar flex-nowrap sm:flex-wrap px-2">
         {JENJANG_LEVELS.map((jenjang) => {
           const isActive = activeJenjangId === jenjang.id;
           return (
@@ -88,7 +88,7 @@ export function ValueTreatedSection({
                 setActiveJenjangId(jenjang.id);
                 setFlippedCards({});
               }}
-              className={`px-4 sm:px-5 py-2.5 rounded-2xl text-xs sm:text-sm font-bold transition-all duration-200 cursor-pointer whitespace-nowrap flex items-center gap-2.5 shrink-0 border ${
+              className={`px-4 sm:px-5 py-2 rounded-2xl text-xs sm:text-sm font-bold transition-all duration-200 cursor-pointer whitespace-nowrap flex items-center gap-2.5 shrink-0 border ${
                 isActive
                   ? "bg-amber-500 text-white border-amber-500 shadow-md ring-2 ring-amber-500/30 scale-105"
                   : "bg-card border-border/80 text-muted-foreground hover:bg-muted hover:text-foreground"
@@ -143,7 +143,7 @@ export function ValueTreatedSection({
       </div>
 
       {/* Konten Grid: 10 BIDANG TETAP, ISI FITUR MENYESUAIKAN DENGAN JENJANG AKTIF */}
-      <div className="w-full grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+      <div className="w-full grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3.5 sm:gap-4">
         {filteredDisciplines.map((disc) => {
           const features = disc.featuresByLevel[activeJenjangId] || [];
           const Icon = disc.icon;
@@ -153,17 +153,17 @@ export function ValueTreatedSection({
           return (
             <div
               key={disc.id}
-              className="w-full [perspective:1000px] min-h-[350px]"
+              className="w-full [perspective:1000px] min-h-[260px]"
             >
               <motion.div
-                className="relative w-full h-full min-h-[350px] [transform-style:preserve-3d]"
+                className="relative w-full h-full min-h-[260px] [transform-style:preserve-3d]"
                 animate={{
                   rotateY: isFlipped ? 180 : 0,
                 }}
                 transition={{ duration: 0.5, type: "spring", stiffness: 85, damping: 15 }}
               >
                 {/* SISI DEPAN (FRONT FACE) */}
-                <div className="w-full h-full rounded-2xl border border-border bg-card p-5 shadow-xs hover:shadow-md transition-all flex flex-col justify-between gap-4 [backface-visibility:hidden]">
+                <div className="w-full h-full rounded-2xl border border-border bg-card p-3.5 sm:p-4 shadow-xs hover:shadow-md transition-all flex flex-col justify-between gap-3 [backface-visibility:hidden]">
                   <div className="space-y-3.5">
                     {/* Header Bidang */}
                     <div className="flex items-start justify-between gap-3">

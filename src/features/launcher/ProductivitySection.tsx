@@ -67,6 +67,8 @@ import {
   Boxes,
   Snowflake,
   Archive,
+  ChevronDown,
+  ChevronUp,
   type LucideIcon,
 } from "lucide-react";
 
@@ -301,6 +303,7 @@ const ProductivityFlipCard = ({
   gradient: string;
 }) => {
   const [isFlipped, setIsFlipped] = useState(false);
+  const [isExpanded, setIsExpanded] = useState(false);
   const [interactionConfig, setInteractionConfig] = useState(() => ({
     axis: Math.random() > 0.5 ? "x" : "y",
     dir: Math.random() > 0.5 ? 1 : -1,
@@ -322,11 +325,16 @@ const ProductivityFlipCard = ({
   };
 
   const Icon = app.icon;
+  const initialCount = 6;
+  const displayFeatures = isExpanded
+    ? app.features
+    : app.features?.slice(0, initialCount);
+  const hasMore = (app.features?.length || 0) > initialCount;
 
   return (
-    <div className="w-full [perspective:1000px] min-h-[300px]">
+    <div className="w-full [perspective:1000px] min-h-[200px]">
       <motion.div
-        className="relative w-full h-full min-h-[300px] [transform-style:preserve-3d]"
+        className="relative w-full h-full min-h-[200px] [transform-style:preserve-3d]"
         animate={{
           rotateX: isFlipped && interactionConfig.axis === "x" ? 180 * interactionConfig.dir : 0,
           rotateY: isFlipped && interactionConfig.axis === "y" ? 180 * interactionConfig.dir : 0,
@@ -334,18 +342,18 @@ const ProductivityFlipCard = ({
         transition={{ duration: 0.6, type: "spring", stiffness: 80, damping: 15 }}
       >
         {/* Front Face */}
-        <div className="w-full h-full rounded-2xl border border-border bg-card p-5 shadow-xs hover:shadow-md transition-all flex flex-col justify-between gap-4 group [backface-visibility:hidden]">
+        <div className="w-full h-full rounded-2xl border border-border bg-card p-3.5 sm:p-4 shadow-xs hover:shadow-md transition-all flex flex-col justify-between gap-2.5 group [backface-visibility:hidden]">
           <div>
             {/* Header: Icon, Title & Standalone Badge */}
             <div className="flex items-start justify-between gap-3">
               <Link
                 to={app.to}
-                className="flex items-center gap-3.5 group/header min-w-0 flex-1 outline-none"
+                className="flex items-center gap-3 group/header min-w-0 flex-1 outline-none"
               >
                 <div
-                  className={`h-12 w-12 rounded-full flex items-center justify-center text-white shadow-xs shrink-0 ${gradient} group-hover/header:scale-105 transition-transform`}
+                  className={`h-11 w-11 rounded-full flex items-center justify-center text-white shadow-xs shrink-0 ${gradient} group-hover/header:scale-105 transition-transform`}
                 >
-                  <Icon className="h-6 w-6 opacity-90 drop-shadow-sm" strokeWidth={1.75} />
+                  <Icon className="h-5 w-5 opacity-90 drop-shadow-sm" strokeWidth={1.75} />
                 </div>
                 <div className="min-w-0">
                   <h4 className="font-bold text-base text-foreground group-hover/header:text-primary transition-colors truncate">
@@ -377,39 +385,63 @@ const ProductivityFlipCard = ({
               </button>
             </div>
 
-            {/* Sub-Features Chips (If any) */}
+            {/* Sub-Features Chips (With compact view and internal scrolling) */}
             {app.features && app.features.length > 0 && (
-              <div className="mt-3 pt-3 border-t border-border/60">
-                <span className="text-[10px] font-bold tracking-wider text-muted-foreground block mb-2 text-center">
-                  Features ({app.features.length}):
-                </span>
-                <div className="flex flex-wrap justify-center gap-1.5">
-                  {app.features.map((feat, idx) => {
-                    const FeatIcon = feat.icon;
-                    const featPath = feat.to.split("?")[0];
-                    const featSearch = feat.to.includes("?")
-                      ? Object.fromEntries(new URLSearchParams(feat.to.split("?")[1]))
-                      : undefined;
+              <div className="mt-2.5 pt-2 border-t border-border/60">
+                <div className="flex items-center justify-between mb-1.5">
+                  <span className="text-[10px] font-bold tracking-wider text-muted-foreground">
+                    Features ({app.features.length}):
+                  </span>
+                  {hasMore && (
+                    <button
+                      type="button"
+                      onClick={() => setIsExpanded((prev) => !prev)}
+                      className="text-[10px] font-semibold text-primary hover:underline flex items-center gap-0.5 cursor-pointer transition-colors"
+                    >
+                      {isExpanded ? (
+                        <>
+                          <ChevronUp size={11} />
+                          <span>Ringkas</span>
+                        </>
+                      ) : (
+                        <>
+                          <ChevronDown size={11} />
+                          <span>+{app.features.length - initialCount} Semua</span>
+                        </>
+                      )}
+                    </button>
+                  )}
+                </div>
 
-                    return (
-                      <Link
-                        key={idx}
-                        to={featPath}
-                        search={featSearch as any}
-                        className="inline-flex items-center justify-center gap-1.5 px-2.5 py-1 rounded-lg bg-muted/60 hover:bg-primary/10 hover:text-primary text-[11px] font-medium text-foreground transition-all cursor-pointer border border-border/40 hover:border-primary/30 text-center"
-                      >
-                        <FeatIcon size={12} className="text-primary shrink-0" />
-                        <span>{feat.title}</span>
-                      </Link>
-                    );
-                  })}
+                <div className="max-h-[140px] overflow-y-auto no-scrollbar pr-0.5">
+                  <div className="flex flex-wrap justify-center gap-1.5">
+                    {displayFeatures?.map((feat, idx) => {
+                      const FeatIcon = feat.icon;
+                      const featPath = feat.to.split("?")[0];
+                      const featSearch = feat.to.includes("?")
+                        ? Object.fromEntries(new URLSearchParams(feat.to.split("?")[1]))
+                        : undefined;
+
+                      return (
+                        <Link
+                          key={idx}
+                          to={featPath}
+                          search={featSearch as any}
+                          className="inline-flex items-center justify-center gap-1.5 px-2.5 py-1 rounded-lg bg-muted/60 hover:bg-primary/10 hover:text-primary text-[11px] font-medium text-foreground transition-all cursor-pointer border border-border/40 hover:border-primary/30 text-center"
+                        >
+                          <FeatIcon size={12} className="text-primary shrink-0" />
+                          <span>{feat.title}</span>
+                        </Link>
+                      );
+                    })}
+                  </div>
                 </div>
               </div>
             )}
           </div>
 
           {/* Bottom Quick Open Link */}
-          <div className="border-t border-border/50 pt-3 flex items-center justify-end text-xs">
+          <div className="border-t border-border/50 pt-2.5 flex items-center justify-end text-xs">
             <button
               type="button"
               onClick={handleFlip}
@@ -488,7 +520,7 @@ export function ProductivitySection({
   return (
     <div className="w-full flex flex-col items-center">
       {/* Title & Description */}
-      <div className="text-center mb-6">
+      <div className="text-center mb-4 sm:mb-5">
         <h3 className="text-2xl sm:text-3xl font-bold text-foreground/90 tracking-tight flex items-center justify-center gap-2">
           <span>Productivity and Operations</span>
         </h3>
@@ -498,10 +530,10 @@ export function ProductivitySection({
       </div>
 
       {/* Main Filter Tabs */}
-      <div className="flex flex-wrap items-center justify-center gap-2.5 w-full mb-6">
+      <div className="flex flex-wrap items-center justify-center gap-2.5 w-full mb-4 sm:mb-5">
         <button
           onClick={() => setActiveTab("all")}
-          className={`shrink-0 px-5 py-2.5 rounded-full text-xs sm:text-sm font-semibold transition-all duration-200 cursor-pointer flex items-center gap-2 ${
+          className={`shrink-0 px-5 py-2 rounded-full text-xs sm:text-sm font-semibold transition-all duration-200 cursor-pointer flex items-center gap-2 ${
             activeTab === "all"
               ? "bg-primary text-primary-foreground shadow-md scale-105 font-bold"
               : "bg-muted/80 text-muted-foreground hover:bg-muted hover:text-foreground hover:scale-105"
@@ -522,7 +554,7 @@ export function ProductivitySection({
 
         <button
           onClick={() => setActiveTab("task-workflow")}
-          className={`shrink-0 px-5 py-2.5 rounded-full text-xs sm:text-sm font-semibold transition-all duration-200 cursor-pointer flex items-center gap-2 ${
+          className={`shrink-0 px-5 py-2 rounded-full text-xs sm:text-sm font-semibold transition-all duration-200 cursor-pointer flex items-center gap-2 ${
             activeTab === "task-workflow"
               ? "bg-primary text-primary-foreground shadow-md scale-105 font-bold"
               : "bg-muted/80 text-muted-foreground hover:bg-muted hover:text-foreground hover:scale-105"
@@ -543,7 +575,7 @@ export function ProductivitySection({
 
         <button
           onClick={() => setActiveTab("planning-timeline")}
-          className={`shrink-0 px-5 py-2.5 rounded-full text-xs sm:text-sm font-semibold transition-all duration-200 cursor-pointer flex items-center gap-2 ${
+          className={`shrink-0 px-5 py-2 rounded-full text-xs sm:text-sm font-semibold transition-all duration-200 cursor-pointer flex items-center gap-2 ${
             activeTab === "planning-timeline"
               ? "bg-primary text-primary-foreground shadow-md scale-105 font-bold"
               : "bg-muted/80 text-muted-foreground hover:bg-muted hover:text-foreground hover:scale-105"
@@ -564,7 +596,7 @@ export function ProductivitySection({
 
         <button
           onClick={() => setActiveTab("collaboration-ops")}
-          className={`shrink-0 px-5 py-2.5 rounded-full text-xs sm:text-sm font-semibold transition-all duration-200 cursor-pointer flex items-center gap-2 ${
+          className={`shrink-0 px-5 py-2 rounded-full text-xs sm:text-sm font-semibold transition-all duration-200 cursor-pointer flex items-center gap-2 ${
             activeTab === "collaboration-ops"
               ? "bg-primary text-primary-foreground shadow-md scale-105 font-bold"
               : "bg-muted/80 text-muted-foreground hover:bg-muted hover:text-foreground hover:scale-105"
@@ -585,7 +617,7 @@ export function ProductivitySection({
 
         <button
           onClick={() => setActiveTab("analytics-standards")}
-          className={`shrink-0 px-5 py-2.5 rounded-full text-xs sm:text-sm font-semibold transition-all duration-200 cursor-pointer flex items-center gap-2 ${
+          className={`shrink-0 px-5 py-2 rounded-full text-xs sm:text-sm font-semibold transition-all duration-200 cursor-pointer flex items-center gap-2 ${
             activeTab === "analytics-standards"
               ? "bg-primary text-primary-foreground shadow-md scale-105 font-bold"
               : "bg-muted/80 text-muted-foreground hover:bg-muted hover:text-foreground hover:scale-105"
@@ -606,7 +638,7 @@ export function ProductivitySection({
 
         <button
           onClick={() => setActiveTab("utilities-finance")}
-          className={`shrink-0 px-5 py-2.5 rounded-full text-xs sm:text-sm font-semibold transition-all duration-200 cursor-pointer flex items-center gap-2 ${
+          className={`shrink-0 px-5 py-2 rounded-full text-xs sm:text-sm font-semibold transition-all duration-200 cursor-pointer flex items-center gap-2 ${
             activeTab === "utilities-finance"
               ? "bg-primary text-primary-foreground shadow-md scale-105 font-bold"
               : "bg-muted/80 text-muted-foreground hover:bg-muted hover:text-foreground hover:scale-105"
@@ -627,7 +659,7 @@ export function ProductivitySection({
       </div>
 
       {/* Standalone Apps Cards Grid */}
-      <div className="w-full grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+      <div className="w-full grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3.5 sm:gap-4">
         {filteredApps.map((app) => {
           const isFav = favorites.includes(app.to);
           const gradient = getGradient(app.title);

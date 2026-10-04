@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef, useCallback } from "react";
 import { Link } from "@tanstack/react-router";
 import useEmblaCarousel from "embla-carousel-react";
+import AutoHeight from "embla-carousel-auto-height";
 import { AppShell } from "../app/app-shell";
 import { useFavorites } from "@/hooks/useFavorites";
 import { getLastLauncherPage, setLastLauncherPage } from "@/utils/launcherCategoryMapper";
@@ -112,13 +113,16 @@ export function Launcher() {
   const [barMode, setBarMode] = useState<"search" | "dots">("search");
   const idleTimerRef = useRef<any>(null);
 
-  // Setup Carousel swipe dengan Embla
-  const [emblaRef, emblaApi] = useEmblaCarousel({
-    startIndex: initialPage,
-    loop: false,
-    duration: 25,
-    skipSnaps: false,
-  });
+  // Setup Carousel swipe dengan Embla + AutoHeight dinamis agar tidak scroll berlebih ke bawah
+  const [emblaRef, emblaApi] = useEmblaCarousel(
+    {
+      startIndex: initialPage,
+      loop: false,
+      duration: 25,
+      skipSnaps: false,
+    },
+    [AutoHeight()]
+  );
 
   // Tampilkan dots secara temporer lalu kembali ke search
   const showDotsTemporarily = useCallback((duration = 2000) => {
@@ -296,7 +300,7 @@ export function Launcher() {
     >
       <div className="max-w-[1500px] mx-auto px-4 sm:px-6 py-2 space-y-2 pb-2">
         {/* Swipe Carousel Area */}
-        <div className="overflow-hidden cursor-grab active:cursor-grabbing" ref={emblaRef}>
+        <div className="overflow-hidden cursor-grab active:cursor-grabbing transition-[height] duration-300" ref={emblaRef}>
           <div className="flex touch-pan-y items-start">
             {/* Slide 0: 100 MBA Tools */}
             <div className={`flex-[0_0_100%] min-w-0 pr-1 ${activeTabIdx === 0 ? "h-auto opacity-100" : "h-0 max-h-0 min-h-0 overflow-hidden invisible pointer-events-none"}`}>
