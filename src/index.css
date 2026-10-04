@@ -376,8 +376,9 @@ html {
 .liquid-glass-top-panel {
   position: relative;
   isolation: isolate;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.25);
-  box-shadow: 0px 4px 12px -3px rgba(0, 0, 0, 0.15);
+  border: none;
+  border-bottom: none;
+  box-shadow: none;
   background-color: hsl(var(--primary));
   background: hsl(var(--primary));
 }
@@ -385,8 +386,9 @@ html {
 .dark .liquid-glass-top-panel {
   background-color: hsl(var(--primary));
   background: hsl(var(--primary));
-  border-bottom: 1px solid rgba(255, 255, 255, 0.2);
-  box-shadow: 0px 4px 14px -3px rgba(0, 0, 0, 0.2);
+  border: none;
+  border-bottom: none;
+  box-shadow: none;
 }
 
 .liquid-glass-top-panel::before {

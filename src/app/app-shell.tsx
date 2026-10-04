@@ -1366,7 +1366,7 @@ export function AppShell({
           {isTopPanelOpen && (
             <div
               id="top-panel-container"
-              className="pointer-events-auto w-full max-h-[85vh] transition-all duration-300 relative overflow-hidden shadow-lg border-b border-white/20"
+              className="pointer-events-auto w-full max-h-[85vh] relative overflow-hidden"
               style={{ backgroundColor: "hsl(var(--primary))" }}
             >
               <TopPanelControlHub
@@ -1379,19 +1379,9 @@ export function AppShell({
           <div className="flex items-center justify-between gap-3 px-3 py-3 sm:px-5 pointer-events-none">
             {/* Bagian Kiri Header: 2 Floating Pills Terpisah (Pill 1: Home & Nav Toggle, Pill 2: Panah Kiri, Refresh & Panah Kanan) */}
             <div className="flex items-center gap-2">
-              {/* Pill 1: Home & Nav Toggle */}
+              {/* Pill 1: Nav Toggle (Sidebar Kiri) & Home */}
               <div className="pointer-events-auto flex items-center gap-1 p-1 rounded-full liquid-glass-header-pill">
-                {/* Icon Home */}
-                <Link
-                  to="/"
-                  className="relative z-10 size-9 rounded-full aspect-square shrink-0 transition-colors flex items-center justify-center cursor-pointer text-muted-foreground hover:text-foreground hover:bg-accent"
-                  title="Beranda (Home)"
-                  aria-label="Beranda"
-                >
-                  <Home size={20} className="shrink-0" />
-                </Link>
-
-                {/* Toggle Sidebar Kiri */}
+                {/* Toggle Sidebar Kiri (Paling Kiri) */}
                 <button
                   type="button"
                   className={`relative z-10 size-9 rounded-full aspect-square shrink-0 transition-colors flex items-center justify-center cursor-pointer ${
@@ -1405,6 +1395,16 @@ export function AppShell({
                 >
                   <WindowPositionLeftIcon size={24} />
                 </button>
+
+                {/* Icon Home (Di Kanan Toggle Sidebar) */}
+                <Link
+                  to="/"
+                  className="relative z-10 size-9 rounded-full aspect-square shrink-0 transition-colors flex items-center justify-center cursor-pointer text-muted-foreground hover:text-foreground hover:bg-accent"
+                  title="Beranda (Home)"
+                  aria-label="Beranda"
+                >
+                  <Home size={20} className="shrink-0" />
+                </Link>
               </div>
 
               {/* Pill 2: Panah Kiri, Refresh & Panah Kanan */}

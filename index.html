@@ -437,12 +437,16 @@
       div#root:nth-of-type(1) > div:nth-of-type(1) > main#mainContent:nth-of-type(1) > header:nth-of-type(1) > div#top-panel-container:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(1) {
         background-color: hsl(var(--primary)) !important;
         background: hsl(var(--primary)) !important;
-        border-bottom: 1px solid rgba(255, 255, 255, 0.25) !important;
-        box-shadow: 0 4px 14px -3px rgba(0, 0, 0, 0.16) !important;
+        border: none !important;
+        border-bottom: none !important;
+        box-shadow: none !important;
+        outline: none !important;
       }
       div#root > div > main#mainContent > header > div#top-panel-container::before,
-      div#root > div > main#mainContent > header > div#top-panel-container::after {
-        display: none !important;
+      div#root > div > main#mainContent > header > div#top-panel-container::after,
+      div#root > div > main#mainContent > header > div#top-panel-container *::before,
+      div#root > div > main#mainContent > header > div#top-panel-container *::after {
+        border-bottom: none !important;
       }
 
       /* 4 Kotak (Cards) tetap PUTIH SOLID */
