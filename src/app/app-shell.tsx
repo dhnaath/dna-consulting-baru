@@ -1341,7 +1341,7 @@ export function AppShell({
         </header>
         <div
           className={`flex-1 flex flex-col min-h-0 overflow-y-auto overflow-x-hidden no-scrollbar relative z-10 ${
-            pathname === "/" ? "px-4 pb-[90px] sm:px-6 sm:pb-[90px]" : "pb-[80px]"
+            pathname === "/" ? "px-4 pb-[68px] sm:px-6 sm:pb-[68px]" : "pb-[80px]"
           }`}
           style={{ paddingTop: headerHeight }}
         >

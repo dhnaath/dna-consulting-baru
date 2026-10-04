@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef, useCallback } from "react";
 import { Link } from "@tanstack/react-router";
 import useEmblaCarousel from "embla-carousel-react";
+import AutoHeight from "embla-carousel-auto-height";
 import { AppShell } from "../app/app-shell";
 import { useFavorites } from "@/hooks/useFavorites";
 import { getLastLauncherPage, setLastLauncherPage } from "@/utils/launcherCategoryMapper";
@@ -112,13 +113,16 @@ export function Launcher() {
   const [barMode, setBarMode] = useState<"search" | "dots">("search");
   const idleTimerRef = useRef<any>(null);
 
-  // Setup Carousel swipe dengan Embla
-  const [emblaRef, emblaApi] = useEmblaCarousel({
-    startIndex: initialPage,
-    loop: false,
-    duration: 25,
-    skipSnaps: false,
-  });
+  // Setup Carousel swipe dengan Embla + AutoHeight dinamis agar tidak scroll berlebih ke bawah
+  const [emblaRef, emblaApi] = useEmblaCarousel(
+    {
+      startIndex: initialPage,
+      loop: false,
+      duration: 25,
+      skipSnaps: false,
+    },
+    [AutoHeight()]
+  );
 
   // Tampilkan dots secara temporer lalu kembali ke search
   const showDotsTemporarily = useCallback((duration = 2000) => {
@@ -294,81 +298,106 @@ export function Launcher() {
       title="All in One Workspace"
       subtitle="Workspace Eksekutif Terintegrasi: Bisnis, Finansial, Manajemen, Komoditas & 10 Mode Kehidupan"
     >
-      <div className="max-w-[1500px] mx-auto px-4 sm:px-6 py-4 space-y-4 pb-20">
+      <div className="max-w-[1500px] mx-auto px-4 sm:px-6 py-2 space-y-2 pb-2">
         {/* Swipe Carousel Area */}
-        <div className="overflow-hidden cursor-grab active:cursor-grabbing" ref={emblaRef}>
-          <div className="flex touch-pan-y">
+        <div className="overflow-hidden cursor-grab active:cursor-grabbing transition-[height] duration-300" ref={emblaRef}>
+          <div className="flex touch-pan-y items-start">
             {/* Slide 0: 100 MBA Tools */}
-            <div className="flex-[0_0_100%] min-w-0 pr-1">
-              <Tools100Section
-                favorites={favorites}
-                toggleFavorite={toggleFavorite}
-                getGradient={getGradient}
-              />
+            <div className={`flex-[0_0_100%] min-w-0 pr-1 ${activeTabIdx === 0 ? "h-auto opacity-100" : "h-0 max-h-0 min-h-0 overflow-hidden invisible pointer-events-none"}`}>
+              {activeTabIdx === 0 && (
+                <Tools100Section
+                  favorites={favorites}
+                  toggleFavorite={toggleFavorite}
+                  getGradient={getGradient}
+                />
+              )}
             </div>
 
             {/* Slide 1: Value Treated (10 Disiplin Fundamental) */}
-            <div className="flex-[0_0_100%] min-w-0 pr-1">
-              <ValueTreatedSection
-                favorites={favorites}
-                toggleFavorite={toggleFavorite}
-                getGradient={getGradient}
-              />
+            <div className={`flex-[0_0_100%] min-w-0 pr-1 ${activeTabIdx === 1 ? "h-auto opacity-100" : "h-0 max-h-0 min-h-0 overflow-hidden invisible pointer-events-none"}`}>
+              {activeTabIdx === 1 && (
+                <ValueTreatedSection
+                  favorites={favorites}
+                  toggleFavorite={toggleFavorite}
+                  getGradient={getGradient}
+                />
+              )}
             </div>
 
             {/* Slide 2: Finansial & Wealth */}
-            <div className="flex-[0_0_100%] min-w-0 pr-1">
-              <FinancialWealthSection
-                favorites={favorites}
-                toggleFavorite={toggleFavorite}
-                getGradient={getGradient}
-              />
+            <div className={`flex-[0_0_100%] min-w-0 pr-1 ${activeTabIdx === 2 ? "h-auto opacity-100" : "h-0 max-h-0 min-h-0 overflow-hidden invisible pointer-events-none"}`}>
+              {activeTabIdx === 2 && (
+                <FinancialWealthSection
+                  favorites={favorites}
+                  toggleFavorite={toggleFavorite}
+                  getGradient={getGradient}
+                />
+              )}
             </div>
 
             {/* Slide 3: Produktivitas */}
-            <div className="flex-[0_0_100%] min-w-0 pr-1">
-              <ProductivitySection
-                favorites={favorites}
-                toggleFavorite={toggleFavorite}
-                getGradient={getGradient}
-              />
+            <div className={`flex-[0_0_100%] min-w-0 pr-1 ${activeTabIdx === 3 ? "h-auto opacity-100" : "h-0 max-h-0 min-h-0 overflow-hidden invisible pointer-events-none"}`}>
+              {activeTabIdx === 3 && (
+                <ProductivitySection
+                  favorites={favorites}
+                  toggleFavorite={toggleFavorite}
+                  getGradient={getGradient}
+                />
+              )}
             </div>
 
             {/* Slide 4: Personal & Essentials */}
-            <div className="flex-[0_0_100%] min-w-0 pr-1">
-              <PersonalEssentialsSection
-                favorites={favorites}
-                toggleFavorite={toggleFavorite}
-                getGradient={getGradient}
-              />
+            <div className={`flex-[0_0_100%] min-w-0 pr-1 ${activeTabIdx === 4 ? "h-auto opacity-100" : "h-0 max-h-0 min-h-0 overflow-hidden invisible pointer-events-none"}`}>
+              {activeTabIdx === 4 && (
+                <PersonalEssentialsSection
+                  favorites={favorites}
+                  toggleFavorite={toggleFavorite}
+                  getGradient={getGradient}
+                />
+              )}
             </div>
 
             {/* Slide 5: People & Relasi */}
-            <div className="flex-[0_0_100%] min-w-0 pr-1">
-              <PeopleFamilySocietySection
-                favorites={favorites}
-                toggleFavorite={toggleFavorite}
-                getGradient={getGradient}
-              />
+            <div className={`flex-[0_0_100%] min-w-0 pr-1 ${activeTabIdx === 5 ? "h-auto opacity-100" : "h-0 max-h-0 min-h-0 overflow-hidden invisible pointer-events-none"}`}>
+              {activeTabIdx === 5 && (
+                <PeopleFamilySocietySection
+                  favorites={favorites}
+                  toggleFavorite={toggleFavorite}
+                  getGradient={getGradient}
+                />
+              )}
             </div>
 
             {/* Slide 6: 100 Komoditas */}
-            <div className="flex-[0_0_100%] min-w-0 pr-1">
-              <CommodityDashboardSection isEmbedded={true} />
+            <div className={`flex-[0_0_100%] min-w-0 pr-1 ${activeTabIdx === 6 ? "h-auto opacity-100" : "h-0 max-h-0 min-h-0 overflow-hidden invisible pointer-events-none"}`}>
+              {activeTabIdx === 6 && (
+                <CommodityDashboardSection isEmbedded={true} />
+              )}
             </div>
 
             {/* 10 Mode Halaman Tambahan (Sementara Kosong) */}
-            {LAUNCHER_TABS.filter((t) => (t as any).modeId).map((tab) => (
-              <div key={tab.id} className="flex-[0_0_100%] min-w-0 pr-1">
-                <EmptyModePage
-                  id={tab.id}
-                  label={tab.label}
-                  badge={tab.badge}
-                  desc={(tab as any).desc || ""}
-                  icon={tab.icon}
-                />
-              </div>
-            ))}
+            {LAUNCHER_TABS.filter((t) => (t as any).modeId).map((tab, mIdx) => {
+              const slideIdx = 7 + mIdx;
+              const isActive = activeTabIdx === slideIdx;
+              return (
+                <div
+                  key={tab.id}
+                  className={`flex-[0_0_100%] min-w-0 pr-1 ${
+                    isActive ? "h-auto opacity-100" : "h-0 max-h-0 min-h-0 overflow-hidden invisible pointer-events-none"
+                  }`}
+                >
+                  {isActive && (
+                    <EmptyModePage
+                      id={tab.id}
+                      label={tab.label}
+                      badge={tab.badge}
+                      desc={(tab as any).desc || ""}
+                      icon={tab.icon}
+                    />
+                  )}
+                </div>
+              );
+            })}
           </div>
         </div>
 
