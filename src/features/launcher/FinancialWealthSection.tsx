@@ -66,6 +66,7 @@ import { type NavItem } from "@/config/nav";
 import { FIVE_TAHAPAN_WEALTH } from "./FiveTahapanDescriptionBanner";
 import { WealthSpectrumPillView } from "./WealthSpectrumPillView";
 
+
 export interface FinancialStandaloneFeature {
   title: string;
   to: string;
@@ -88,7 +89,7 @@ export interface StandaloneFinancialAppDef {
 
 export const STANDALONE_FINANCIAL_APPS: StandaloneFinancialAppDef[] = [
   // ==========================================
-  // PILAR 1: SURETY (KEPASTIAN & PROTEKSI)
+  // PILAR 1: SURETY (KEPASTIAN & PROTEKSI) - 5 MODUL
   // ==========================================
   {
     id: "kepatuhan-hukum",
@@ -99,8 +100,10 @@ export const STANDALONE_FINANCIAL_APPS: StandaloneFinancialAppDef[] = [
     categoryLabel: "Surety",
     icon: Scale,
     badge: "Standalone",
-    isEmpty: true,
-    features: [],
+    features: [
+      { title: "Audit Kepatuhan", to: "/surety?tab=cat_kepatuhan&sub=audit", icon: Scale },
+      { title: "Regulasi OJK & BI", to: "/surety?tab=cat_kepatuhan&sub=regulasi", icon: ShieldCheck },
+    ],
   },
   {
     id: "perlindungan-publik",
@@ -111,8 +114,10 @@ export const STANDALONE_FINANCIAL_APPS: StandaloneFinancialAppDef[] = [
     categoryLabel: "Surety",
     icon: Globe,
     badge: "Standalone",
-    isEmpty: true,
-    features: [],
+    features: [
+      { title: "Jaminan Sosial BPJS", to: "/surety?tab=cat_publik&sub=bpjs", icon: Globe },
+      { title: "Keselamatan Kerja", to: "/surety?tab=cat_publik&sub=k3", icon: Shield },
+    ],
   },
   {
     id: "asuransi-pribadi",
@@ -123,8 +128,10 @@ export const STANDALONE_FINANCIAL_APPS: StandaloneFinancialAppDef[] = [
     categoryLabel: "Surety",
     icon: Umbrella,
     badge: "Standalone",
-    isEmpty: true,
-    features: [],
+    features: [
+      { title: "Asuransi Kesehatan", to: "/surety?tab=cat_asuransi&sub=kesehatan", icon: HeartPulse },
+      { title: "Asuransi Jiwa & Kritis", to: "/surety?tab=cat_asuransi&sub=jiwa", icon: Umbrella },
+    ],
   },
   {
     id: "kecukupan-dana",
@@ -137,6 +144,7 @@ export const STANDALONE_FINANCIAL_APPS: StandaloneFinancialAppDef[] = [
     badge: "Standalone",
     features: [
       { title: "Liquid Reserves", to: "/liquid-reserves", icon: Coins },
+      { title: "Dana Darurat (Buffer)", to: "/surety?tab=cat_dana&sub=darurat", icon: Vault },
     ],
   },
   {
@@ -156,7 +164,7 @@ export const STANDALONE_FINANCIAL_APPS: StandaloneFinancialAppDef[] = [
   },
 
   // ==========================================
-  // PILAR 2: FLOW (ARUS KAS & LIABILITAS)
+  // PILAR 2: FLOW (ARUS KAS & LIABILITAS) - 5 MODUL
   // ==========================================
   {
     id: "beban-liabilitas",
@@ -169,6 +177,7 @@ export const STANDALONE_FINANCIAL_APPS: StandaloneFinancialAppDef[] = [
     badge: "Standalone",
     features: [
       { title: "Kuadran Liabilitas", to: "/liability", icon: CreditCard },
+      { title: "Rasio Utang (DSR)", to: "/flow?tab=cat_liabilitas&sub=rasio", icon: Calculator },
     ],
   },
   {
@@ -209,7 +218,8 @@ export const STANDALONE_FINANCIAL_APPS: StandaloneFinancialAppDef[] = [
     icon: Receipt,
     badge: "Standalone",
     features: [
-      { title: "Pajak Personal", to: "/pajak?app=pph21", icon: Calculator },
+      { title: "Pajak Personal (PPh 21)", to: "/pajak?app=pph21", icon: Calculator },
+      { title: "PPN & Pajak Lain", to: "/pajak?app=ppn", icon: Receipt },
     ],
   },
   {
@@ -222,12 +232,13 @@ export const STANDALONE_FINANCIAL_APPS: StandaloneFinancialAppDef[] = [
     icon: Activity,
     badge: "Standalone",
     features: [
-      { title: "Budget", to: "/budget", icon: Wallet },
+      { title: "Budget 50/30/20", to: "/budget", icon: Wallet },
+      { title: "Autodebet Rutin", to: "/flow?tab=cat_otomatisasi&sub=autodebet", icon: Activity },
     ],
   },
 
   // ==========================================
-  // PILAR 3: BUILD (AKUMULASI & PORTOFOLIO)
+  // PILAR 3: BUILD (AKUMULASI & PORTOFOLIO) - 5 MODUL
   // ==========================================
   {
     id: "modal-manusia",
@@ -238,8 +249,10 @@ export const STANDALONE_FINANCIAL_APPS: StandaloneFinancialAppDef[] = [
     categoryLabel: "Build",
     icon: Brain,
     badge: "Standalone",
-    isEmpty: true,
-    features: [],
+    features: [
+      { title: "Valuasi Diri & Skill", to: "/build?tab=cat_modal&sub=skill", icon: Brain },
+      { title: "Daya Ungkit Karier", to: "/build?tab=cat_modal&sub=karier", icon: TrendingUp },
+    ],
   },
   {
     id: "jaringan",
@@ -294,12 +307,14 @@ export const STANDALONE_FINANCIAL_APPS: StandaloneFinancialAppDef[] = [
     categoryLabel: "Build",
     icon: BookOpen,
     badge: "Standalone",
-    isEmpty: true,
-    features: [],
+    features: [
+      { title: "Neraca Saldo Aset", to: "/build?tab=cat_pembukuan&sub=neraca", icon: BookOpen },
+      { title: "Jurnal Transaksi", to: "/build?tab=cat_pembukuan&sub=jurnal", icon: ReceiptText },
+    ],
   },
 
   // ==========================================
-  // PILAR 4: GROW (PERTUMBUHAN & INVESTASI)
+  // PILAR 4: GROW (PERTUMBUHAN & INVESTASI) - 5 MODUL
   // ==========================================
   {
     id: "profil-risiko",
@@ -310,8 +325,10 @@ export const STANDALONE_FINANCIAL_APPS: StandaloneFinancialAppDef[] = [
     categoryLabel: "Grow",
     icon: Activity,
     badge: "Standalone",
-    isEmpty: true,
-    features: [],
+    features: [
+      { title: "Diagnostik Toleransi", to: "/grow?tab=cat_profil&sub=toleransi", icon: Activity },
+      { title: "Horizon Waktu Modal", to: "/grow?tab=cat_profil&sub=horizon", icon: LineChart },
+    ],
   },
   {
     id: "alokasi",
@@ -336,8 +353,10 @@ export const STANDALONE_FINANCIAL_APPS: StandaloneFinancialAppDef[] = [
     categoryLabel: "Grow",
     icon: Zap,
     badge: "Standalone",
-    isEmpty: true,
-    features: [],
+    features: [
+      { title: "Efisiensi Biaya & Fee", to: "/grow?tab=cat_efektif&sub=friction", icon: Zap },
+      { title: "Maksimalisasi Net Yield", to: "/grow?tab=cat_efektif&sub=yield", icon: TrendingUp },
+    ],
   },
   {
     id: "bunga-berbunga",
@@ -350,6 +369,7 @@ export const STANDALONE_FINANCIAL_APPS: StandaloneFinancialAppDef[] = [
     badge: "Standalone",
     features: [
       { title: "Bunga Majemuk dan ROI", to: "/investasi?app=bunga-majemuk", icon: Calculator },
+      { title: "Simulasi Waktu Majemuk", to: "/investasi?app=roi", icon: TrendingUp },
     ],
   },
   {
@@ -361,12 +381,14 @@ export const STANDALONE_FINANCIAL_APPS: StandaloneFinancialAppDef[] = [
     categoryLabel: "Grow",
     icon: RefreshCw,
     badge: "Standalone",
-    isEmpty: true,
-    features: [],
+    features: [
+      { title: "Deviasi Alokasi Aset", to: "/grow?tab=cat_rebalance&sub=deviasi", icon: RefreshCw },
+      { title: "Jadwal Rebalancing", to: "/grow?tab=cat_rebalance&sub=jadwal", icon: Layers },
+    ],
   },
 
   // ==========================================
-  // PILAR 5: LEGACY (WARISAN & FILANTROPI)
+  // PILAR 5: LEGACY (WARISAN & FILANTROPI) - 5 MODUL
   // ==========================================
   {
     id: "pembelajaran-seumur-hidup",
@@ -377,14 +399,16 @@ export const STANDALONE_FINANCIAL_APPS: StandaloneFinancialAppDef[] = [
     categoryLabel: "Legacy",
     icon: GraduationCap,
     badge: "Standalone",
-    isEmpty: true,
-    features: [],
+    features: [
+      { title: "Literasi Antargenerasi", to: "/legacy?tab=cat_pembelajaran&sub=literasi", icon: GraduationCap },
+      { title: "Filosofi Nilai Keluarga", to: "/legacy?tab=cat_pembelajaran&sub=filosofi", icon: BookOpen },
+    ],
   },
   {
-    id: "valuasi-mappi",
-    to: "/valuasi",
-    title: "Valuasi MAPPI",
-    subtitle: "Standar Penilaian Indonesia (SPI) terakreditasi: penilaian properti komersial/residensial, valuasi entitas bisnis, dan opini nilai wajar aset.",
+    id: "tata-kelola-dan-valuasi",
+    to: "/legacy?tab=cat_tatakelola",
+    title: "Good Governance & Valuasi MAPPI",
+    subtitle: "Tata kelola legalitas aset keluarga dan sertifikasi nilai pasar independen sesuai Standar Penilaian Indonesia (SPI) MAPPI.",
     category: "legacy",
     categoryLabel: "Legacy",
     icon: Building,
@@ -392,20 +416,7 @@ export const STANDALONE_FINANCIAL_APPS: StandaloneFinancialAppDef[] = [
     features: [
       { title: "Penilaian Properti (Market & Cost)", to: "/valuasi", icon: Building },
       { title: "Penilaian Bisnis (Income DCF)", to: "/valuasi", icon: Briefcase },
-      { title: "Good Governance", to: "/legacy?tab=cat_tatakelola", icon: Scale },
-    ],
-  },
-  {
-    id: "tata-kelola-yang-baik",
-    to: "/legacy?tab=cat_tatakelola",
-    title: "Good Governance",
-    subtitle: "Tata kelola legalitas aset keluarga dan sertifikasi nilai pasar independen sesuai standar penilaian MAPPI.",
-    category: "legacy",
-    categoryLabel: "Legacy",
-    icon: Scale,
-    badge: "Standalone",
-    features: [
-      { title: "Valuasi MAPPI", to: "/valuasi", icon: Building },
+      { title: "Tata Kelola & Audit Aset", to: "/legacy?tab=cat_tatakelola", icon: Scale },
     ],
   },
   {
@@ -434,6 +445,7 @@ export const STANDALONE_FINANCIAL_APPS: StandaloneFinancialAppDef[] = [
     badge: "Standalone",
     features: [
       { title: "Kredit dan Utang", to: "/kredit", icon: CreditCard },
+      { title: "Pelunasan Kewajiban", to: "/legacy?tab=cat_likuidasi&sub=pelunasan", icon: ReceiptText },
     ],
   },
   {
@@ -446,7 +458,8 @@ export const STANDALONE_FINANCIAL_APPS: StandaloneFinancialAppDef[] = [
     icon: Gift,
     badge: "Standalone",
     features: [
-      { title: "Portfolio", to: "/build?tab=cat_portofolio", icon: Briefcase },
+      { title: "Portofolio Waris", to: "/build?tab=cat_portofolio", icon: Briefcase },
+      { title: "Perencanaan Suksesi", to: "/legacy?tab=cat_transfer&sub=suksesi", icon: Gift },
     ],
   },
 
@@ -720,7 +733,8 @@ interface FinancialWealthSectionProps {
   FolderTile?: any;
 }
 
-export type FinancialCategoryTab = "all" | "surety" | "flow" | "build" | "grow" | "legacy" | "sharia";
+
+export type FinancialCategoryTab = "all" | "spectrum" | "surety" | "flow" | "build" | "grow" | "legacy" | "sharia";
 
 export interface StageFeatureItem {
   id: string;
@@ -1442,70 +1456,58 @@ const ShariaMainBox = ({
   );
 };
 
+
 export function FinancialWealthSection({
   favorites,
   toggleFavorite,
+  getGradient,
 }: FinancialWealthSectionProps) {
   const [selectedTab, setSelectedTab] = useState<FinancialCategoryTab>("all");
+  const [selectedPillar, setSelectedPillar] = useState<string | null>(null);
+
+  const countSpectrum = STANDALONE_FINANCIAL_APPS.filter((a) => a.category !== "sharia").length;
 
   const filteredStages = useMemo(() => {
-    if (selectedTab === "all") {
-      return WEALTH_STAGE_MAIN_BOXES;
-    }
-    if (selectedTab === "sharia") {
-      return [];
-    }
+    if (selectedTab === "all") return WEALTH_STAGE_MAIN_BOXES;
+    if (selectedTab === "sharia" || selectedTab === "spectrum") return [];
     return WEALTH_STAGE_MAIN_BOXES.filter((stage) => stage.id === selectedTab);
   }, [selectedTab]);
+
+  const tabBtn = (active: boolean, extra = "") =>
+    `shrink-0 px-3.5 py-2 rounded-full text-xs sm:text-sm font-semibold transition-all duration-200 cursor-pointer flex items-center gap-1.5 ${extra} ${
+      active
+        ? "bg-primary text-primary-foreground shadow-md scale-105 font-bold"
+        : "bg-muted/80 text-muted-foreground hover:bg-muted hover:text-foreground"
+    }`;
+  const badge = (active: boolean) =>
+    `text-[10px] px-1.5 py-0.5 rounded-full font-bold ${
+      active ? "bg-primary-foreground/20 text-primary-foreground" : "bg-background/80 text-muted-foreground"
+    }`;
 
   return (
     <div className="w-full flex flex-col items-center">
       {/* Title & Description */}
-      <div className="text-center mb-6">
+      <div className="text-center mb-4 sm:mb-5">
         <h3 className="text-2xl sm:text-3xl font-bold text-foreground/90 tracking-tight flex items-center justify-center gap-2">
           <span>Financial Planning <span className="font-normal">&</span> Wealth Management</span>
         </h3>
         <p className="text-xs sm:text-sm text-muted-foreground mt-1.5 max-w-2xl mx-auto">
-          5 Kotak Utama Arsitektur Wealth Spectrum & Kategori Khusus Sharia Principles — Seluruh fitur terintegrasi langsung di dalam tiap kotak tahap.
+          5 Tahap Wealth, Arsitektur Wealth Spectrum ({countSpectrum} Apps: 5 Pilar × 5 Modul) & Kategori Khusus Sharia Principles
         </p>
       </div>
 
-      {/* Main Filter Tabs: Semua 5 Tahap, Surety, Flow, Build, Grow, Legacy, Sharia Principles */}
-      <div className="flex flex-wrap items-center justify-center gap-2 w-full mb-6">
-        <button
-          onClick={() => setSelectedTab("all")}
-          className={`shrink-0 px-4 py-2 rounded-full text-xs sm:text-sm font-semibold transition-all duration-200 cursor-pointer flex items-center gap-1.5 ${
-            selectedTab === "all"
-              ? "bg-primary text-primary-foreground shadow-md scale-105 font-bold"
-              : "bg-muted/80 text-muted-foreground hover:bg-muted hover:text-foreground"
-          }`}
-        >
+      {/* Filter Tabs: Semua (5 Tahap), tiap tahap, Wealth Spectrum, Sharia */}
+      <div className="flex flex-wrap items-center justify-center gap-2 w-full mb-4 sm:mb-5">
+        <button onClick={() => setSelectedTab("all")} className={tabBtn(selectedTab === "all", "px-4")}>
           <Layers className="size-4 shrink-0" />
           <span>Semua (5 Tahap)</span>
-          <span
-            className={`text-[10px] px-1.5 py-0.5 rounded-full font-bold ${
-              selectedTab === "all"
-                ? "bg-primary-foreground/20 text-primary-foreground"
-                : "bg-background/80 text-muted-foreground"
-            }`}
-          >
-            5
-          </span>
+          <span className={badge(selectedTab === "all")}>5</span>
         </button>
 
         {WEALTH_STAGE_MAIN_BOXES.map((st) => {
-          const isSelected = selectedTab === st.id;
           const StageIcon = st.icon;
           return (
-            <button
-              key={st.id}
-              onClick={() => setSelectedTab(st.id)}
-              className={`shrink-0 px-3.5 py-2 rounded-full text-xs sm:text-sm font-semibold transition-all duration-200 cursor-pointer flex items-center gap-1.5 ${
-                isSelected
-                  ? "bg-primary text-primary-foreground shadow-md scale-105 font-bold"
-                  : "bg-muted/80 text-muted-foreground hover:bg-muted hover:text-foreground"
-              }`}
-            >
+            <button key={st.id} onClick={() => setSelectedTab(st.id)} className={tabBtn(selectedTab === st.id)}>
               <StageIcon className="size-3.5 shrink-0" />
               <span>{st.step}. {st.name}</span>
             </button>
@@ -1513,39 +1515,39 @@ export function FinancialWealthSection({
         })}
 
         <button
-          onClick={() => setSelectedTab("sharia")}
-          className={`shrink-0 px-4 py-2 rounded-full text-xs sm:text-sm font-semibold transition-all duration-200 cursor-pointer flex items-center gap-1.5 ${
-            selectedTab === "sharia"
-              ? "bg-primary text-primary-foreground shadow-md scale-105 font-bold"
-              : "bg-muted/80 text-muted-foreground hover:bg-muted hover:text-foreground"
-          }`}
+          onClick={() => { setSelectedTab("spectrum"); setSelectedPillar(null); }}
+          className={tabBtn(selectedTab === "spectrum", "px-4")}
         >
+          <ShieldCheck className="size-4 shrink-0 text-emerald-500" />
+          <span>Wealth Spectrum</span>
+          <span className={badge(selectedTab === "spectrum")}>{countSpectrum}</span>
+        </button>
+
+        <button onClick={() => setSelectedTab("sharia")} className={tabBtn(selectedTab === "sharia", "px-4")}>
           <Handshake className="size-4 shrink-0 text-amber-500" />
           <span>Sharia Principles</span>
-          <span
-            className={`text-[10px] px-1.5 py-0.5 rounded-full font-bold ${
-              selectedTab === "sharia"
-                ? "bg-primary-foreground/20 text-primary-foreground"
-                : "bg-background/80 text-muted-foreground"
-            }`}
-          >
-            18
-          </span>
+          <span className={badge(selectedTab === "sharia")}>18</span>
         </button>
       </div>
 
-      {/* Render Main Boxes */}
-      {selectedTab === "sharia" ? (
-        <div className="w-full flex flex-col gap-6">
-          <div className="w-full p-4 rounded-2xl bg-card border border-primary/20 shadow-xs flex flex-col sm:flex-row items-center justify-between gap-3 text-center sm:text-left">
+      {/* Konten */}
+      {selectedTab === "spectrum" ? (
+        <WealthSpectrumPillView
+          selectedFilter={selectedPillar ?? undefined}
+          onSelectFilter={setSelectedPillar}
+          favorites={favorites}
+          toggleFavorite={toggleFavorite}
+          getGradient={getGradient}
+        />
+      ) : selectedTab === "sharia" ? (
+        <div className="w-full flex flex-col gap-4">
+          <div className="w-full p-3.5 sm:p-4 rounded-2xl bg-card border border-primary/20 shadow-xs flex flex-col sm:flex-row items-center justify-between gap-3">
             <div className="flex items-center gap-3">
               <div className="size-10 rounded-xl bg-primary/10 text-primary flex items-center justify-center shrink-0">
                 <Handshake className="size-5" />
               </div>
               <div>
-                <h4 className="text-sm font-bold text-foreground">
-                  Kategori Khusus: Sharia Principles
-                </h4>
+                <h4 className="text-sm font-bold text-foreground">Kategori Khusus: Sharia Principles</h4>
                 <p className="text-xs text-muted-foreground">
                   3 Kotak Utama: 11 Akad Muamalah, 4 Modul Zakat & Filantropi, serta 3 Audit Bebas Riba, Gharar & Maysir
                 </p>
@@ -1563,20 +1565,18 @@ export function FinancialWealthSection({
           {SHARIA_MAIN_BOXES.map((box) => (
             <ShariaMainBox key={box.id} box={box} />
           ))}
+
         </div>
       ) : (
         <div className="w-full flex flex-col gap-6">
-          {filteredStages.map((stage) => {
-            const isFav = favorites.includes(stage.to);
-            return (
-              <StageMainBox
-                key={stage.id}
-                stage={stage}
-                isFav={isFav}
-                toggleFavorite={toggleFavorite}
-              />
-            );
-          })}
+          {filteredStages.map((stage) => (
+            <StageMainBox
+              key={stage.id}
+              stage={stage}
+              isFav={favorites.includes(stage.to)}
+              toggleFavorite={toggleFavorite}
+            />
+          ))}
         </div>
       )}
     </div>
